@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace LinkedList
 {
-    public class Node
+    interface ISearchable
+    {        
+        Node FindNext(object value);
+        Node FindPrev(object value);
+    }
+
+    public class Node : ISearchable
     {
         private object value = null;
-        private Node next = null;
-        private Node prev = null;
+        private ISearchable next = null;
+        private ISearchable prev = null;
 
         public object Value 
         {
@@ -27,7 +33,7 @@ namespace LinkedList
         }
 
         /// <summary>
-        /// Inserts the value at the end and returns the containing Node.
+        /// Inserts the value at the end of this Node-Path and returns the containing Node.
         /// </summary>
         /// <param name="o"></param>
         /// <returns>The Node containing o</returns>
@@ -38,17 +44,48 @@ namespace LinkedList
                 value = o;
                 return this;
             }
-            else
+
+            if (next == null)
             {
-                if (next == null)
-                {
-                    next = new Node(o);
-                    next.prev = this;
-                    return next;
-                }
-                else
-                    return next.InsertAtEnd(o);
+                Node nextNode = new Node(o);
+                nextNode.prev = this;
+                next = (ISearchable) nextNode;
+                return nextNode;
             }
+            else if(next is Node)
+            {
+                Node nextNode = (Node) next;
+                return nextNode.InsertAtEnd(o);
+            }
+
+            //else next is a JunctionPoint, insert it bevor
+            Node newNode = new Node(o);
+            newNode.prev = this;
+            newNode.next = next;
+            return newNode;
+        }
+
+        /// <summary>
+        /// Add a JunctionPoint to the end of this Node-Path.
+        /// At the end of each Node-Path exatly one JunctionPoint can be added.
+        /// </summary>
+        /// <param name="j"></param>
+        /// <returns>The JunctionPoint if added successfully, null if allready a JunctionPoint is added to the end of this Node-Path.</returns>
+        public JunctionPoint InsertAtEnd(JunctionPoint j)
+        {
+            if (next == null)
+            {
+                next = j;
+                return j;
+            }
+            else if (next is Node)
+            {
+                Node nextNode = (Node)next;
+                return nextNode.InsertAtEnd(j);
+            }
+
+            // else path allready has a JunctionPoint set
+            return null;
         }
 
         /// <summary>
@@ -68,6 +105,11 @@ namespace LinkedList
                         return next.FindNext(o);
                     else return null;
                 }
+            }
+            else if (next is JunctionPoint)
+            {
+                JunctionPoint nextJunction = (JunctionPoint) next;
+                return nextJunction.FindNext(o);
             }
             else return null;
         }
@@ -90,63 +132,41 @@ namespace LinkedList
                     else return null;
                 }
             }
+            else if (prev is JunctionPoint)
+            {
+                JunctionPoint prevJunction = (JunctionPoint) prev;
+                return prevJunction.FindPrev(o);
+            }
             else return null;
         }
+    }
 
-        public String NodeToString()
+    public class JunctionPoint : ISearchable
+    {
+        private List<Node> nodes = new List<Node>();
+
+        public Node FindNext(object value)
         {
-            if (value == null)
-                return "empty";
-            else
+            Node found = null;
+            foreach (Node n in nodes)
             {
-                if (next == null)
-                    return value.ToString() + " - empty";
-                else return value.ToString() + " - " + next.NodeToString();
+                found = n.FindNext(value);
+                if (found != null)
+                    return found;
             }
+            return null;
         }
 
-        public void ChangeAtPosition(int index, object onew)
+        public Node FindPrev(object value)
         {
-            if(index == 0)
+            Node found = null;
+            foreach (Node n in nodes)
             {
-                value = onew;
+                found = n.FindPrev(value);
+                if (found != null)
+                    return found;
             }
-            else
-            {
-                if (next != null)
-                    next.ChangeAtPosition(--index, onew);
-            }
-        }
-
-        public void insertAt(int index, object o)
-        {
-            if (index == 0)
-            {
-                if (value == null)
-                    value = o;
-                else
-                {
-                    if (next != null)
-                    {
-                        Node new_node = new Node(value);
-                        value = o;
-                        new_node.next = next;
-                        new_node.prev = this;
-                        next = new_node;
-                    }
-                    else
-                    {
-                        next = new Node(value);
-                        next.prev = this;
-                        value = o;
-                    }
-                }
-            }
-            else
-            {
-                if (next != null)
-                    next.insertAt(--index, o);
-            }
+            return null;
         }
     }
 }
