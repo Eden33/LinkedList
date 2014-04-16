@@ -10,6 +10,12 @@ namespace LinkedList
     {
         private object value = null;
         private Node next = null;
+        private Node prev = null;
+
+        public object Value 
+        {
+            get { return value; } 
+        }
 
         public Node()
         {
@@ -20,35 +26,71 @@ namespace LinkedList
             value = o;
         }
 
-        public void InsertAtEnd(object o)
+        /// <summary>
+        /// Inserts the value at the end and returns the containing Node.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns>The Node containing o</returns>
+        public Node InsertAtEnd(object o)
         {
-            if (value == null)
+            if (value == null) 
+            {
                 value = o;
+                return this;
+            }
             else
             {
                 if (next == null)
                 {
                     next = new Node(o);
+                    next.prev = this;
+                    return next;
                 }
                 else
-                    next.InsertAtEnd(o);
+                    return next.InsertAtEnd(o);
             }
         }
 
-        public bool Exists(object o)
+        /// <summary>
+        /// Search in Next-Direction, the value of current Node is checked too.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns>The Node if found, otherwise null</returns>
+        public Node FindNext(object o)
         {
             if (value != null)
             {
                 if (value.Equals(o))
-                    return true;
+                    return this;
                 else
                 {
                     if (next != null)
-                        return next.Exists(o);
-                    else return false;
+                        return next.FindNext(o);
+                    else return null;
                 }
             }
-            else return false;
+            else return null;
+        }
+
+        /// <summary>
+        /// Search in Prev-Direction, the value of current Node is checked too.
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns>The Node if found, otherwise null</returns>
+        public Node FindPrev(object o)
+        {
+            if (value != null)
+            {
+                if (value.Equals(o))
+                    return this;
+                else
+                {
+                    if (prev != null)
+                        return prev.FindPrev(o);
+                    else return null;
+                }
+            }
+            else return null;
         }
 
         public String NodeToString()
@@ -81,7 +123,7 @@ namespace LinkedList
             if (index == 0)
             {
                 if (value == null)
-                    value = 0;
+                    value = o;
                 else
                 {
                     if (next != null)
@@ -89,11 +131,13 @@ namespace LinkedList
                         Node new_node = new Node(value);
                         value = o;
                         new_node.next = next;
+                        new_node.prev = this;
                         next = new_node;
                     }
                     else
                     {
                         next = new Node(value);
+                        next.prev = this;
                         value = o;
                     }
                 }
