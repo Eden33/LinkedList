@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkedList
 {
-    class GraphGenerator
+    public class GraphGenerator
     {
         private List<JunctionPoint> junctions = new List<JunctionPoint>();
         private List<Node> paths = new List<Node>();
@@ -69,7 +69,7 @@ namespace LinkedList
 
         private Node GenerateSinglePath()
         {
-            int numNodes = rand.Next(1, 50);
+            int numNodes = rand.Next(1, 2);
             Node node = new Node(++lastNodeID);
             paths.Add(node);
             for(int i = 0; i < (numNodes-1); i++)
@@ -81,12 +81,25 @@ namespace LinkedList
 
         public Node GetRandomNode()
         {
+            Node found = null;
             if(paths.Count != 0)
             {
                 Node rootPath = paths.ElementAt(0);
-                return rootPath.Find(rand.Next(0, lastNodeID));
+                int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
+                found = rootPath.Find(rand.Next(0, lastNodeID), searchId);
+                JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
             }
-            return null;
+            return found;
+        }
+
+        public int GetNumberOfNodes()
+        {
+            return lastNodeID - Node.ROOT_ID;
+        }
+
+        public int GetNumberOfJunctions()
+        {
+            return junctions.Count;
         }
     }
 }

@@ -31,7 +31,9 @@ namespace Tests
         public void testSearchNext()
         {
             int searchVal = (int) (numItems / 1.3 );
-            Node found = nodes[numItems / 2].FindNext(searchVal);
+            int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
+            Node found = nodes[numItems / 2].FindNext(searchVal, searchId);
+            JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
             Assert.IsNotNull(found);
             Assert.AreEqual(found.Value, searchVal);
         }
@@ -40,7 +42,9 @@ namespace Tests
         public void testSearchPrev()
         {
             int searchVal = (int)(numItems / 3);
-            Node found = nodes[numItems / 2].FindPrev(searchVal);
+            int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
+            Node found = nodes[numItems / 2].FindPrev(searchVal, searchId);
+            JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
             Assert.IsNotNull(found);
             Assert.AreEqual(found.Value, searchVal);
         }
