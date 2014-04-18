@@ -17,6 +17,7 @@ namespace LinkedList
         private object value = null;
         private ISearchable next = null;
         private ISearchable prev = null;
+        public static readonly int ROOT_ID = 0;
 
         public object Value 
         {
@@ -67,10 +68,10 @@ namespace LinkedList
 
         /// <summary>
         /// Add a JunctionPoint to the end of this Node-Path.
-        /// At the end of each Node-Path exatly one JunctionPoint can be added.
+        /// At the end of each Node-Path exactly one JunctionPoint can be added.
         /// </summary>
         /// <param name="j"></param>
-        /// <returns>The JunctionPoint if added successfully, null if allready a JunctionPoint is added to the end of this Node-Path.</returns>
+        /// <returns>The JunctionPoint if added successfully, null if allready a JunctionPoint has been added to the end of this Node-Path.</returns>
         public JunctionPoint InsertAtEnd(JunctionPoint j)
         {
             if (next == null)
@@ -84,7 +85,30 @@ namespace LinkedList
                 return nextNode.InsertAtEnd(j);
             }
 
-            // else path allready has a JunctionPoint set
+            // else path allready has an End-JunctionPoint set
+            return null;
+        }
+
+        /// <summary>
+        /// Add a JunctionPoint to the start of this Node-Path.
+        /// At the start of each Node-Path exactly one JunctionPoint can be added.
+        /// </summary>
+        /// <param name="j"></param>
+        /// <returns>The JunctionPoint if added successfully, null if allready a JunctionPoint has been added to the start of this Node-Path.</returns>
+        public JunctionPoint InsertAtStart(JunctionPoint j)
+        {
+            if (prev == null)
+            {
+                prev = j;
+                return j;
+            }
+            else if (prev is Node)
+            {
+                Node prevNode = (Node)prev;
+                return prevNode.InsertAtStart(j);
+            }
+
+            //else path allready has a Start-JunctionPoint set
             return null;
         }
 
