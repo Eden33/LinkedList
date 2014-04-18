@@ -24,10 +24,6 @@ namespace LinkedList
             get { return value; } 
         }
 
-        public Node()
-        {
-        }
-
         public Node(object o)
         {
             value = o;
@@ -162,6 +158,16 @@ namespace LinkedList
                 return prevJunction.FindPrev(o);
             }
             else return null;
+        }
+
+        public Node Find(object o)
+        {
+            Node found = FindNext(o);
+            if (found == null)
+            {
+                found = FindPrev(o);
+            }
+            return found;
         }
     }
 

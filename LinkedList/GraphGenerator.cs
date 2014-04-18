@@ -84,7 +84,7 @@ namespace LinkedList
             if(paths.Count != 0)
             {
                 Node rootPath = paths.ElementAt(0);
-                return rootPath.FindNext(rand.Next(0, lastNodeID));
+                return rootPath.Find(rand.Next(0, lastNodeID));
             }
             return null;
         }
