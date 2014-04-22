@@ -12,6 +12,7 @@ namespace LinkedList
     {        
         Node FindNext(object value, int searchId);
         Node FindPrev(object value, int searchId);
+        Node Find(object value, int searchId);
     }
 
     public class Node : ISearchable
@@ -19,7 +20,7 @@ namespace LinkedList
         private object value = null;
         private ISearchable next = null;
         private ISearchable prev = null;
-        public static readonly int ROOT_ID = 0;
+        public static readonly int ROOT_ID = 1;
 
         public object Value 
         {
@@ -75,7 +76,7 @@ namespace LinkedList
             if (next == null)
             {
                 next = j;
-                j.AddNode(this);
+                j.AddPrevPath(this);
                 return j;
             }
             else if (next is Node)
@@ -99,7 +100,7 @@ namespace LinkedList
             if (prev == null)
             {
                 prev = j;
-                j.AddNode(this);
+                j.AddNextPath(this);
                 return j;
             }
             else if (prev is Node)
@@ -121,21 +122,17 @@ namespace LinkedList
         /// <returns>The Node if found, otherwise null</returns>
         public Node FindNext(object o, int searchId)
         {
-            if (value != null)
+            if (value.Equals(o))
+                return this;
+
+            if(next is Node) 
             {
-                if (value.Equals(o))
-                    return this;
-                else
-                {
-                    if (next != null)
-                        return next.FindNext(o, searchId);
-                    else return null;
-                }
+                return next.FindNext(o, searchId);          
             }
             else if (next is JunctionPoint)
             {
                 JunctionPoint nextJunction = (JunctionPoint) next;
-                return nextJunction.FindNext(o, searchId);
+                return nextJunction.Find(o, searchId);
             }
             else return null;
         }
@@ -147,21 +144,17 @@ namespace LinkedList
         /// <returns>The Node if found, otherwise null</returns>
         public Node FindPrev(object o, int searchId)
         {
-            if (value != null)
+            if (value.Equals(o))
+                return this;
+
+            if(prev is Node) 
             {
-                if (value.Equals(o))
-                    return this;
-                else
-                {
-                    if (prev != null)
-                        return prev.FindPrev(o, searchId);
-                    else return null;
-                }
+                return prev.FindPrev(o, searchId);            
             }
             else if (prev is JunctionPoint)
             {
                 JunctionPoint prevJunction = (JunctionPoint) prev;
-                return prevJunction.FindPrev(o, searchId);
+                return prevJunction.Find(o, searchId);
             }
             else return null;
         }
@@ -181,23 +174,31 @@ namespace LinkedList
 
     public class JunctionPoint : ISearchable
     {
-        private List<Node> nodes = new List<Node>();
-        internal static volatile int idCounter = 0;
+        private List<Node> nextPath = new List<Node>();
+        private List<Node> prevPath = new List<Node>();
+        public static readonly int ROOT_ID = 1;
         private int id;
 
-        public JunctionPoint()
+        public int Id {
+            get { return id; }
+        }
+
+        public JunctionPoint(int id)
         {
-            id = Interlocked.Increment(ref idCounter);
+            this.id = id;
         }
 
         public Node FindNext(object value, int searchId)
         {
             if (SearchBuffer.JunctionVisitedAllready(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_NEXT))
+            {
                 return null;
+            }
             SearchBuffer.MarkJunctionVisited(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_NEXT);
+            //Console.WriteLine("Search reached Junction " + this.id + " in next direction.");
 
             Node found = null;
-            foreach (Node n in nodes)
+            foreach (Node n in nextPath)
             {
                 found = n.FindNext(value, searchId);
                 if (found != null)
@@ -209,11 +210,14 @@ namespace LinkedList
         public Node FindPrev(object value, int searchId)
         {
             if (SearchBuffer.JunctionVisitedAllready(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_PREV))
+            {
                 return null;
+            }
             SearchBuffer.MarkJunctionVisited(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_PREV);
+            //Console.WriteLine("Search reached Junction " + this.id + " in prev direction.");
 
             Node found = null;
-            foreach (Node n in nodes)
+            foreach (Node n in prevPath)
             {
                 found = n.FindPrev(value, searchId);
                 if (found != null)
@@ -222,15 +226,30 @@ namespace LinkedList
             return null;
         }
 
-        public void AddNode(Node node)
+        public Node Find(object value, int searchId)
         {
-            nodes.Add(node);
+            Node found = null;
+            found = FindNext(value, searchId);
+            if (found == null)
+            {
+                found = FindPrev(value, searchId);
+            }
+            return found;
+        }
+
+        public void AddPrevPath(Node node)
+        {
+            prevPath.Add(node);
+        }
+        public void AddNextPath(Node node)
+        {
+            nextPath.Add(node);
         }
 
         public class SearchBuffer
         {
             private static int searchBufferID = 0;
-            protected static Dictionary<int, Dictionary<int, DirectionMarker>> visitedJunctions
+            private static Dictionary<int, Dictionary<int, DirectionMarker>> visitedJunctions
                     = new Dictionary<int, Dictionary<int, DirectionMarker>>();
 
             public enum SearchDirection
@@ -266,6 +285,13 @@ namespace LinkedList
                 visitedJunctions.Remove(id);
             }
 
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            public static void ResetSearchBuffer()
+            {
+                searchBufferID = 0;
+                visitedJunctions.Clear();
+            }
+
             public static bool JunctionVisitedAllready(int searchId, int junctionId, SearchDirection dir)
             {
                 Dictionary<int, DirectionMarker> dict = null;
@@ -295,9 +321,12 @@ namespace LinkedList
                 if(visitedJunctions.TryGetValue(searchId, out dict))
                 {
                     DirectionMarker marker;
+                    bool addToDict = false;
+                
                     if(!dict.TryGetValue(junctionId, out marker))
                     {
                         marker = new DirectionMarker();
+                        addToDict = true;
                     }
 
                     if (dir.Equals(SearchDirection.SEARCH_NEXT))
@@ -308,14 +337,8 @@ namespace LinkedList
                     {
                         marker.searchPrev = true;
                     }
-                    try
-                    {
+                    if(addToDict) {
                         dict.Add(junctionId, marker);
-                    }
-                    catch(Exception e)
-                    {
-                        /// TODO: fix this exception first
-                        Console.WriteLine(e.Message);
                     }
                 }
             }

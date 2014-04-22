@@ -16,36 +16,37 @@ namespace Tests
         public void testFindPossibleCyclicRootNode()
         {
             gen.RootMaybeCyclic = true;
-            for (int i = 0; i < 100; i++ )
+            findRootFromRandomStartPointInGraph();
+        }
+
+        [Test]
+        public void testFindNonCyclicRootNode()
+        {
+            gen.RootMaybeCyclic = false;
+            findRootFromRandomStartPointInGraph();
+        }
+
+        private void findRootFromRandomStartPointInGraph() 
+        {
+            for (int i = 0; i < 10; i++)
             {
-                gen.GenerateRandomGraph(100);
+                gen.GenerateRandomGraph(500);
                 Node rand = gen.GetRandomNode();
                 int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
                 Node rootNode = null;
                 try
                 {
-                    rootNode = rand.Find(Node.ROOT_ID, searchId);
+                    rootNode = rand.Find(Node.ROOT_ID, searchId);                        
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Console.WriteLine("Check this.");
+                    Console.WriteLine("Exception cuaght in testFindNonCyclicRootNode(): " + e.Message);
                 }
                 JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
+                JunctionPoint.SearchBuffer.ResetSearchBuffer();
+
                 Assert.IsNotNull(rootNode);
                 Assert.AreEqual(rootNode.Value, Node.ROOT_ID);
-            }
-        }
-        public void testFindNonCyclicRootNode()
-        {
-            gen.RootMaybeCyclic = false;
-            for (int i = 0; i < 100; i++)
-            {
-                gen.GenerateRandomGraph(10);
-                int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
-                Node rand = gen.GetRandomNode();
-                rand.Find(Node.ROOT_ID, searchId);
-                JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
-
             }
         }
     }
