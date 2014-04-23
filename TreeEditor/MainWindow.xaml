@@ -1,0 +1,32 @@
+﻿<Window x:Class="TreeEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tree Editor" Height="500" Width="400">
+    <DockPanel>
+        <Grid>
+            <ListBox>
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <Border>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                <Border>
+                                    <Border.Background>
+                                        <VisualBrush TileMode="Tile"
+                                            Viewport="0,0,40,50" ViewportUnits="Absolute" 
+                                            Viewbox="0,0,25,25" ViewboxUnits="Absolute">
+                                            <VisualBrush.Visual>
+                                                <Rectangle Stroke="DarkGray" StrokeThickness="0.5" Height="50" Width="50"
+                                            StrokeDashArray="5 3"/>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Border.Background>
+                                    <ItemsPresenter/>
+                                </Border>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </ListBox.Template> 
+            </ListBox>
+        </Grid>
+    </DockPanel>
+</Window>
