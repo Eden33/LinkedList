@@ -36,8 +36,8 @@ namespace LinkedList
         /// <summary>
         /// Inserts the Node at the end of this Node-Path and returns the Node.
         /// </summary>
-        /// <param name="nodeToAdd">The node to add.</param>
-        /// <returns>The added Node.</returns>
+        /// <param name="nodeToAdd">The Node to add</param>
+        /// <returns>The added Node</returns>
         public Node InsertAtEnd(Node nodeToAdd)
         {
             if (next == null)
