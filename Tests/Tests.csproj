@@ -52,9 +52,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LinkedList\LinkedList.csproj">
+    <ProjectReference Include="..\LinkedList\Graph.csproj">
       <Project>{6a457f73-6e0f-4a34-9655-54b209b0c903}</Project>
-      <Name>LinkedList</Name>
+      <Name>Graph</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
