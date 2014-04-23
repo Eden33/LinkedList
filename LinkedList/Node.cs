@@ -8,61 +8,54 @@ using System.Threading.Tasks;
 
 namespace LinkedList
 {
-    interface ISearchable
-    {        
-        Node FindNext(object value, int searchId);
-        Node FindPrev(object value, int searchId);
-        Node Find(object value, int searchId);
+    public interface INode
+    {
+        int Id { get; }
+        INode FindNext(int idToFind, int searchId);
+        INode FindPrev(int idToFind, int searchId);
+        INode Find(int idToFind, int searchId);
     }
 
-    public class Node : ISearchable
+    public class Node : INode
     {
-        private object value = null;
-        private ISearchable next = null;
-        private ISearchable prev = null;
+        private int id;
+        private INode next = null;
+        private INode prev = null;
         public static readonly int ROOT_ID = 1;
 
-        public object Value 
+        public int Id 
         {
-            get { return value; } 
+            get { return id; } 
         }
 
-        public Node(object o)
+        public Node(int id)
         {
-            value = o;
+            this.id = id;
         }
 
         /// <summary>
-        /// Inserts the value at the end of this Node-Path and returns the containing Node.
+        /// Inserts the Node at the end of this Node-Path and returns the Node.
         /// </summary>
-        /// <param name="o"></param>
-        /// <returns>The Node containing o</returns>
-        public Node InsertAtEnd(object o)
+        /// <param name="nodeToAdd">The node to add.</param>
+        /// <returns>The added Node.</returns>
+        public Node InsertAtEnd(Node nodeToAdd)
         {
-            if (value == null) 
-            {
-                value = o;
-                return this;
-            }
-
             if (next == null)
             {
-                Node nextNode = new Node(o);
-                nextNode.prev = this;
-                next = (ISearchable) nextNode;
-                return nextNode;
+                nodeToAdd.prev = this;
+                next = nodeToAdd;
+                return nodeToAdd;
             }
             else if(next is Node)
             {
                 Node nextNode = (Node) next;
-                return nextNode.InsertAtEnd(o);
+                return nextNode.InsertAtEnd(nodeToAdd);
             }
 
             //else next is a JunctionPoint, insert it bevor
-            Node newNode = new Node(o);
-            newNode.prev = this;
-            newNode.next = next;
-            return newNode;
+            nodeToAdd.prev = this;
+            nodeToAdd.next = next;
+            return nodeToAdd;
         }
 
         /// <summary>
@@ -116,55 +109,55 @@ namespace LinkedList
         #region Graph Search
 
         /// <summary>
-        /// Search in Next-Direction, the value of current Node is checked too.
+        /// Search in Next-Direction, the value of current INode is checked too.
         /// </summary>
-        /// <param name="o"></param>
-        /// <returns>The Node if found, otherwise null</returns>
-        public Node FindNext(object o, int searchId)
+        /// <param name="idToFind">The id to be searched for.</param>
+        /// <returns>The INode if found, otherwise null</returns>
+        public INode FindNext(int idToFind, int searchId)
         {
-            if (value.Equals(o))
-                return this;
+            if (id.Equals(idToFind))
+                return (INode) this;
 
             if(next is Node) 
             {
-                return next.FindNext(o, searchId);          
+                return next.FindNext(idToFind, searchId);          
             }
             else if (next is JunctionPoint)
             {
                 JunctionPoint nextJunction = (JunctionPoint) next;
-                return nextJunction.Find(o, searchId);
+                return nextJunction.Find(idToFind, searchId);
             }
             else return null;
         }
 
         /// <summary>
-        /// Search in Prev-Direction, the value of current Node is checked too.
+        /// Search in Prev-Direction, the value of current INode is checked too.
         /// </summary>
-        /// <param name="o"></param>
-        /// <returns>The Node if found, otherwise null</returns>
-        public Node FindPrev(object o, int searchId)
+        /// <param name="idToFind">The id to be searched for.</param>
+        /// <returns>The INode if found, otherwise null</returns>
+        public INode FindPrev(int idToFind, int searchId)
         {
-            if (value.Equals(o))
+            if (id.Equals(idToFind))
                 return this;
 
             if(prev is Node) 
             {
-                return prev.FindPrev(o, searchId);            
+                return prev.FindPrev(idToFind, searchId);            
             }
             else if (prev is JunctionPoint)
             {
                 JunctionPoint prevJunction = (JunctionPoint) prev;
-                return prevJunction.Find(o, searchId);
+                return prevJunction.Find(idToFind, searchId);
             }
             else return null;
         }
 
-        public Node Find(object o, int searchId)
+        public INode Find(int idToFind, int searchId)
         {
-            Node found = FindNext(o, searchId);
+            INode found = FindNext(idToFind, searchId);
             if (found == null)
             {
-                found = FindPrev(o, searchId);
+                found = FindPrev(idToFind, searchId);
             }
             return found;
         }
@@ -172,15 +165,19 @@ namespace LinkedList
         #endregion
     }
 
-    public class JunctionPoint : ISearchable
+    public class JunctionPoint : INode
     {
         private List<Node> nextPath = new List<Node>();
         private List<Node> prevPath = new List<Node>();
-        public static readonly int ROOT_ID = 1;
+        public static readonly int ROOT_ID = 1000000;
         private int id;
 
         public int Id {
             get { return id; }
+        }
+
+        public int NextPathCount {
+            get { return nextPath.Count; }
         }
 
         public JunctionPoint(int id)
@@ -188,8 +185,13 @@ namespace LinkedList
             this.id = id;
         }
 
-        public Node FindNext(object value, int searchId)
+        public INode FindNext(int idToFind, int searchId)
         {
+            if (this.id.Equals(idToFind))
+            {
+                return this;
+            }
+
             if (SearchBuffer.JunctionVisitedAllready(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_NEXT))
             {
                 return null;
@@ -197,18 +199,23 @@ namespace LinkedList
             SearchBuffer.MarkJunctionVisited(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_NEXT);
             //Console.WriteLine("Search reached Junction " + this.id + " in next direction.");
 
-            Node found = null;
+            INode found = null;
             foreach (Node n in nextPath)
             {
-                found = n.FindNext(value, searchId);
+                found = n.FindNext(idToFind, searchId);
                 if (found != null)
                     return found;
             }
             return null;
         }
 
-        public Node FindPrev(object value, int searchId)
+        public INode FindPrev(int idToFind, int searchId)
         {
+            if (this.id.Equals(idToFind))
+            {
+                return this;
+            }
+
             if (SearchBuffer.JunctionVisitedAllready(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_PREV))
             {
                 return null;
@@ -216,23 +223,27 @@ namespace LinkedList
             SearchBuffer.MarkJunctionVisited(searchId, this.id, SearchBuffer.SearchDirection.SEARCH_PREV);
             //Console.WriteLine("Search reached Junction " + this.id + " in prev direction.");
 
-            Node found = null;
+            INode found = null;
             foreach (Node n in prevPath)
             {
-                found = n.FindPrev(value, searchId);
+                found = n.FindPrev(idToFind, searchId);
                 if (found != null)
                     return found;
             }
             return null;
         }
 
-        public Node Find(object value, int searchId)
+        public INode Find(int idToFind, int searchId)
         {
-            Node found = null;
-            found = FindNext(value, searchId);
+            if (this.id.Equals(idToFind))
+            {
+                return this;
+            }
+            INode found = null;
+            found = FindNext(idToFind, searchId);
             if (found == null)
             {
-                found = FindPrev(value, searchId);
+                found = FindPrev(idToFind, searchId);
             }
             return found;
         }

@@ -23,7 +23,7 @@ namespace Tests
 
             for (int i = 1; i < numItems; i++)
             {
-                nodes[i] = nodes[0].InsertAtEnd(i);
+                nodes[i] = nodes[0].InsertAtEnd(new Node(i));
             }
         }
 
@@ -32,11 +32,11 @@ namespace Tests
         {
             int searchVal = (int) (numItems / 1.3 );
             int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
-            Node found = nodes[numItems / 2].FindNext(searchVal, searchId);
+            INode found = nodes[numItems / 2].FindNext(searchVal, searchId);
             JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
             JunctionPoint.SearchBuffer.ResetSearchBuffer();
             Assert.IsNotNull(found);
-            Assert.AreEqual(found.Value, searchVal);
+            Assert.AreEqual(found.Id, searchVal);
         }
 
         [Test]
@@ -44,11 +44,11 @@ namespace Tests
         {
             int searchVal = (int)(numItems / 3);
             int searchId = JunctionPoint.SearchBuffer.InitSearchBuffer();
-            Node found = nodes[numItems / 2].FindPrev(searchVal, searchId);
+            INode found = nodes[numItems / 2].FindPrev(searchVal, searchId);
             JunctionPoint.SearchBuffer.ClearSearchBuffer(searchId);
             JunctionPoint.SearchBuffer.ResetSearchBuffer();
             Assert.IsNotNull(found);
-            Assert.AreEqual(found.Value, searchVal);
+            Assert.AreEqual(found.Id, searchVal);
         }
     }
 }

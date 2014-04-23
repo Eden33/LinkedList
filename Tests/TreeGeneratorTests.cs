@@ -9,28 +9,16 @@ using LinkedList;
 namespace Tests
 {
     [TestFixture]
-    public class GraphGeneratorTests
+    class TreeGeneratorTests
     {
-        private GraphGenerator gen = new GraphGenerator();
-        [Test]
-        public void testFindPossibleCyclicRootNode()
-        {
-            gen.RootMaybeCyclic = true;
-            findRootsFromRandomStartPointInGraph();
-        }
+        private TreeGenerator gen = new TreeGenerator();
 
         [Test]
-        public void testFindNonCyclicRootNode()
+        public void testFindRoots()
         {
-            gen.RootMaybeCyclic = false;
-            findRootsFromRandomStartPointInGraph();
-        }
-        
-        private void findRootsFromRandomStartPointInGraph() 
-        {
-            for (int i = 0; i < 10; i++)
+            for(int i = 0; i < 50; i++)
             {
-                gen.GenerateRandomGraph(500);
+                gen.GenerateRandomSimpleTree(60);
                 INode rand = gen.GetRandomNode();
                 int searchIdRootNode = JunctionPoint.SearchBuffer.InitSearchBuffer();
                 int searchIdRootJunction = JunctionPoint.SearchBuffer.InitSearchBuffer();
@@ -43,7 +31,7 @@ namespace Tests
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Exception cuaght in testFindNonCyclicRootNode(): " + e.Message);
+                    Console.WriteLine("Exception cuaght in testFindRoots(): " + e.Message);
                 }
                 JunctionPoint.SearchBuffer.ClearSearchBuffer(searchIdRootNode);
                 JunctionPoint.SearchBuffer.ClearSearchBuffer(searchIdRootJunction);
