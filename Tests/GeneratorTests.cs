@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using LinkedList;
+using Graph.Generate;
+using Graph.Model;
 
-namespace Tests
+namespace Graph.Test
 {
     public abstract class GeneratorTestBase
     {

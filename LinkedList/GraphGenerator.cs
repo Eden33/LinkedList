@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Graph.Model;
 
-namespace LinkedList
+namespace Graph.Generate
 {
     public class RandomGenerator
     {

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LinkedList;
 using NUnit.Framework;
+using Graph.Model;
 
-namespace Tests
+namespace Graph.Test
 {
     [TestFixture(Description="Search a specific item in the linked list implementation."
     + " Search can be done in both directions. This is a simple and rather static test.")]
