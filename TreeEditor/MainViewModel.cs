@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Data;
 using Graph.Generate;
 using Graph.Model;
+using Graph.Util;
 
 
 namespace TreeEditor
@@ -14,16 +15,7 @@ namespace TreeEditor
     {
         public MainViewModel()
         {
-            JunctionPoint j_1 = new JunctionPoint(JunctionPoint.ROOT_ID);
-            JunctionPoint j_2 = new JunctionPoint(JunctionPoint.ROOT_ID + 1);
-            j_1.X = 10;
-            j_1.Y = 20;
-            j_2.X = 50;
-            j_2.Y = 100;
-            UIJunctionPoint ui_1 = new UIJunctionPoint(j_1);
-            UIJunctionPoint ui_2 = new UIJunctionPoint(j_2);
-            junctions.Add(ui_1);
-            junctions.Add(ui_2);
+            GenerateRandomBinaryTree(10);
         }
 
         #region Collections
@@ -37,22 +29,36 @@ namespace TreeEditor
         #endregion
 
         #region Commands
-        private Command testCommand;
-        public Command TestCommand
+        private Command genRandBinaryTreeCommand;
+        public Command GenRandBinaryTreeCommand
         {
-            get { return testCommand ?? (testCommand = new Command(Test)); }
+            get { return genRandBinaryTreeCommand ?? (genRandBinaryTreeCommand = new Command(GenerateRandomBinaryTreeCmd)); }
         }
 
-        private void Test()
+        private void GenerateRandomBinaryTreeCmd()
         {
-            if(junctions[1].X == 50)
+            GenerateRandomBinaryTree(10);
+        }
+        #endregion
+
+        #region tree generation
+        private void GenerateRandomBinaryTree(int numPaths)
+        {
+            junctions.Clear();
+
+            //generate tree
+            TreeGenerator gen = new TreeGenerator();
+            gen.GenerateRandomBinaryTree(numPaths);
+
+            //generate coordinates
+            TreeCoordinateBuilder coordB = new TreeCoordinateBuilder();
+            coordB.BuildCoordinatesWithKnuth(gen.RootJunction, 30);
+
+            //add the tree to the UI
+            gen.Junctions.ForEach(delegate(JunctionPoint j)
             {
-                junctions[1].X = 100;
-            }
-            else
-            {
-                junctions[1].X = 50;
-            }
+                junctions.Add(new UIJunctionPoint(j));
+            });
         }
         #endregion
     }

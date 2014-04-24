@@ -15,6 +15,22 @@ namespace Graph.Generate
         protected int lastNodeID;
         protected int lastJunctionID;
 
+        public JunctionPoint RootJunction {
+            get 
+            { 
+                if(junctions.Count != 0)
+                {
+                    return junctions[0];
+                }
+                return null;
+            }
+        }
+
+        public List<JunctionPoint> Junctions
+        {
+            get { return junctions; }
+        }
+
         public RandomGenerator()
         {
             Reset();
@@ -86,10 +102,10 @@ namespace Graph.Generate
 
         /// <summary>
         /// In general e tree is composed of knots (JunctionPoints) and edgeds (Node-Paths).
-        /// This generation function generates a non balanced tree in which each knot contains max two ancestor edges.
+        /// This generation function generates a non balanced binary tree. In a binary tree each knot contains max two ancestor edges.
         /// </summary>
         /// <param name="numPaths">number of edges to generate</param>
-        public void GenerateRandomSimpleTree(int numPaths) 
+        public void GenerateRandomBinaryTree(int numPaths) 
         {
             Reset();
 
@@ -111,7 +127,7 @@ namespace Graph.Generate
                 {
                     int startJunctionIdx = rand.Next(0, junctionPool.Count);
                     startJunction = junctionPool.ElementAt(startJunctionIdx);
-                    if (startJunction.NextPathCount >= 2)
+                    if (startJunction.NextPathCount >= 1)
                     {
                         junctionPool.RemoveAt(startJunctionIdx);
                     }
@@ -121,10 +137,13 @@ namespace Graph.Generate
                 junctions.Add(endJunction);
                 junctionPool.Add(endJunction);
 
+                //Console.WriteLine("Path: " + i + " added between junctions " + startJunction.Id + "/" + endJunction.Id);
+
                 path.InsertAtStart(startJunction);
-                path.InsertAtEnd(endJunction);
-                
+                path.InsertAtEnd(endJunction);                
             }
+            Console.WriteLine("Tree generated. Tree node count: " + GetNumberOfNodes() + " graph junction count: " + GetNumberOfJunctions());
+
         }
 
         protected override void Reset()

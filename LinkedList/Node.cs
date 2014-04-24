@@ -57,6 +57,21 @@ namespace Graph.Model
             get { return id; } 
         }
 
+        public JunctionPoint Tail
+        {
+            get 
+            {
+                if(next is JunctionPoint)
+                {
+                    return next as JunctionPoint;
+                }
+                else
+                {
+                    return (next as Node).Tail;
+                }
+            }
+        }
+
         public Node(int id)
         {
             this.id = id;
@@ -198,7 +213,7 @@ namespace Graph.Model
     {
         private List<Node> nextPath = new List<Node>();
         private List<Node> prevPath = new List<Node>();
-        public static readonly int ROOT_ID = 1000000;
+        public static readonly int ROOT_ID = 100000;
         private int id;
 
         private double x;
@@ -224,6 +239,11 @@ namespace Graph.Model
             {
                 y = value;
             }
+        }
+
+        public List<Node> NextPath 
+        {
+            get { return nextPath;} 
         }
 
         public int Id {

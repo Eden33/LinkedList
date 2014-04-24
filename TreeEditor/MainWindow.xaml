@@ -5,7 +5,7 @@
         Title="Tree Editor" Height="500" Width="400" x:Name="mainWindow">
     <DockPanel>
         <StackPanel Width="100" DockPanel.Dock="Left" Margin="10,10,10,0">
-            <Button x:Name="testBtn" Content="Test" Command="{Binding TestCommand}"/>
+            <Button x:Name="randGenBtn" Content="Generate Tree" Command="{Binding GenRandBinaryTreeCommand}"/>
         </StackPanel>
         <Grid>
             <Grid.Resources>
@@ -21,6 +21,8 @@
                                     <Ellipse Height="10" Width="10" Stroke="Black" StrokeThickness="1" Fill="Yellow"
                                          x:Name="Ellipse">
                                     </Ellipse>
+                                    <TextBlock Canvas.Top="-10" Canvas.Left="-20" Width="100"
+                                               TextAlignment="Center" Text="{Binding Id}" />
                                 </Canvas>
                             </ControlTemplate>
                         </Thumb.Template>
@@ -56,7 +58,7 @@
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Canvas IsItemsHost="True" VerticalAlignment="Top" HorizontalAlignment="Left"
-                                Width="500" Height="400" />
+                                Width="2000" Height="2000" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 

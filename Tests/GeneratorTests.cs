@@ -80,10 +80,23 @@ namespace Graph.Test
         {
             for(int i = 0; i < 50; i++)
             {
-                generator.GenerateRandomSimpleTree(500);
+                generator.GenerateRandomBinaryTree(500);
                 randomNode = generator.GetRandomNode();
                 Console.WriteLine("Start tree-search from node-id: " + randomNode.Id);
                 findRootsFromRandomStartPoint();
+            }
+        }
+
+        [Test]
+        public void testMaxTwoAncestors()
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                generator.GenerateRandomBinaryTree(500);
+                generator.Junctions.ForEach(delegate(JunctionPoint j)
+                {
+                    Assert.LessOrEqual(j.NextPathCount, 2);
+                });
             }
         }
     }
