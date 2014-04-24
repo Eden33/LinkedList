@@ -23,6 +23,7 @@ namespace TreeEditor
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
     }
 }

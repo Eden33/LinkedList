@@ -1,9 +1,33 @@
 ﻿<Window x:Class="TreeEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Tree Editor" Height="500" Width="400">
+        xmlns:local="clr-namespace:TreeEditor"
+        Title="Tree Editor" Height="500" Width="400" x:Name="mainWindow">
     <DockPanel>
+        <StackPanel Width="100" DockPanel.Dock="Left" Margin="10,10,10,0">
+            <Button x:Name="testBtn" Content="Test" Command="{Binding TestCommand}"/>
+        </StackPanel>
         <Grid>
+            <Grid.Resources>
+                <CompositeCollection x:Key="nodeCollection">
+                    <CollectionContainer Collection="{Binding DataContext.Junctions,Source={x:Reference mainWindow}}" />
+                </CompositeCollection>
+                
+                <DataTemplate DataType="{x:Type local:UIJunctionPoint}">
+                    <Thumb>
+                        <Thumb.Template>
+                            <ControlTemplate>
+                                <Canvas>
+                                    <Ellipse Height="10" Width="10" Stroke="Black" StrokeThickness="1" Fill="Yellow"
+                                         x:Name="Ellipse">
+                                    </Ellipse>
+                                </Canvas>
+                            </ControlTemplate>
+                        </Thumb.Template>
+                    </Thumb>
+                </DataTemplate>
+            </Grid.Resources>
+            
             <ListBox>
                 <ListBox.Template>
                     <ControlTemplate>
@@ -24,8 +48,26 @@
                                 </Border>
                             </ScrollViewer>
                         </Border>
-                    </ControlTemplate>
+                    </ControlTemplate>         
                 </ListBox.Template> 
+                <ListBox.ItemsSource>
+                    <StaticResource ResourceKey="nodeCollection"/>
+                </ListBox.ItemsSource>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas IsItemsHost="True" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                Width="500" Height="400" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                
+                
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                
             </ListBox>
         </Grid>
     </DockPanel>

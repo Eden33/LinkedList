@@ -11,6 +11,10 @@ namespace Graph.Model
     public interface INode
     {
         int Id { get; }
+
+        double X { get; set; }
+        double Y { get; set; }
+        
         INode FindNext(int idToFind, int searchId);
         INode FindPrev(int idToFind, int searchId);
         INode Find(int idToFind, int searchId);
@@ -22,6 +26,31 @@ namespace Graph.Model
         private INode next = null;
         private INode prev = null;
         public static readonly int ROOT_ID = 1;
+
+        private double x;
+        private double y;
+        public double X 
+        { 
+            get 
+            { 
+                return x; 
+            } 
+            set 
+            { 
+                x = value;
+            } 
+        }
+        public double Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+            }
+        }
 
         public int Id 
         {
@@ -171,6 +200,31 @@ namespace Graph.Model
         private List<Node> prevPath = new List<Node>();
         public static readonly int ROOT_ID = 1000000;
         private int id;
+
+        private double x;
+        private double y;
+        public double X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+            }
+        }
+        public double Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+            }
+        }
 
         public int Id {
             get { return id; }
