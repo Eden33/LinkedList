@@ -20,10 +20,18 @@ namespace TreeEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainViewModel model = null;
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = model = new MainViewModel();
         }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UICollectionVat s = listView.SelectedItem as UICollectionVat;
+            model.SelectedVat = s;
+        }
+
     }
 }

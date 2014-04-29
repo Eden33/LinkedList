@@ -11,9 +11,69 @@ namespace TreeEditor
 {
     public abstract class UIObject : INotifyPropertyChanged
     {
-        public abstract double X { get; set; }
-        public abstract double Y { get; set; }
-        public abstract int Id { get; set;  }
+        private double x;
+        public double X
+        {
+            get
+            {
+                return x;
+            }
+            set
+            {
+                x = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double y;
+        public double Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int id;
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool deleted = false;
+        public bool Deleted
+        {
+            get { return deleted;  }
+            set
+            {
+                deleted = value;
+                OnPropertyChanged();
+            }
+        } 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,6 +85,7 @@ namespace TreeEditor
             }
         }
     }
+
     public class UINode : UIObject
     {
         public UINode(Node n)
@@ -32,48 +93,6 @@ namespace TreeEditor
             X = n.X;
             Y = n.Y;
             Id = n.Id;
-        }
-        private double x;
-        private double y;
-        private int id;
-
-        public override double X
-        {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override double Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override int Id
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                id = value;
-                OnPropertyChanged();
-            }
         }
     }
 
@@ -85,48 +104,14 @@ namespace TreeEditor
             Y = j.Y;
             Id = j.Id;
         }
+    }
 
-        private double x;
-        private double y;
-        private int id;
-
-        public override double X
+    public class UICollectionVat : UIObject
+    {
+        public UICollectionVat(int id)
         {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override double Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public override int Id
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                id = value;
-                OnPropertyChanged();
-            }
+            Id = id;
+            Name = "Vat "+id;
         }
     }
 }

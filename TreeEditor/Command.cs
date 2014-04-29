@@ -14,7 +14,7 @@ namespace TreeEditor
         {
             get { return action;  }
         }
-        private bool canExecute = true;
+        private bool canExecute = false;
 
         public bool CanExecute(object parameter)
         {
@@ -22,6 +22,19 @@ namespace TreeEditor
         }
 
         public event EventHandler CanExecuteChanged;
+
+        public void SetCanExecute(bool value)
+        {
+            if(this.canExecute != value)
+            {
+                this.canExecute = value;
+
+                if(this.CanExecuteChanged != null)
+                {
+                    this.CanExecuteChanged(this, new EventArgs());
+                }
+            }
+        }
 
         public void Execute(object parameter)
         {
