@@ -11,7 +11,7 @@ namespace Model.Data
         private static Dictionary<int, CollectionVat> vats = new Dictionary<int, CollectionVat>();
         private static Dictionary<int, CollectionPoint> points = new Dictionary<int, CollectionPoint>();
 
-        public static CollectionVat getCollectionVat(int id)
+        public static CollectionVat GetCollectionVat(int id)
         {
             CollectionVat flyweight = null;
             if (!vats.TryGetValue(id, out flyweight))
@@ -22,7 +22,7 @@ namespace Model.Data
             return flyweight;
         }
 
-        public static CollectionPoint getCollectionPoint(int id)
+        public static CollectionPoint GetCollectionPoint(int id)
         {
             CollectionPoint flyweight = null;
             if (!points.TryGetValue(id, out flyweight))

@@ -17,12 +17,12 @@ namespace Service
 
         public Model.Data.CollectionPoint GetCollectionPoint(int id)
         {
-            return ResourceManager.getCollectionPoint(id);
+            return ResourceManager.GetCollectionPoint(id);
         }
 
         public Model.Data.CollectionVat GetCollectionVat(int id)
         {
-            return ResourceManager.getCollectionVat(id);
+            return ResourceManager.GetCollectionVat(id);
         }
     }
 }

@@ -64,6 +64,12 @@ namespace TreeEditor
             }
         }
 
+        /// <summary>
+        /// Instances using the specific UIObject are supposed to release all instance references pointing to <br/>
+        /// the specific item on Delete-PropertyChangeEvent. <br/>
+        /// In addition, before releasing all references, further operations are possible which are item <br/>
+        /// and implementation dependent.
+        /// </summary>
         private bool deleted = false;
         public bool Deleted
         {
