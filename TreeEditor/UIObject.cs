@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Graph.Model;
+using Model.Data;
 
 namespace TreeEditor
 {
@@ -86,32 +86,20 @@ namespace TreeEditor
         }
     }
 
-    public class UINode : UIObject
-    {
-        public UINode(Node n)
-        {
-            X = n.X;
-            Y = n.Y;
-            Id = n.Id;
-        }
-    }
-
-    public class UIJunctionPoint : UIObject
-    {
-        public UIJunctionPoint(JunctionPoint j)
-        {
-            X = j.X;
-            Y = j.Y;
-            Id = j.Id;
-        }
-    }
-
     public class UICollectionVat : UIObject
     {
-        public UICollectionVat(int id)
+        public UICollectionVat(CollectionVat vat)
         {
-            Id = id;
-            Name = "Vat "+id;
+            Id = vat.Id;
+            Name = "Vat "+Id;
+        }
+    }
+    
+    public class UICollectionPoint : UIObject
+    {
+        public UICollectionPoint(CollectionPoint p)
+        {
+            Id = p.Id;
         }
     }
 }

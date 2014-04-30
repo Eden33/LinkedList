@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,6 +58,11 @@
     <Compile Include="CollectionVatList.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="ResourceManager.cs" />
+    <Compile Include="Service References\ResourceService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="UIObject.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,20 +96,59 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\Model.Data.CollectionPoint.datasource" />
+    <None Include="Properties\DataSources\Model.Data.CollectionVat.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Service References\ResourceService\item.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\ResourceService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LinkedList\Graph.csproj">
-      <Project>{6a457f73-6e0f-4a34-9655-54b209b0c903}</Project>
-      <Name>Graph</Name>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{20992578-4880-4c34-9639-a5e8ebe21229}</Project>
+      <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ResourceService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResourceService\item.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResourceService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResourceService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ResourceService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
