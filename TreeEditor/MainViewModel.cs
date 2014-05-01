@@ -13,12 +13,12 @@ namespace TreeEditor
 
         public MainViewModel()
         {
-            for (int i = 1; i < 2; i++)
+            for (int i = 1; i < 15; i++)
             {
-                //vatList1.Add(resourceMgr.getCollectionVat(i));
-                //vatList2.Add(resourceMgr.getCollectionVat(i));
-                //resourceMgr.getCollectionVat(i).X = i * 30;
-                //resourceMgr.getCollectionVat(i).Y = i * 30;
+                vatList1.Add(resourceMgr.getCollectionVat(i));
+                vatList2.Add(resourceMgr.getCollectionVat(i));
+                resourceMgr.getCollectionVat(i).X = i * 30;
+                resourceMgr.getCollectionVat(i).Y = i * 30;
             }
         }
 

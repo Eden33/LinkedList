@@ -11,8 +11,18 @@ namespace Service
 {
     // [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     // if we use IsOneWay option this is not needed
-    public class ResourceService : IResourceService, IResourceServiceNotifications
+    public class ResourceService : IResourceService
     {
+        private static Thread testThread;
+        private static readonly List<IResourceServiceNotifications> subscribers = new List<IResourceServiceNotifications>();
+        
+        public ResourceService()
+        {
+            testThread = new Thread(TestThreadMethod);
+            testThread.IsBackground = true;
+            testThread.Start();
+        }
+
         public bool TryLock(int id, Type type)
         {
             return true;
@@ -28,20 +38,54 @@ namespace Service
             return ResourceManager.GetCollectionVat(id);
         }
 
-        private static int ctr = 0;
-        public void RegisterLockNotifications()
+        private void TestThreadMethod()
         {
             while(true)
             {
+                lock (subscribers)
+                {
+                    ctr++;
+                    try
+                    {
+                        subscribers.ForEach(delegate(IResourceServiceNotifications callback)
+                        {
+                            if (((ICommunicationObject)callback).State == CommunicationState.Opened)
+                            {
+                                callback.LockedNotification("new owner: " + ctr);
+                            }
+                            else
+                            {
+                                subscribers.Remove(callback);
+                            }
+                        });
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("Exception caught in TestThreadMethod: " + e.Message);
+                    }
+                }
                 Thread.Sleep(5000);
-                ctr++;
-                OperationContext.Current.GetCallbackChannel<IResourceServiceNotifications>().LockedNotification("foo "+ctr);
             }
         }
 
-        public void LockedNotification(string owner)
+        private static int ctr = 0;
+        public void RegisterLockNotifications()
         {
-            Console.WriteLine("Locked Notification: " + owner);
+            IResourceServiceNotifications callback = OperationContext.Current.GetCallbackChannel<IResourceServiceNotifications>();
+            lock(subscribers)
+            {
+                try
+                {
+                    if (!subscribers.Contains(callback))
+                    {
+                        subscribers.Add(callback);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Exception caught in RegisterLockNotifications(): " + e.Message);
+                }
+            }
         }
     }
 }
