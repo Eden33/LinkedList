@@ -10,16 +10,23 @@ namespace TreeEditor
 {
     public class MainViewModel
     {
+
         public MainViewModel()
         {
-            for (int i = 1; i < 15; i++)
+            for (int i = 1; i < 2; i++)
             {
-                vatList1.Add(ResourceManager.getCollectionVat(i));
-                vatList2.Add(ResourceManager.getCollectionVat(i));
-                ResourceManager.getCollectionVat(i).X = i * 30;
-                ResourceManager.getCollectionVat(i).Y = i * 30;
+                //vatList1.Add(resourceMgr.getCollectionVat(i));
+                //vatList2.Add(resourceMgr.getCollectionVat(i));
+                //resourceMgr.getCollectionVat(i).X = i * 30;
+                //resourceMgr.getCollectionVat(i).Y = i * 30;
             }
         }
+
+        #region members
+
+        private ResourceManager resourceMgr = ResourceManager.Instance;
+
+        #endregion
 
         #region Properties
 

@@ -8,7 +8,7 @@ using Model.Data;
 
 namespace Service
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IResourceServiceNotifications))]
     public interface IResourceService
     {
         [OperationContract]
@@ -19,5 +19,14 @@ namespace Service
         
         [OperationContract]
         CollectionVat GetCollectionVat(int id);
+
+        [OperationContract(IsOneWay = true)]
+        void RegisterLockNotifications();
+    }
+
+    public interface IResourceServiceNotifications
+    {
+        [OperationContract(IsOneWay = true)]
+        void LockedNotification(String owner);
     }
 }

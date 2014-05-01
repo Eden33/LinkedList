@@ -96,6 +96,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\DataSources\Model.Data.CollectionPoint.datasource" />
     <None Include="Properties\DataSources\Model.Data.CollectionVat.datasource" />
     <None Include="Properties\Settings.settings">
@@ -119,9 +120,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\ResourceService.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

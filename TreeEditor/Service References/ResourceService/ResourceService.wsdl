@@ -56,6 +56,12 @@
   <wsdl:message name="IResourceService_GetCollectionVat_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCollectionVatResponse" />
   </wsdl:message>
+  <wsdl:message name="IResourceService_RegisterLockNotifications_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterLockNotifications" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_LockedNotification_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:LockedNotification" />
+  </wsdl:message>
   <wsdl:portType name="IResourceService">
     <wsdl:operation name="TryLock">
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/TryLock" message="tns:IResourceService_TryLock_InputMessage" />
@@ -68,6 +74,12 @@
     <wsdl:operation name="GetCollectionVat">
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVat" message="tns:IResourceService_GetCollectionVat_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVatResponse" message="tns:IResourceService_GetCollectionVat_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterLockNotifications">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/RegisterLockNotifications" message="tns:IResourceService_RegisterLockNotifications_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LockedNotification">
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/LockedNotification" message="tns:IResourceService_LockedNotification_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IResourceService" type="tns:IResourceService">
@@ -100,34 +112,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-  </wsdl:binding>
-  <wsdl:binding name="BasicHttpBinding_IResourceService" type="tns:IResourceService">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="TryLock">
-      <soap:operation soapAction="http://tempuri.org/IResourceService/TryLock" style="document" />
+    <wsdl:operation name="RegisterLockNotifications">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/RegisterLockNotifications" style="document" />
       <wsdl:input>
-        <soap:body use="literal" />
+        <soap12:body use="literal" />
       </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCollectionPoint">
-      <soap:operation soapAction="http://tempuri.org/IResourceService/GetCollectionPoint" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
+    <wsdl:operation name="LockedNotification">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/LockedNotification" style="document" />
       <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetCollectionVat">
-      <soap:operation soapAction="http://tempuri.org/IResourceService/GetCollectionVat" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
+        <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
@@ -140,9 +134,6 @@
           <Upn>roadrunner2\edi</Upn>
         </Identity>
       </wsa10:EndpointReference>
-    </wsdl:port>
-    <wsdl:port name="BasicHttpBinding_IResourceService" binding="tns:BasicHttpBinding_IResourceService">
-      <soap:address location="http://localhost:8081/ResourceService" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

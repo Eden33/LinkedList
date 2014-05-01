@@ -2,18 +2,42 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TreeEditor.Resource
 {
-    public class ResourceManager
+    // [CallbackBehavior(UseSynchronizationContext = false)]
+    // if we use IsOneWay option this is not needed
+    public class ResourceManager : ResourceService.IResourceServiceCallback
     {
-        private static Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
-        private static Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
-        private static ResourceService.ResourceServiceClient client = new ResourceService.ResourceServiceClient("NetTcpBinding_IResourceService");
+        private static ResourceManager instance;
 
-        public static UICollectionVat getCollectionVat(int id)
+        private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
+        private Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
+        private ResourceService.ResourceServiceClient client = null;
+
+        private ResourceManager() 
+        {
+            InstanceContext context = new InstanceContext(this);
+            client = new ResourceService.ResourceServiceClient(context);
+            client.RegisterLockNotifications();
+        }
+
+        public static ResourceManager Instance 
+        {
+            get 
+            { 
+                if(instance == null)
+                {
+                    instance = new ResourceManager();
+                }
+                return instance;
+            } 
+        }
+
+        public UICollectionVat getCollectionVat(int id)
         {
             UICollectionVat flyweight = null;
             if (!vats.TryGetValue(id, out flyweight))
@@ -25,7 +49,7 @@ namespace TreeEditor.Resource
             return flyweight;
         }
 
-        public static UICollectionPoint getCollectionPoint(int id)
+        public UICollectionPoint getCollectionPoint(int id)
         {
             UICollectionPoint flyweight = null;
             if (!points.TryGetValue(id, out flyweight))
@@ -37,7 +61,7 @@ namespace TreeEditor.Resource
             return flyweight;
         }
 
-        static private void UIObject_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UIObject_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Deleted"))
             {
@@ -58,6 +82,11 @@ namespace TreeEditor.Resource
                     }
                 }
             }
+        }
+
+        public void LockedNotification(string owner)
+        {
+            Console.WriteLine("Received lock notification: " + owner);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace TreeEditor.ResourceService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ResourceService.IResourceService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ResourceService.IResourceService", CallbackContract=typeof(TreeEditor.ResourceService.IResourceServiceCallback))]
     public interface IResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
@@ -32,6 +32,19 @@ namespace TreeEditor.ResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionVat", ReplyAction="http://tempuri.org/IResourceService/GetCollectionVatResponse")]
         System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/RegisterLockNotifications")]
+        void RegisterLockNotifications();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/RegisterLockNotifications")]
+        System.Threading.Tasks.Task RegisterLockNotificationsAsync();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IResourceServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/LockedNotification")]
+        void LockedNotification(string owner);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -40,25 +53,26 @@ namespace TreeEditor.ResourceService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ResourceServiceClient : System.ServiceModel.ClientBase<TreeEditor.ResourceService.IResourceService>, TreeEditor.ResourceService.IResourceService {
+    public partial class ResourceServiceClient : System.ServiceModel.DuplexClientBase<TreeEditor.ResourceService.IResourceService>, TreeEditor.ResourceService.IResourceService {
         
-        public ResourceServiceClient() {
+        public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public ResourceServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public ResourceServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ResourceServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public ResourceServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public bool TryLock(int id, System.Type type) {
@@ -83,6 +97,14 @@ namespace TreeEditor.ResourceService {
         
         public System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id) {
             return base.Channel.GetCollectionVatAsync(id);
+        }
+        
+        public void RegisterLockNotifications() {
+            base.Channel.RegisterLockNotifications();
+        }
+        
+        public System.Threading.Tasks.Task RegisterLockNotificationsAsync() {
+            return base.Channel.RegisterLockNotificationsAsync();
         }
     }
 }

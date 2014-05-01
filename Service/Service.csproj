@@ -47,9 +47,6 @@
     <Compile Include="ResourceService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{20992578-4880-4c34-9639-a5e8ebe21229}</Project>
       <Name>Model</Name>
