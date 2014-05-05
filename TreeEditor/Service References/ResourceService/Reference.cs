@@ -32,12 +32,6 @@ namespace TreeEditor.ResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionVat", ReplyAction="http://tempuri.org/IResourceService/GetCollectionVatResponse")]
         System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/RegisterLockNotifications")]
-        void RegisterLockNotifications();
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/RegisterLockNotifications")]
-        System.Threading.Tasks.Task RegisterLockNotificationsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -97,14 +91,6 @@ namespace TreeEditor.ResourceService {
         
         public System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id) {
             return base.Channel.GetCollectionVatAsync(id);
-        }
-        
-        public void RegisterLockNotifications() {
-            base.Channel.RegisterLockNotifications();
-        }
-        
-        public System.Threading.Tasks.Task RegisterLockNotificationsAsync() {
-            return base.Channel.RegisterLockNotificationsAsync();
         }
     }
 }

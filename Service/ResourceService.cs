@@ -14,88 +14,29 @@ namespace Service
     // if we use IsOneWay option this is not needed
     public class ResourceService : IResourceService
     {
-        private static Thread testThread;
-        private static readonly List<IResourceServiceNotifications> subscribers = new List<IResourceServiceNotifications>();
+        private static readonly TransactionManager tm = RamTransactionManager.Instance;
         
-        public ResourceService()
+        public ResourceService() 
         {
-            testThread = new Thread(TestThreadMethod);
-            testThread.IsBackground = true;
-            testThread.Start();
+            Console.WriteLine("ResourceService constructor...");
         }
 
         public bool TryLock(int id, ItemType type)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("TryLock");
+            return tm.TryLock(id, type, "foo");
         }
 
         public Model.Data.CollectionPoint GetCollectionPoint(int id)
         {
-            return TransactionManager.GetCollectionPoint(id);
+            Console.WriteLine("GetCollectionPoint");
+            return tm.GetCollectionPoint(id);
         }
 
         public Model.Data.CollectionVat GetCollectionVat(int id)
         {
-            return TransactionManager.GetCollectionVat(id);
-        }
-
-        private void TestThreadMethod()
-        {
-            while(true)
-            {
-                lock (subscribers)
-                {
-                    ctr++;
-                    try
-                    {
-                        subscribers.ForEach(delegate(IResourceServiceNotifications callback)
-                        {
-                            if (((ICommunicationObject)callback).State == CommunicationState.Opened)
-                            {
-                                LockBatch batch = new LockBatch();
-                                LockItem i1 = new LockItem();
-                                i1.ItemTypeInfo = ItemType.CollectionPoint;
-                                i1.IDsToLock = new List<int> { 1, 2, 3 };
-                                LockItem i2 = new LockItem();
-                                i2.ItemTypeInfo = ItemType.CollectionVat;
-                                i2.IDsToLock = new List<int> { 5, 6 };
-                                batch.ItemsToLock = new List<LockItem> { i1, i2 };
-
-                                callback.LockedNotification("test", batch);
-                            }
-                            else
-                            {
-                                subscribers.Remove(callback);
-                            }
-                        });
-                    }
-                    catch(Exception e)
-                    {
-                        Console.WriteLine("Exception caught in TestThreadMethod: " + e.Message);
-                    }
-                }
-                Thread.Sleep(5000);
-            }
-        }
-
-        private static int ctr = 0;
-        public void RegisterLockNotifications()
-        {
-            IResourceServiceNotifications callback = OperationContext.Current.GetCallbackChannel<IResourceServiceNotifications>();
-            lock(subscribers)
-            {
-                try
-                {
-                    if (!subscribers.Contains(callback))
-                    {
-                        subscribers.Add(callback);
-                    }
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("Exception caught in RegisterLockNotifications(): " + e.Message);
-                }
-            }
+            Console.WriteLine("GetCollectionVat");
+            return tm.GetCollectionVat(id);
         }
     }
 }

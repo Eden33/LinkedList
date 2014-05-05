@@ -20,9 +20,6 @@ namespace Service
         
         [OperationContract]
         CollectionVat GetCollectionVat(int id);
-
-        [OperationContract(IsOneWay = true)]
-        void RegisterLockNotifications();
     }
 
     public interface IResourceServiceNotifications

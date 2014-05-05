@@ -55,9 +55,6 @@
   <wsdl:message name="IResourceService_GetCollectionVat_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetCollectionVatResponse" />
   </wsdl:message>
-  <wsdl:message name="IResourceService_RegisterLockNotifications_InputMessage">
-    <wsdl:part name="parameters" element="tns:RegisterLockNotifications" />
-  </wsdl:message>
   <wsdl:message name="IResourceService_LockedNotification_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:LockedNotification" />
   </wsdl:message>
@@ -73,9 +70,6 @@
     <wsdl:operation name="GetCollectionVat">
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVat" message="tns:IResourceService_GetCollectionVat_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVatResponse" message="tns:IResourceService_GetCollectionVat_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="RegisterLockNotifications">
-      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/RegisterLockNotifications" message="tns:IResourceService_RegisterLockNotifications_InputMessage" />
     </wsdl:operation>
     <wsdl:operation name="LockedNotification">
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/LockedNotification" message="tns:IResourceService_LockedNotification_OutputCallbackMessage" />
@@ -110,12 +104,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RegisterLockNotifications">
-      <soap12:operation soapAction="http://tempuri.org/IResourceService/RegisterLockNotifications" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
     </wsdl:operation>
     <wsdl:operation name="LockedNotification">
       <soap12:operation soapAction="http://tempuri.org/IResourceService/LockedNotification" style="document" />

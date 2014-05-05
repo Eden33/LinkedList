@@ -23,7 +23,6 @@ namespace TreeEditor.Resource
         {
             InstanceContext context = new InstanceContext(this);
             client = new ResourceService.ResourceServiceClient(context);
-            client.RegisterLockNotifications();
         }
 
         public static ResourceManager Instance 
