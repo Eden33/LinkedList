@@ -104,9 +104,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\ResourceService\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\ResourceService\item1.xsd">
       <SubType>Designer</SubType>
     </None>

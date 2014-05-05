@@ -16,10 +16,10 @@ namespace TreeEditor.ResourceService {
     public interface IResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        bool TryLock(int id, System.Type type);
+        bool TryLock(int id, Model.Data.ItemType type);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        System.Threading.Tasks.Task<bool> TryLockAsync(int id, System.Type type);
+        System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType type);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionPoint", ReplyAction="http://tempuri.org/IResourceService/GetCollectionPointResponse")]
         Model.Data.CollectionPoint GetCollectionPoint(int id);
@@ -44,7 +44,7 @@ namespace TreeEditor.ResourceService {
     public interface IResourceServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/LockedNotification")]
-        void LockedNotification(string owner);
+        void LockedNotification(string owner, Model.Data.LockBatch batch);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -75,11 +75,11 @@ namespace TreeEditor.ResourceService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public bool TryLock(int id, System.Type type) {
+        public bool TryLock(int id, Model.Data.ItemType type) {
             return base.Channel.TryLock(id, type);
         }
         
-        public System.Threading.Tasks.Task<bool> TryLockAsync(int id, System.Type type) {
+        public System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType type) {
             return base.Channel.TryLockAsync(id, type);
         }
         

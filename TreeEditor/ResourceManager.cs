@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Data;
 
 namespace TreeEditor.Resource
 {
@@ -84,9 +85,16 @@ namespace TreeEditor.Resource
             }
         }
 
-        public void LockedNotification(string owner)
+        public void LockedNotification(string owner, LockBatch batch)
         {
-            Console.WriteLine("Received lock notification: " + owner);
+            foreach(LockItem l in batch.ItemsToLock) 
+            {
+                Console.WriteLine("Lock item " + l.ItemTypeInfo);
+                foreach(int id in l.IDsToLock)
+                {
+                    Console.WriteLine(id);
+                }
+            }
         }
     }
 }

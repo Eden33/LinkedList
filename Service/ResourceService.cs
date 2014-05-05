@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using Model.Data;
+using Service.Data;
 
 namespace Service
 {
@@ -23,19 +24,19 @@ namespace Service
             testThread.Start();
         }
 
-        public bool TryLock(int id, Type type)
+        public bool TryLock(int id, ItemType type)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         public Model.Data.CollectionPoint GetCollectionPoint(int id)
         {
-            return ResourceManager.GetCollectionPoint(id);
+            return TransactionManager.GetCollectionPoint(id);
         }
 
         public Model.Data.CollectionVat GetCollectionVat(int id)
         {
-            return ResourceManager.GetCollectionVat(id);
+            return TransactionManager.GetCollectionVat(id);
         }
 
         private void TestThreadMethod()
@@ -51,7 +52,16 @@ namespace Service
                         {
                             if (((ICommunicationObject)callback).State == CommunicationState.Opened)
                             {
-                                callback.LockedNotification("new owner: " + ctr);
+                                LockBatch batch = new LockBatch();
+                                LockItem i1 = new LockItem();
+                                i1.ItemTypeInfo = ItemType.CollectionPoint;
+                                i1.IDsToLock = new List<int> { 1, 2, 3 };
+                                LockItem i2 = new LockItem();
+                                i2.ItemTypeInfo = ItemType.CollectionVat;
+                                i2.IDsToLock = new List<int> { 5, 6 };
+                                batch.ItemsToLock = new List<LockItem> { i1, i2 };
+
+                                callback.LockedNotification("test", batch);
                             }
                             else
                             {

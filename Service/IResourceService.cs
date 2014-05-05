@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,7 +13,7 @@ namespace Service
     public interface IResourceService
     {
         [OperationContract]
-        bool TryLock(int id, Type type);
+        bool TryLock(int id, ItemType type);
         
         [OperationContract]
         CollectionPoint GetCollectionPoint(int id);
@@ -27,6 +28,6 @@ namespace Service
     public interface IResourceServiceNotifications
     {
         [OperationContract(IsOneWay = true)]
-        void LockedNotification(String owner);
+        void LockedNotification(String owner, LockBatch batch);
     }
 }

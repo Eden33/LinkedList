@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Data;
 
-namespace Model.Data
+namespace Service.Data
 {
-    public class ResourceManager
+    class TransactionManager
     {
         private static Dictionary<int, CollectionVat> vats = new Dictionary<int, CollectionVat>();
         private static Dictionary<int, CollectionPoint> points = new Dictionary<int, CollectionPoint>();
