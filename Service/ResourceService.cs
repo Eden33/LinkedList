@@ -25,19 +25,28 @@ namespace Service
 
         public bool TryLock(int id, ItemType type)
         {
-            Console.WriteLine("TryLock");
-            return tm.TryLock(id, type, "foo");
+            LockBatch batch = null;
+            bool lockSuccess = tm.TryLock(id, type, "foo", out batch);
+            if(lockSuccess)
+            {
+                LockMessage lockMsg = new LockMessage("foo", batch);  
+                lock(userContextProvider)
+                {
+                    userContextProvider.NotifyAll(lockMsg);
+                }
+            }
+            return lockSuccess;
         }
 
         public Model.Data.CollectionPoint GetCollectionPoint(int id)
         {
-            Console.WriteLine("GetCollectionPoint: " + OperationContext.Current.SessionId);
+            //Console.WriteLine("GetCollectionPoint: " + OperationContext.Current.SessionId);
             return tm.GetCollectionPoint(id);
         }
 
         public Model.Data.CollectionVat GetCollectionVat(int id)
         {
-            Console.WriteLine("GetCollectionVat: " + OperationContext.Current.SessionId);
+            //Console.WriteLine("GetCollectionVat: " + OperationContext.Current.SessionId);
             return tm.GetCollectionVat(id);
         }
 

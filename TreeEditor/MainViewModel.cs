@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Data;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,13 +14,14 @@ namespace TreeEditor
 
         public MainViewModel()
         {
-            for (int i = 1; i < 15; i++)
+            for (int i = 1; i <= 6; i++)
             {
                 vatList1.Add(resourceMgr.getCollectionVat(i));
                 vatList2.Add(resourceMgr.getCollectionVat(i));
                 resourceMgr.getCollectionVat(i).X = i * 30;
                 resourceMgr.getCollectionVat(i).Y = i * 30;
             }
+            resourceMgr.RequestLock(1, ItemType.CollectionPoint);
         }
 
         #region members

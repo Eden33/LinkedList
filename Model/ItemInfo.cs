@@ -16,7 +16,7 @@ namespace Model.Data
     [DataContract]
     public class LockBatch
     {
-        private List<LockItem> itemsToLock;
+        private List<LockItem> itemsToLock = new List<LockItem>();
         [DataMember]
         public List<LockItem> ItemsToLock 
         {

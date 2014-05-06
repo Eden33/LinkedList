@@ -13,6 +13,8 @@ namespace TreeEditor.Resource
     // if we use IsOneWay option this is not needed
     public class ResourceManager : ResourceService.IResourceServiceCallback
     {
+        #region members
+
         private static ResourceManager instance;
 
         private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
@@ -21,6 +23,8 @@ namespace TreeEditor.Resource
         private string loginName = null;
         private bool isConnected = false;
 
+        #endregion
+
         private ResourceManager() 
         {
             InstanceContext context = new InstanceContext(this);
@@ -28,19 +32,19 @@ namespace TreeEditor.Resource
             isConnected = true;
         }
 
-        public static ResourceManager Instance 
+        #region properties
+
+        public static ResourceManager Instance
         {
-            get 
-            { 
-                if(instance == null)
+            get
+            {
+                if (instance == null)
                 {
                     instance = new ResourceManager();
                 }
                 return instance;
-            } 
+            }
         }
-
-        #region properties
 
         public string LoginName 
         {
@@ -59,6 +63,8 @@ namespace TreeEditor.Resource
             }
         }
         #endregion
+
+        #region public methods to access remote service methods or cached resources
 
         public bool Login()
         {
@@ -117,6 +123,13 @@ namespace TreeEditor.Resource
             return flyweight;
         }
 
+        public bool RequestLock(int id, ItemType itemType)
+        {
+            return client.TryLock(id, itemType);
+        }
+
+        #endregion
+
         private void UIObject_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Deleted"))
@@ -140,6 +153,8 @@ namespace TreeEditor.Resource
             }
         }
 
+        #region service callbacks
+
         public void LockedNotification(string owner, LockBatch batch)
         {
             foreach(LockItem l in batch.ItemsToLock) 
@@ -151,5 +166,7 @@ namespace TreeEditor.Resource
                 }
             }
         }
+
+        #endregion
     }
 }

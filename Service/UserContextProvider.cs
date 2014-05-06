@@ -80,6 +80,10 @@ namespace Service.User
 
         public void AddMessage(NotificationMessage msg)
         {
+            if(msg.GetType() == typeof(LockMessage))
+            {
+                Console.WriteLine("User {0} queue new LockMessage.", loginName);
+            }
             notificationQueue.Enqueue(msg);
         }
     }
