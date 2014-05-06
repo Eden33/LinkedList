@@ -15,6 +15,12 @@ namespace TreeEditor.ResourceService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ResourceService.IResourceService", CallbackContract=typeof(TreeEditor.ResourceService.IResourceServiceCallback))]
     public interface IResourceService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Login", ReplyAction="http://tempuri.org/IResourceService/LoginResponse")]
+        bool Login(string loginName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Login", ReplyAction="http://tempuri.org/IResourceService/LoginResponse")]
+        System.Threading.Tasks.Task<bool> LoginAsync(string loginName);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
         bool TryLock(int id, Model.Data.ItemType type);
         
@@ -67,6 +73,14 @@ namespace TreeEditor.ResourceService {
         
         public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public bool Login(string loginName) {
+            return base.Channel.Login(loginName);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LoginAsync(string loginName) {
+            return base.Channel.LoginAsync(loginName);
         }
         
         public bool TryLock(int id, Model.Data.ItemType type) {

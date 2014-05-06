@@ -10,12 +10,13 @@ using Service.Data;
 
 namespace Service
 {
-    // [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
-    // if we use IsOneWay option this is not needed
+
+    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class ResourceService : IResourceService
     {
         private static readonly TransactionManager tm = RamTransactionManager.Instance;
-        
+        private static readonly UserContextProvider userContextProvider = UserContextProvider.Instance;
+       
         public ResourceService() 
         {
             Console.WriteLine("ResourceService constructor...");
@@ -29,14 +30,19 @@ namespace Service
 
         public Model.Data.CollectionPoint GetCollectionPoint(int id)
         {
-            Console.WriteLine("GetCollectionPoint");
+            Console.WriteLine("GetCollectionPoint: " + OperationContext.Current.SessionId);
             return tm.GetCollectionPoint(id);
         }
 
         public Model.Data.CollectionVat GetCollectionVat(int id)
         {
-            Console.WriteLine("GetCollectionVat");
+            Console.WriteLine("GetCollectionVat: " + OperationContext.Current.SessionId);
             return tm.GetCollectionVat(id);
+        }
+
+        public bool Login(string loginName)
+        {
+            return userContextProvider.AddUser(loginName);
         }
     }
 }

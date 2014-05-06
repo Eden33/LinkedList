@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="CollectionVatList.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceManager.cs" />
     <Compile Include="Service References\ResourceService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -64,6 +67,10 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="UIObject.cs" />
+    <Page Include="LoginDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -25,12 +25,12 @@ namespace TreeEditor
         #region members
 
         private ResourceManager resourceMgr = ResourceManager.Instance;
+        private UICollectionVat selectedVat;
 
         #endregion
 
         #region Properties
 
-        private UICollectionVat selectedVat;
         public UICollectionVat SelectedVat
         {
             get 

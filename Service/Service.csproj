@@ -46,6 +46,7 @@
     <Compile Include="TransactionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceService.cs" />
+    <Compile Include="UserContextProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

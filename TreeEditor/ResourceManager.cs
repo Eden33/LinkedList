@@ -18,11 +18,14 @@ namespace TreeEditor.Resource
         private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
         private Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
         private ResourceService.ResourceServiceClient client = null;
+        private string loginName = null;
+        private bool isConnected = false;
 
         private ResourceManager() 
         {
             InstanceContext context = new InstanceContext(this);
             client = new ResourceService.ResourceServiceClient(context);
+            isConnected = true;
         }
 
         public static ResourceManager Instance 
@@ -37,14 +40,58 @@ namespace TreeEditor.Resource
             } 
         }
 
+        #region properties
+
+        public string LoginName 
+        {
+            set { loginName = value; }
+        }
+
+        public bool IsConnected
+        {
+            get
+            {
+                return isConnected;
+            }
+            private set
+            {
+                isConnected = false;
+            }
+        }
+        #endregion
+
+        public bool Login()
+        {
+            bool loginSuccess = false;
+            try
+            {
+                loginSuccess = client.Login(loginName);
+            }
+            catch(CommunicationException e)
+            {
+                IsConnected = false;
+                Console.WriteLine(e.Message);
+            }
+            return loginSuccess;
+        }
         public UICollectionVat getCollectionVat(int id)
         {
             UICollectionVat flyweight = null;
             if (!vats.TryGetValue(id, out flyweight))
             {
-                flyweight = new UICollectionVat(client.GetCollectionVat(id));
-                flyweight.PropertyChanged += UIObject_PropertyChanged;
-                vats.Add(id, flyweight);
+                try
+                {
+                    CollectionVat vat = client.GetCollectionVat(id);
+                    flyweight = new UICollectionVat(vat);
+                    flyweight.PropertyChanged += UIObject_PropertyChanged;
+                    vats.Add(id, flyweight);
+                }
+                catch(CommunicationException e)
+                {
+                    IsConnected = false;
+                    Console.WriteLine(e.Message);
+
+                }
             }
             return flyweight;
         }
@@ -54,9 +101,18 @@ namespace TreeEditor.Resource
             UICollectionPoint flyweight = null;
             if (!points.TryGetValue(id, out flyweight))
             {
-                flyweight = new UICollectionPoint(client.GetCollectionPoint(id));
-                flyweight.PropertyChanged += UIObject_PropertyChanged;
-                points.Add(id, flyweight);
+                try
+                {
+                    CollectionPoint cp = client.GetCollectionPoint(id);
+                    flyweight = new UICollectionPoint(cp);
+                    flyweight.PropertyChanged += UIObject_PropertyChanged;
+                    points.Add(id, flyweight);
+                }
+                catch(CommunicationException e)
+                {
+                    IsConnected = false;
+                    Console.WriteLine(e.Message);
+                }
             }
             return flyweight;
         }
