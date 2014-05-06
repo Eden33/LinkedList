@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using Model.Data;
 using Service.Data;
+using Service.User;
 
 namespace Service
 {

@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service
+namespace Service.User
 {
     /// <summary>
     /// This class manages all user sessions and provides pseudo authentication.
