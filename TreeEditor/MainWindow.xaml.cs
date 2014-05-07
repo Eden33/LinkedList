@@ -27,10 +27,10 @@ namespace TreeEditor
             DataContext = model = new MainViewModel();
         }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void cpListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UICollectionVat s = listView.SelectedItem as UICollectionVat;
-            model.SelectedVat = s;
+            UICollectionPoint s = cpListView.SelectedItem as UICollectionPoint;
+            model.SelectedCollectionPoint = s;
         }
 
     }

@@ -11,9 +11,9 @@ using System.Windows;
 
 namespace TreeEditor.Resource
 {
-    //more generic: http://stackoverflow.com/questions/269073/observablecollection-that-also-monitors-changes-on-the-elements-in-collection
-    //thx man
-    public class CollectionVatList<UICollectionVat> : ObservableCollection<UICollectionVat> where UICollectionVat : INotifyPropertyChanged
+    // source: http://stackoverflow.com/questions/269073/observablecollection-that-also-monitors-changes-on-the-elements-in-collection
+    // thx man
+    public class ObservableCollectionEx<T> : ObservableCollection<T> where T : INotifyPropertyChanged
     {
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
@@ -24,7 +24,7 @@ namespace TreeEditor.Resource
 
         protected override void ClearItems()
         {
-            foreach (UICollectionVat element in this)
+            foreach (T element in this)
                 element.PropertyChanged -= ContainedElementChanged;
 
             base.ClearItems();
@@ -34,7 +34,7 @@ namespace TreeEditor.Resource
         {
             if (iList != null)
             {
-                foreach (UICollectionVat element in iList)
+                foreach (T element in iList)
                     element.PropertyChanged += ContainedElementChanged;
             }
         }
@@ -43,7 +43,7 @@ namespace TreeEditor.Resource
         {
             if (iList != null)
             {
-                foreach (UICollectionVat element in iList)
+                foreach (T element in iList)
                     element.PropertyChanged -= ContainedElementChanged;
             }
         }
@@ -52,7 +52,7 @@ namespace TreeEditor.Resource
         {
             if (e.PropertyName.Equals("Deleted"))
             {
-                UICollectionVat removed = (UICollectionVat) sender;
+                T removed = (T)sender;
                 Remove(removed);
             }
         }

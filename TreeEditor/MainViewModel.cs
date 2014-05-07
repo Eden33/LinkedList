@@ -14,35 +14,32 @@ namespace TreeEditor
 
         public MainViewModel()
         {
-            for (int i = 1; i <= 6; i++)
+            for (int i = 1; i <= 4; i++)
             {
-                vatList1.Add(resourceMgr.getCollectionVat(i));
-                vatList2.Add(resourceMgr.getCollectionVat(i));
-                resourceMgr.getCollectionVat(i).X = i * 30;
-                resourceMgr.getCollectionVat(i).Y = i * 30;
+                collectionPoints.Add(resourceMgr.getCollectionPoint(i));
             }
-            resourceMgr.RequestLock(1, ItemType.CollectionPoint);
         }
 
         #region members
 
         private ResourceManager resourceMgr = ResourceManager.Instance;
-        private UICollectionVat selectedVat;
+        private UICollectionPoint selectedCollectionPoint;
 
         #endregion
 
         #region Properties
 
-        public UICollectionVat SelectedVat
+        public UICollectionPoint SelectedCollectionPoint
         {
             get 
             { 
-                return selectedVat; 
+                return selectedCollectionPoint; 
             }
             set 
             { 
-                selectedVat = value;
+                selectedCollectionPoint = value;
                 DeleteCommand.SetCanExecute(value != null);
+                LockCommand.SetCanExecute(value != null);
             }
         }
 
@@ -50,16 +47,10 @@ namespace TreeEditor
 
         #region Collections
 
-        private CollectionVatList<UICollectionVat> vatList1 = new CollectionVatList<UICollectionVat>();
-        public CollectionVatList<UICollectionVat> VatList1
+        private ObservableCollectionEx<UICollectionPoint> collectionPoints = new ObservableCollectionEx<UICollectionPoint>();
+        public ObservableCollectionEx<UICollectionPoint> CollectionPoints
         {
-            get { return vatList1; }
-        }
-
-        private CollectionVatList<UICollectionVat> vatList2 = new CollectionVatList<UICollectionVat>();
-        public CollectionVatList<UICollectionVat> VatList2
-        {
-            get { return vatList2;  }
+            get { return collectionPoints; }
         }
 
         #endregion
@@ -68,15 +59,26 @@ namespace TreeEditor
         private Command deleteCommand;
         public Command DeleteCommand
         {
-            get { return deleteCommand ?? (deleteCommand = new Command(DeleteVat)); }
+            get { return deleteCommand ?? (deleteCommand = new Command(DeleteCollectionPointFromRAM)); }
         }
 
-        private void DeleteVat()
+        private void DeleteCollectionPointFromRAM()
         {
-            if(selectedVat != null)
+            if(selectedCollectionPoint != null)
             {
-                selectedVat.Deleted = true;
+                selectedCollectionPoint.Deleted = true;
             }
+        }
+
+        private Command lockCommand;
+        public Command LockCommand
+        {
+            get { return lockCommand ?? (lockCommand = new Command(TryLockOnServer));  }
+        }
+
+        private void TryLockOnServer()
+        {
+            resourceMgr.RequestLock(selectedCollectionPoint.Id, ItemType.CollectionPoint);
         }
         #endregion
     }

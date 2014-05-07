@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Model.Data;
+using TreeEditor.Resource;
 
 namespace TreeEditor
 {
@@ -79,7 +80,18 @@ namespace TreeEditor
                 deleted = value;
                 OnPropertyChanged();
             }
-        } 
+        }
+
+        private UILockInfo lockInfo;
+        public UILockInfo LockInfo
+        {
+            get { return lockInfo;  }
+            set
+            {
+                lockInfo = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,21 +103,55 @@ namespace TreeEditor
             }
         }
     }
+    public class UILockInfo
+    {
+        private string lockOwner;
+        private bool locked;
+
+        public UILockInfo(string lockOwner, bool locked)
+        {
+            this.lockOwner = lockOwner;
+            this.locked = locked;
+        }
+
+        public string LockOwner
+        {
+            get { return lockOwner; }
+        }
+        public bool Locked
+        {
+            get { return locked; }
+        }
+    }
 
     public class UICollectionVat : UIObject
     {
         public UICollectionVat(CollectionVat vat)
         {
             Id = vat.Id;
-            Name = "Vat "+Id;
+            Name = "Vat " + Id;
         }
     }
     
     public class UICollectionPoint : UIObject
     {
+        private IList<UICollectionVat> vats = new List<UICollectionVat>();
+
         public UICollectionPoint(CollectionPoint p)
         {
             Id = p.Id;
+            Name = "CP " + Id;
+
+            foreach(CollectionVat v in p.Vats)
+            {
+                vats.Add(ResourceManager.Instance.getCollectionVat(v.Id));
+            }
         }
+
+        public IList<UICollectionVat> Vats 
+        {
+            get { return vats; } 
+        }
+        
     }
 }

@@ -27,6 +27,20 @@ namespace Model.Data
                 id = value; 
             }
         }
+
+        [DataMember]
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
     }
 
     [DataContract]
@@ -54,19 +68,5 @@ namespace Model.Data
     public class CollectionVat : Item
     {
         public CollectionVat(int id) : base(id) { }
-
-        [DataMember]
-        private string name;
-        public string Nane 
-        { 
-            get 
-            { 
-                return name; 
-            } 
-            set
-            {
-                name = value; 
-            }
-        }
     }
 }

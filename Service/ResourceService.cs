@@ -25,11 +25,25 @@ namespace Service
 
         public bool TryLock(int id, ItemType type)
         {
+            //retrieve user information
+            UserContext userContext = null;
+            lock(userContextProvider)
+            {
+                userContext = userContextProvider.getUserContext(OperationContext.Current.SessionId);
+            }
+            if(userContext == null)
+            {
+                return false;
+            }
+
+            //try lock
             LockBatch batch = null;
-            bool lockSuccess = tm.TryLock(id, type, "foo", out batch);
+            bool lockSuccess = tm.TryLock(id, type, userContext.LoginName, out batch);
+
+            //push lock information to all clients on lock success
             if(lockSuccess)
             {
-                LockMessage lockMsg = new LockMessage("foo", batch);  
+                LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);  
                 lock(userContextProvider)
                 {
                     userContextProvider.NotifyAll(lockMsg);
@@ -52,7 +66,16 @@ namespace Service
 
         public bool Login(string loginName)
         {
-            return userContextProvider.AddUser(loginName);
+            bool added = false;
+            lock(userContextProvider)
+            {
+                added = userContextProvider.AddUser(OperationContext.Current.SessionId, loginName);
+            }
+            if(added)
+            {
+                Console.WriteLine("New managed user {0} with session {1}", loginName, OperationContext.Current.SessionId);
+            }
+            return added;
         }
     }
 }

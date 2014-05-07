@@ -5,8 +5,8 @@
         Title="Vat Manager" Height="768" Width="1024" x:Name="mainWindow">
     <Grid>
         <Grid.Resources>
-            <CompositeCollection x:Key="vat1Collection">
-                <CollectionContainer Collection="{Binding DataContext.VatList1,Source={x:Reference mainWindow}}" />
+            <CompositeCollection x:Key="collectionPointCollection">
+                <CollectionContainer Collection="{Binding DataContext.CollectionPoints,Source={x:Reference mainWindow}}" />
             </CompositeCollection>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
@@ -18,85 +18,38 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
-            <TextBlock TextWrapping="Wrap" FontSize="20" Margin="0,0,0,10">
-                This implementation uses a flyweight pattern and a <LineBreak/>Delete-PropertyChangeEvent to delete all item references of a specific item used at multiple places. 
-            </TextBlock>
-            <Button Content="Delete Selected Vat" Command="{Binding DeleteCommand}" Margin="0,0,0,10"/>
-            <ListView x:Name="listView" SelectionChanged="listView_SelectionChanged">
+            <Button Content="Delete selected CollectionPoint from RAM" Command="{Binding DeleteCommand}" Margin="0,0,0,10"/>
+            <Button Content="Try lock selected CollectionPoint on Server" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
+            <Label>Collection Points:</Label>
+            <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged">
                 <ListView.ItemsSource>
-                    <StaticResource ResourceKey="vat1Collection"/>
+                    <StaticResource ResourceKey="collectionPointCollection"/>
                 </ListView.ItemsSource>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
+                        <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <!-- TODO: implement user in workspace info here -->
+        </StackPanel>
+        
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,73,10,0">
+            <Label>Collection Vats:</Label>
+            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Vats, ElementName=cpListView}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
+                        <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <Grid Grid.Row="0" Grid.Column="1">
-            <Grid.Resources>
-                <CompositeCollection x:Key="vat2Collection">
-                    <CollectionContainer Collection="{Binding DataContext.VatList2,Source={x:Reference mainWindow}}" />
-                </CompositeCollection>
-                
-                <DataTemplate DataType="{x:Type local:UICollectionVat}">
-                    <Thumb>
-                        <Thumb.Template>
-                            <ControlTemplate>
-                                <Canvas>
-                                    <Ellipse Height="20" Width="20" Stroke="Black" StrokeThickness="1" Fill="Navy"
-                                         x:Name="Ellipse">
-                                    </Ellipse>
-                                    <TextBlock Canvas.Top="-10" Canvas.Left="-20" Width="100"
-                                               TextAlignment="Center" Text="{Binding Name}" />
-                                </Canvas>
-                            </ControlTemplate>
-                        </Thumb.Template>
-                    </Thumb>
-                </DataTemplate>
-            </Grid.Resources>
-            
-            <ListBox>
-                <ListBox.Template>
-                    <ControlTemplate>
-                        <Border>
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                                <Border>
-                                    <Border.Background>
-                                        <VisualBrush TileMode="Tile"
-                                            Viewport="0,0,40,50" ViewportUnits="Absolute" 
-                                            Viewbox="0,0,25,25" ViewboxUnits="Absolute">
-                                            <VisualBrush.Visual>
-                                                <Rectangle Stroke="DarkGray" StrokeThickness="0.5" Height="50" Width="50"
-                                            StrokeDashArray="5 3"/>
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
-                                    </Border.Background>
-                                    <ItemsPresenter/>
-                                </Border>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>         
-                </ListBox.Template> 
-                <ListBox.ItemsSource>
-                    <StaticResource ResourceKey="vat2Collection"/>
-                </ListBox.ItemsSource>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas IsItemsHost="True" VerticalAlignment="Top" HorizontalAlignment="Left" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                
-                
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                
-            </ListBox>
-        </Grid>
+        
     </Grid>
 </Window>

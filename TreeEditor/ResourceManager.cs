@@ -125,7 +125,20 @@ namespace TreeEditor.Resource
 
         public bool RequestLock(int id, ItemType itemType)
         {
-            return client.TryLock(id, itemType);
+            bool locked = client.TryLock(id, itemType);
+            if(locked)
+            {
+                if(itemType == ItemType.CollectionPoint)
+                {
+                    UICollectionPoint lockTarget = null;
+                    if(points.TryGetValue(id, out lockTarget))
+                    {
+                        UILockInfo lockInfo = new UILockInfo(loginName, true);
+                        lockTarget.LockInfo = lockInfo;
+                    }
+                }
+            }
+            return locked;
         }
 
         #endregion
@@ -159,14 +172,36 @@ namespace TreeEditor.Resource
         {
             foreach(LockItem l in batch.ItemsToLock) 
             {
-                Console.WriteLine("Lock item " + l.ItemTypeInfo);
-                foreach(int id in l.IDsToLock)
+                UILockInfo lockInfo = new UILockInfo(owner, true);
+                if (l.ItemTypeInfo == ItemType.CollectionPoint)
                 {
-                    Console.WriteLine(id);
+                    foreach (int id in l.IDsToLock)
+                    {
+                        UICollectionPoint p = null;
+                        if(points.TryGetValue(id, out p))
+                        {
+                            p.LockInfo = lockInfo;
+                        }
+                    }
+                }
+                if(l.ItemTypeInfo == ItemType.CollectionVat)
+                {
+                    foreach (int id in l.IDsToLock)
+                    {
+                        UICollectionVat v = null;
+                        if (vats.TryGetValue(id, out v))
+                        {
+                            v.LockInfo = lockInfo;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Received lock notification for unknown type: {0}", l.ItemTypeInfo);
                 }
             }
         }
 
         #endregion
-    }
+    }    
 }
