@@ -5,52 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Model.Data;
+using Service.Lock;
 
-namespace Service.Data
+namespace Service.Transaction
 {
-
-    abstract class TransactionManager 
+    class RamTM : TransactionManager
     {
-        protected RamItems currentItems = new RamItems();
-        protected LockManager lm = new LockManager();
+        private static RamTM instance;
 
-        protected TransactionManager()
+        private RamTM() : base()
         {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Concrete implementation hast to:
-        /// - retrieve current locking information during initialization
-        /// </summary>
-        protected abstract  void Initialize();
-
-        /// <summary>
-        /// Depending on the "root" item to lock the lock granularity is determined.
-        /// Beside sub-items all items that could be affected by root item changes 
-        /// must be locked.<br/> 
-        /// This method determines and returns needed information in a 
-        /// LockBatch object.
-        /// </summary>
-        /// <param name="id">The item id of the item to be locked.</param>
-        /// <param name="item">The item type of the item to be locked.</param>
-        /// <returns>A LockBatch object containing all information needed for locking.</returns>
-        protected abstract  LockBatch GetItemsToLock(int id, ItemType item);
-
-        public abstract CollectionPoint GetCollectionPoint(int id);
-
-        public abstract CollectionVat GetCollectionVat(int id);
-
-        public abstract bool TryLock(int id, ItemType item, String login, out LockBatch batch);
-    }
-
-    class RamTransactionManager : TransactionManager
-    {
-        private static RamTransactionManager instance;
-
-        private RamTransactionManager() : base() 
-        {
-            for (int i = 1; i <= 6; i++ )
+            for (int i = 1; i <= 6; i++)
             {
                 currentItems.vats.Add(i, new CollectionVat(i));
             }
@@ -82,7 +47,7 @@ namespace Service.Data
             {
                 if (instance == null)
                 {
-                    instance = new RamTransactionManager();
+                    instance = new RamTM();
                 }
                 return instance;
             }
@@ -98,7 +63,7 @@ namespace Service.Data
         public override CollectionVat GetCollectionVat(int id)
         {
             CollectionVat flyweight = null;
-            lock(currentItems)
+            lock (currentItems)
             {
                 if (!currentItems.vats.TryGetValue(id, out flyweight))
                 {
@@ -113,7 +78,7 @@ namespace Service.Data
         public override CollectionPoint GetCollectionPoint(int id)
         {
             CollectionPoint flyweight = null;
-            lock(currentItems)
+            lock (currentItems)
             {
                 if (!currentItems.points.TryGetValue(id, out flyweight))
                 {
@@ -124,7 +89,7 @@ namespace Service.Data
             }
             return flyweight;
         }
-        
+
         #endregion
 
         #region base class lock overrides
@@ -153,7 +118,7 @@ namespace Service.Data
         {
             LockBatch batch = new LockBatch();
 
-            if(ItemType.CollectionPoint.Equals(item))
+            if (ItemType.CollectionPoint.Equals(item))
             {
                 LockItem pointLock = new LockItem();
                 pointLock.ItemTypeInfo = ItemType.CollectionPoint;
@@ -162,13 +127,13 @@ namespace Service.Data
                 LockItem vatLock = new LockItem();
                 vatLock.ItemTypeInfo = ItemType.CollectionVat;
                 vatLock.IDsToLock = new List<int>();
-                
+
                 //we know from our data model that deleting a CollectionPoint can affect CollectionVats
                 //so we have to lock other CollectionPoints containing the same CollectionVats
                 lock (currentItems)
                 {
                     CollectionPoint targetItem = null;
-                    if(currentItems.points.TryGetValue(id, out targetItem))
+                    if (currentItems.points.TryGetValue(id, out targetItem))
                     {
                         pointLock.IDsToLock.Add(id); // root id of request
 
@@ -176,7 +141,7 @@ namespace Service.Data
                         IList<CollectionVat> targetVats = targetItem.Vats;
 
                         //add the vats first
-                        foreach(CollectionVat vat in targetVats)
+                        foreach (CollectionVat vat in targetVats)
                         {
                             vatLock.IDsToLock.Add(vat.Id);
                         }
@@ -194,25 +159,25 @@ namespace Service.Data
                                 }
                                 List<int> idsOfItem = new List<int>();
                                 bool addIds = false;
-                                foreach(CollectionVat v in e.Value.Vats)
+                                foreach (CollectionVat v in e.Value.Vats)
                                 {
                                     idsOfItem.Add(v.Id);
 
-                                    if(vatLock.IDsToLock.Contains(v.Id))
+                                    if (vatLock.IDsToLock.Contains(v.Id))
                                     {
                                         addIds = true;
                                     }
                                 }
-                                if(addIds)
+                                if (addIds)
                                 {
-                                    foreach(int currentId in idsOfItem)
+                                    foreach (int currentId in idsOfItem)
                                     {
                                         if (vatLock.IDsToLock.Contains(currentId) == false)
                                         {
                                             vatLock.IDsToLock.Add(currentId);
                                         }
                                     }
-                                    if(pointLock.IDsToLock.Contains(e.Value.Id) == false)
+                                    if (pointLock.IDsToLock.Contains(e.Value.Id) == false)
                                     {
                                         pointLock.IDsToLock.Add(e.Value.Id);
                                     }
@@ -225,7 +190,7 @@ namespace Service.Data
                 batch.ItemsToLock.Add(pointLock);
                 batch.ItemsToLock.Add(vatLock);
 
-                foreach(int debugId in pointLock.IDsToLock)
+                foreach (int debugId in pointLock.IDsToLock)
                 {
                     Console.WriteLine("Lock CollectionPoint with id: {0}", debugId);
                 }
@@ -234,7 +199,7 @@ namespace Service.Data
                     Console.WriteLine("Lock CollectionVat with id: {0}", debugId);
                 }
             }
-            else if(ItemType.CollectionVat.Equals(item))
+            else if (ItemType.CollectionVat.Equals(item))
             {
                 Console.WriteLine("Type {0} currently not implemented.", item);
             }
@@ -246,11 +211,5 @@ namespace Service.Data
         }
 
         #endregion
-    }
-
-    class RamItems
-    {
-        internal Dictionary<int, CollectionVat> vats = new Dictionary<int, CollectionVat>();
-        internal Dictionary<int, CollectionPoint> points = new Dictionary<int, CollectionPoint>();
     }
 }

@@ -5,8 +5,11 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
+
+
 using Model.Data;
-using Service.Data;
+using Service.Message;
+using Service.Transaction;
 using Service.User;
 
 namespace Service
@@ -15,7 +18,7 @@ namespace Service
     //[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class ResourceService : IResourceService
     {
-        private static readonly TransactionManager tm = RamTransactionManager.Instance;
+        private static readonly TransactionManager tm = RamTM.Instance;
         private static readonly UserContextProvider userContextProvider = UserContextProvider.Instance;
        
         public ResourceService() 

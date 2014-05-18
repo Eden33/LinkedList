@@ -43,11 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IResourceService.cs" />
-    <Compile Include="LockManager.cs" />
-    <Compile Include="TransactionManager.cs" />
+    <Compile Include="Lock\LockManager.cs" />
+    <Compile Include="Lock\LockMatrix.cs" />
+    <Compile Include="Lock\LockMode.cs" />
+    <Compile Include="Message\LockMessage.cs" />
+    <Compile Include="Message\NotificationMessage.cs" />
+    <Compile Include="Transaction\RamItems.cs" />
+    <Compile Include="Transaction\RamTM.cs" />
+    <Compile Include="Transaction\TransactionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceService.cs" />
-    <Compile Include="UserContextProvider.cs" />
+    <Compile Include="User\UserContext.cs" />
+    <Compile Include="User\UserContextProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
