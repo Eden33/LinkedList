@@ -5,26 +5,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Data
+using Model.Data;
+
+namespace Model.Lock
 {
-    public enum ItemType
-    {
-        CollectionPoint,
-        CollectionVat
-    }
-
-    [DataContract]
-    public class LockBatch
-    {
-        private List<LockItem> itemsToLock = new List<LockItem>();
-        [DataMember]
-        public List<LockItem> ItemsToLock 
-        {
-            get { return itemsToLock; }
-            set { itemsToLock = value; }
-        }
-    }
-
     [DataContract]
     public class LockItem
     {
@@ -37,7 +21,7 @@ namespace Model.Data
         }
         private List<int> idsToLock;
         [DataMember]
-        public List<int> IDsToLock 
+        public List<int> IDsToLock
         {
             get { return idsToLock; }
             set { idsToLock = value; }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Model.Data" />
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
   <xs:element name="Login">
     <xs:complexType>
       <xs:sequence>
@@ -62,7 +63,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="owner" nillable="true" type="xs:string" />
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Model.Data" minOccurs="0" name="batch" nillable="true" type="q4:LockBatch" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Model.Lock" minOccurs="0" name="batch" nillable="true" type="q4:LockBatch" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Model.Data;
+using Model.Lock;
 using Service.Lock;
 
 namespace Service.Transaction

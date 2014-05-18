@@ -8,6 +8,7 @@ using System.Threading;
 
 
 using Model.Data;
+using Model.Lock;
 using Service.Message;
 using Service.Transaction;
 using Service.User;

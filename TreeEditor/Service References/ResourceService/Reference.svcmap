@@ -22,6 +22,7 @@
     <MetadataSource Address="http://localhost:8081" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="16b7e012-177a-4683-9e44-bb4ccc6b9bbe" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd4" />
     <MetadataFile FileName="item.disco" MetadataType="Disco" ID="27533dad-bee6-4d9d-bc80-a1b22db0b3a1" SourceId="1" SourceUrl="http://localhost:8081/?disco" />
     <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="d4f128b8-10fd-49a4-a8c0-44c9c2417855" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd3" />
     <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="16e7d718-df74-4753-b7c6-13a2deb8ff06" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd2" />

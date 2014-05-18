@@ -5,7 +5,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+
 using Model.Data;
+using Model.Lock;
 
 namespace Service
 {

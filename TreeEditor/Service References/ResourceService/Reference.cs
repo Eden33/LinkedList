@@ -44,7 +44,7 @@ namespace TreeEditor.ResourceService {
     public interface IResourceServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/LockedNotification")]
-        void LockedNotification(string owner, Model.Data.LockBatch batch);
+        void LockedNotification(string owner, Model.Lock.LockBatch batch);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
