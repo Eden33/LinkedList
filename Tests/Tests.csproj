@@ -47,16 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeneratorTests.cs" />
-    <Compile Include="LinkedListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReferenceTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LinkedList\Graph.csproj">
-      <Project>{6a457f73-6e0f-4a34-9655-54b209b0c903}</Project>
-      <Name>Graph</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
