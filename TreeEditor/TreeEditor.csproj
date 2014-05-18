@@ -55,23 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CollectionVatList.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="LoginDialog.xaml.cs">
+    <Compile Include="UI\Collection\ObservableCollectionEx.cs" />
+    <Compile Include="UI\Input\Command.cs" />
+    <Compile Include="UI\Window\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ResourceManager.cs" />
+    <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="Service References\ResourceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="UIObject.cs" />
-    <Page Include="LoginDialog.xaml">
+    <Compile Include="UI\Proxy\UICollectionPoint.cs" />
+    <Compile Include="UI\Proxy\UICollectionVat.cs" />
+    <Compile Include="UI\Proxy\UILockInfo.cs" />
+    <Compile Include="UI\Proxy\UIObject.cs" />
+    <Page Include="UI\Window\LoginDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="UI\Window\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -79,8 +82,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="UI\Window\MainViewModel.cs" />
+    <Compile Include="UI\Window\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -152,6 +155,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

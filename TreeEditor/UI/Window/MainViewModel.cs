@@ -7,6 +7,10 @@ using System.Text;
 using System.Windows.Data;
 using TreeEditor.Resource;
 
+using TreeEditor.UI.Collection;
+using TreeEditor.UI.Input;
+using TreeEditor.UI.Proxy;
+
 namespace TreeEditor
 {
     public class MainViewModel
