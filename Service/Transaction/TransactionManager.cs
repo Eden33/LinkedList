@@ -37,13 +37,11 @@ namespace Service.Transaction
         /// <param name="id">The item id of the item to be locked.</param>
         /// <param name="item">The item type of the item to be locked.</param>
         /// <returns>A LockBatch object containing all information needed for locking.</returns>
-        protected abstract  LockBatch GetItemsToLock(int id, ItemType item);
+        protected abstract  LockBatch GetItemsToLock<T>(int id, T item) where T : Item;
 
-        public abstract CollectionPoint GetCollectionPoint(int id);
+        public abstract T GetSingleItem<T>(int id, T item) where T : Item;
 
-        public abstract CollectionVat GetCollectionVat(int id);
-
-        public abstract bool TryLock(int id, ItemType item, String login, out LockBatch batch);
+        public abstract bool TryLock<T>(int id, T item, String login, out LockBatch batch) where T : Item;
     }
 
 }

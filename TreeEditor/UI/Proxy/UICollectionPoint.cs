@@ -9,25 +9,29 @@ using TreeEditor.Resource;
 
 namespace TreeEditor.UI.Proxy
 {
-    public class UICollectionPoint : UIObject
+    public class UICollectionPoint : UIItem
     {
-        private IList<UICollectionVat> vats = new List<UICollectionVat>();
+        private CollectionPoint collectionPoint;
 
         public UICollectionPoint(CollectionPoint p)
         {
-            Id = p.Id;
-            Name = "CP " + Id;
+            this.collectionPoint = p;
+        }
 
-            foreach (CollectionVat v in p.Vats)
+        public IList<Client> Clients
+        {
+            get 
             {
-                vats.Add(ResourceManager.Instance.getCollectionVat(v.Id));
+                IList<Client> clients = null;
+                if (collectionPoint != null && collectionPoint.Clients != null)
+                {
+                    foreach (Client c in collectionPoint.Clients)
+                    {
+                        //TODO: get the clients from ResourceManager
+                    }
+                }
+                return clients;
             }
         }
-
-        public IList<UICollectionVat> Vats
-        {
-            get { return vats; }
-        }
-
     }
 }

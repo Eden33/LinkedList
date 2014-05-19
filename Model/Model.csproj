@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Client.cs" />
     <Compile Include="Data\CollectionPoint.cs" />
-    <Compile Include="Data\CollectionVat.cs" />
     <Compile Include="Data\Item.cs" />
     <Compile Include="Data\ItemType.cs" />
     <Compile Include="Lock\LockBatch.cs" />

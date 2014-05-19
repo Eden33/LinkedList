@@ -20,7 +20,8 @@ namespace TreeEditor
         {
             for (int i = 1; i <= 4; i++)
             {
-                collectionPoints.Add(resourceMgr.getCollectionPoint(i));
+                // TODO: enable again
+                //collectionPoints.Add(resourceMgr.getCollectionPoint(i));
             }
         }
 
@@ -82,7 +83,9 @@ namespace TreeEditor
 
         private void TryLockOnServer()
         {
-            resourceMgr.RequestLock(selectedCollectionPoint.Id, ItemType.CollectionPoint);
+            Console.WriteLine("TryLockOnServer - implement me.");
+            // TODO: fix me
+            //resourceMgr.RequestLock(selectedCollectionPoint.Id, ItemType.CollectionPoint);
         }
         #endregion
     }

@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Model.Data
 {
-    [DataContract]
-    public abstract class Item
+    //TODO: probably we can make it abstract, but we should be very careful
+
+    [KnownType(typeof(CollectionPoint))]
+    [KnownType(typeof(Client))]
+    [DataContract(Namespace="http://itm4.gopp/resources/item")]
+    public class Item
     {
         public Item(int id)
         {
@@ -27,20 +31,5 @@ namespace Model.Data
                 id = value; 
             }
         }
-
-        [DataMember]
-        private string name;
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
     }
-
 }

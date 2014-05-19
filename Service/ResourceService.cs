@@ -27,9 +27,30 @@ namespace Service
             Console.WriteLine("ResourceService constructor...");
         }
 
-        public bool TryLock(int id, ItemType type)
+        #region authentication
+
+        public bool Login(string loginName)
         {
-            //retrieve user information
+            bool added = false;
+            lock (userContextProvider)
+            {
+                added = userContextProvider.AddUser(OperationContext.Current.SessionId, loginName);
+            }
+            if (added)
+            {
+                Console.WriteLine("New user {0} logged in successfully. Session-Id: {1} ", loginName, OperationContext.Current.SessionId);
+            }
+            return added;
+        }
+
+        #endregion
+
+        #region locking
+
+        public bool TryLock(int id, ItemType itemType)
+        {
+            #region retrive user information
+
             UserContext userContext = null;
             lock(userContextProvider)
             {
@@ -40,46 +61,108 @@ namespace Service
                 return false;
             }
 
-            //try lock
-            LockBatch batch = null;
-            bool lockSuccess = tm.TryLock(id, type, userContext.LoginName, out batch);
+            #endregion
 
-            //push lock information to all clients on lock success
-            if(lockSuccess)
-            {
-                LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);  
-                lock(userContextProvider)
-                {
-                    userContextProvider.NotifyAll(lockMsg);
-                }
-            }
-            return lockSuccess;
+            return true;
+
+            // this WCF method has not changed - do we really have to fix it?
+
+            //TODO: fix me
+
+            ////try lock
+            //LockBatch batch = null;
+            //bool lockSuccess = tm.TryLock(id, type, userContext.LoginName, out batch);
+
+            ////push lock information to all clients on lock success
+            //if(lockSuccess)
+            //{
+            //    LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);  
+            //    lock(userContextProvider)
+            //    {
+            //        userContextProvider.NotifyAll(lockMsg);
+            //    }
+            //}
+            //return lockSuccess;
         }
 
-        public Model.Data.CollectionPoint GetCollectionPoint(int id)
+        #endregion
+
+        #region data retrieval and manipulation
+
+        public Item GetSingleItem(int id, ItemType itemType)
         {
-            //Console.WriteLine("GetCollectionPoint: " + OperationContext.Current.SessionId);
-            return tm.GetCollectionPoint(id);
+            // this method replaces the old WCF methods (GetCollectionPoint, GetCollectionVat)
+
+            // TODO: fix me
+            // return tm.GetCollectionPoint(id);
+
+            Client c = new Client(10);
+            c.FirstName = "Foo";
+            c.LastName = "Bar";
+            return c;
         }
 
-        public Model.Data.CollectionVat GetCollectionVat(int id)
+        public List<Item> GetAllItems(ItemType itemType)
         {
-            //Console.WriteLine("GetCollectionVat: " + OperationContext.Current.SessionId);
-            return tm.GetCollectionVat(id);
+            //TODO: implement me
+
+            Console.WriteLine("Incoming get all items for type: " + itemType);
+            List<Item> list = new List<Item>();
+            if(ItemType.Client.Equals(itemType))
+            {
+                Client c1 = new Client(1);
+                c1.FirstName = "Fred";
+                c1.LastName = "Feuerstein";
+                list.Add((Item) c1);
+
+                Client c2 = new Client(2);
+                c2.FirstName = "Bam";
+                c2.LastName = "Bam";
+                list.Add((Item)c2);
+            }
+            else if(ItemType.CollectionPoint.Equals(itemType))
+            {
+                CollectionPoint cp = new CollectionPoint(1);
+                cp.Description = "Description about what is being collected.";
+                list.Add((Item)cp);
+            }
+            return list;
         }
 
-        public bool Login(string loginName)
+        public bool UpdateItem(Item theItem, ItemType itemType)
         {
-            bool added = false;
-            lock(userContextProvider)
+            // TODO: implement me
+
+            if (ItemType.CollectionPoint.Equals(itemType))
             {
-                added = userContextProvider.AddUser(OperationContext.Current.SessionId, loginName);
+                CollectionPoint p = (CollectionPoint)theItem;
+                Console.WriteLine("Update CP Description: {0}", p.Description);
             }
-            if(added)
+            else if(ItemType.Client.Equals(itemType))
             {
-                Console.WriteLine("New managed user {0} with session {1}", loginName, OperationContext.Current.SessionId);
+                Client c = (Client)theItem;
+                Console.WriteLine("Update Client FirstName: {0}", c.FirstName);
             }
-            return added;
+
+            return true;
         }
+
+        public bool DeleteItem(int id, ItemType itemType)
+        {
+            // TODO: implement me
+
+            if(ItemType.Client.Equals(itemType))
+            {
+                Console.WriteLine("Delete Client with id: {0}", id);
+            }
+            else if(ItemType.CollectionPoint.Equals(itemType))
+            {
+                Console.WriteLine("Delete CP with id: {0}", id);
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 }

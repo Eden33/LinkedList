@@ -22,22 +22,38 @@ namespace TreeEditor.ResourceService {
         System.Threading.Tasks.Task<bool> LoginAsync(string loginName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        bool TryLock(int id, Model.Data.ItemType type);
+        bool TryLock(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType type);
+        System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType itemType);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionPoint", ReplyAction="http://tempuri.org/IResourceService/GetCollectionPointResponse")]
-        Model.Data.CollectionPoint GetCollectionPoint(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Client))]
+        Model.Data.Item GetSingleItem(int id, Model.Data.ItemType itemType);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionPoint", ReplyAction="http://tempuri.org/IResourceService/GetCollectionPointResponse")]
-        System.Threading.Tasks.Task<Model.Data.CollectionPoint> GetCollectionPointAsync(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
+        System.Threading.Tasks.Task<Model.Data.Item> GetSingleItemAsync(int id, Model.Data.ItemType itemType);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionVat", ReplyAction="http://tempuri.org/IResourceService/GetCollectionVatResponse")]
-        Model.Data.CollectionVat GetCollectionVat(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetAllItems", ReplyAction="http://tempuri.org/IResourceService/GetAllItemsResponse")]
+        System.Collections.Generic.List<Model.Data.Item> GetAllItems(Model.Data.ItemType itemType);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetCollectionVat", ReplyAction="http://tempuri.org/IResourceService/GetCollectionVatResponse")]
-        System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetAllItems", ReplyAction="http://tempuri.org/IResourceService/GetAllItemsResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<Model.Data.Item>> GetAllItemsAsync(Model.Data.ItemType itemType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/UpdateItem", ReplyAction="http://tempuri.org/IResourceService/UpdateItemResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Client))]
+        bool UpdateItem(Model.Data.Item theItem, Model.Data.ItemType itemType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/UpdateItem", ReplyAction="http://tempuri.org/IResourceService/UpdateItemResponse")]
+        System.Threading.Tasks.Task<bool> UpdateItemAsync(Model.Data.Item theItem, Model.Data.ItemType itemType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/DeleteItem", ReplyAction="http://tempuri.org/IResourceService/DeleteItemResponse")]
+        bool DeleteItem(int id, Model.Data.ItemType itemType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/DeleteItem", ReplyAction="http://tempuri.org/IResourceService/DeleteItemResponse")]
+        System.Threading.Tasks.Task<bool> DeleteItemAsync(int id, Model.Data.ItemType itemType);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,28 +99,44 @@ namespace TreeEditor.ResourceService {
             return base.Channel.LoginAsync(loginName);
         }
         
-        public bool TryLock(int id, Model.Data.ItemType type) {
-            return base.Channel.TryLock(id, type);
+        public bool TryLock(int id, Model.Data.ItemType itemType) {
+            return base.Channel.TryLock(id, itemType);
         }
         
-        public System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType type) {
-            return base.Channel.TryLockAsync(id, type);
+        public System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType itemType) {
+            return base.Channel.TryLockAsync(id, itemType);
         }
         
-        public Model.Data.CollectionPoint GetCollectionPoint(int id) {
-            return base.Channel.GetCollectionPoint(id);
+        public Model.Data.Item GetSingleItem(int id, Model.Data.ItemType itemType) {
+            return base.Channel.GetSingleItem(id, itemType);
         }
         
-        public System.Threading.Tasks.Task<Model.Data.CollectionPoint> GetCollectionPointAsync(int id) {
-            return base.Channel.GetCollectionPointAsync(id);
+        public System.Threading.Tasks.Task<Model.Data.Item> GetSingleItemAsync(int id, Model.Data.ItemType itemType) {
+            return base.Channel.GetSingleItemAsync(id, itemType);
         }
         
-        public Model.Data.CollectionVat GetCollectionVat(int id) {
-            return base.Channel.GetCollectionVat(id);
+        public System.Collections.Generic.List<Model.Data.Item> GetAllItems(Model.Data.ItemType itemType) {
+            return base.Channel.GetAllItems(itemType);
         }
         
-        public System.Threading.Tasks.Task<Model.Data.CollectionVat> GetCollectionVatAsync(int id) {
-            return base.Channel.GetCollectionVatAsync(id);
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<Model.Data.Item>> GetAllItemsAsync(Model.Data.ItemType itemType) {
+            return base.Channel.GetAllItemsAsync(itemType);
+        }
+        
+        public bool UpdateItem(Model.Data.Item theItem, Model.Data.ItemType itemType) {
+            return base.Channel.UpdateItem(theItem, itemType);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UpdateItemAsync(Model.Data.Item theItem, Model.Data.ItemType itemType) {
+            return base.Channel.UpdateItemAsync(theItem, itemType);
+        }
+        
+        public bool DeleteItem(int id, Model.Data.ItemType itemType) {
+            return base.Channel.DeleteItem(id, itemType);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteItemAsync(int id, Model.Data.ItemType itemType) {
+            return base.Channel.DeleteItemAsync(id, itemType);
         }
     }
 }

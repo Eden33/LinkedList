@@ -10,61 +10,8 @@ using TreeEditor.Resource;
 
 namespace TreeEditor.UI.Proxy
 {
-    public abstract class UIObject : INotifyPropertyChanged
+    public abstract class UIItem : INotifyPropertyChanged
     {
-        private double x;
-        public double X
-        {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private double y;
-        public double Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private int id;
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                id = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <summary>
         /// Instances using the specific UIObject are supposed to release all instance references pointing to <br/>
         /// the specific item on Delete-PropertyChangeEvent. <br/>

@@ -11,6 +11,8 @@ namespace Service.Lock
 {
     class LockManager
     {
+
+        //TODO: fix me, decide wisely
         private Dictionary<int, List<LockData>> collectionPoints = new Dictionary<int, List<LockData>>();
         private Dictionary<int, List<LockData>> collectionVats = new Dictionary<int, List<LockData>>();
 
@@ -23,29 +25,33 @@ namespace Service.Lock
         /// <returns>True on lock success, false on rollback</returns>
         public bool Lock(String login, LockBatch batch, LockMode mode)
         {
-            foreach(LockItem item in batch.ItemsToLock)
-            {
-                if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
-                {
-                    if(SetLocks(login, batch, mode, item, collectionPoints) == false)
-                    {
-                        return false;
-                    }
-                }
-                else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
-                {
-                    if(SetLocks(login, batch, mode, item, collectionVats) == false)
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Type not handled in Lock: " + item.ItemTypeInfo);
-                    return false;
-                }
-            }
-            return true;
+            Console.WriteLine("LM - Lock -> Fix me.");
+
+            return false;
+
+            //foreach(LockItem item in batch.ItemsToLock)
+            //{
+            //    if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
+            //    {
+            //        if(SetLocks(login, batch, mode, item, collectionPoints) == false)
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //    else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
+            //    {
+            //        if(SetLocks(login, batch, mode, item, collectionVats) == false)
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Type not handled in Lock: " + item.ItemTypeInfo);
+            //        return false;
+            //    }
+            //}
+            //return true;
         }
 
         /// <summary>
@@ -56,21 +62,23 @@ namespace Service.Lock
         /// <param name="mode">The mode to be unlocked</param>
         public void Unlock(String login, LockBatch batch, LockMode mode)
         {
-            foreach(LockItem item in batch.ItemsToLock)
-            {
-                if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
-                {
-                    ReleaseLocks(login, mode, item, collectionPoints);
-                }
-                else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
-                {
-                    ReleaseLocks(login, mode, item, collectionVats);
-                }
-                else
-                {
-                    Console.WriteLine("Type no handled in Unlock: " + item.ItemTypeInfo);
-                }
-            }
+            Console.WriteLine("LM - Unlock -> Fix me.");
+
+            //foreach(LockItem item in batch.ItemsToLock)
+            //{
+            //    if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
+            //    {
+            //        ReleaseLocks(login, mode, item, collectionPoints);
+            //    }
+            //    else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
+            //    {
+            //        ReleaseLocks(login, mode, item, collectionVats);
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Type no handled in Unlock: " + item.ItemTypeInfo);
+            //    }
+            //}
         }
 
         class LockData
@@ -120,31 +128,34 @@ namespace Service.Lock
         /// <returns></returns>
         private bool SetLocks(String login, LockBatch batch, LockMode mode, LockItem item, Dictionary<int, List<LockData>> targetCollection)
         {
-            foreach (int id in item.IDsToLock)
-            {
-                List<LockData> currentLocks = null;
-                if (!targetCollection.TryGetValue(id, out currentLocks))
-                {
-                    currentLocks = new List<LockData>();
-                    currentLocks.Add(new LockData(login, mode));
-                    targetCollection.Add(id, currentLocks);
-                }
-                else
-                {
-                    foreach (LockData lockData in currentLocks)
-                    {
-                        if (!LockMatrix.IsModeCompatible(lockData.mode, mode))
-                        {
-                            Unlock(login, batch, mode);
-                            return false;
-                        }
-                        else
-                        {
-                            currentLocks.Add(new LockData(login, mode));
-                        }
-                    }
-                }
-            }
+
+            //TODO: fix me
+
+            //foreach (int id in item.IDsToLock)
+            //{
+            //    List<LockData> currentLocks = null;
+            //    if (!targetCollection.TryGetValue(id, out currentLocks))
+            //    {
+            //        currentLocks = new List<LockData>();
+            //        currentLocks.Add(new LockData(login, mode));
+            //        targetCollection.Add(id, currentLocks);
+            //    }
+            //    else
+            //    {
+            //        foreach (LockData lockData in currentLocks)
+            //        {
+            //            if (!LockMatrix.IsModeCompatible(lockData.mode, mode))
+            //            {
+            //                Unlock(login, batch, mode);
+            //                return false;
+            //            }
+            //            else
+            //            {
+            //                currentLocks.Add(new LockData(login, mode));
+            //            }
+            //        }
+            //    }
+            //}
             return true;
         }
 

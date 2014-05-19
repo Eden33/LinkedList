@@ -12,9 +12,9 @@ namespace Model.Lock
     [DataContract]
     public class LockItem
     {
-        private ItemType typeToLock;
+        private Item typeToLock;
         [DataMember]
-        public ItemType ItemTypeInfo
+        public Item ItemTypeInfo
         {
             get { return typeToLock; }
             set { typeToLock = value; }

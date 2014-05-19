@@ -24,18 +24,29 @@ namespace Service
         bool Login(String loginName);
 
         [OperationContract]
-        bool TryLock(int id, ItemType type);
+        bool TryLock(int id, ItemType itemType);
         
         [OperationContract]
-        CollectionPoint GetCollectionPoint(int id);
-        
+        Item GetSingleItem(int id, ItemType itemType);
+
         [OperationContract]
-        CollectionVat GetCollectionVat(int id);
+        List<Item> GetAllItems(ItemType itemType);
+
+        [OperationContract]
+        bool UpdateItem(Item theItem, ItemType itemType);
+
+        [OperationContract]
+        bool DeleteItem(int id, ItemType itemType);
+
     }
 
     public interface IResourceServiceNotifications
     {
         [OperationContract(IsOneWay = true)]
         void LockedNotification(String owner, LockBatch batch);
+
+        //TODO: we need a callback for updates
+
+        //TODO: probably we need another callback for delete?
     }
 }

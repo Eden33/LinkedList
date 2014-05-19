@@ -55,21 +55,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UI\Collection\ObservableCollectionEx.cs" />
-    <Compile Include="UI\Input\Command.cs" />
-    <Compile Include="UI\Window\LoginDialog.xaml.cs">
-      <DependentUpon>LoginDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Resource\ResourceManager.cs" />
+    <Compile Include="Resource\ResourceMap.cs" />
     <Compile Include="Service References\ResourceService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="UI\Collection\ObservableCollectionEx.cs" />
+    <Compile Include="UI\Input\Command.cs" />
+    <Compile Include="UI\Proxy\UIClient.cs" />
+    <Compile Include="UI\Window\LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resource\ResourceManager.cs" />
     <Compile Include="UI\Proxy\UICollectionPoint.cs" />
-    <Compile Include="UI\Proxy\UICollectionVat.cs" />
     <Compile Include="UI\Proxy\UILockInfo.cs" />
-    <Compile Include="UI\Proxy\UIObject.cs" />
+    <Compile Include="UI\Proxy\UIItem.cs" />
     <Page Include="UI\Window\LoginDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +110,7 @@
     <None Include="app.config" />
     <None Include="Properties\DataSources\Model.Data.CollectionPoint.datasource" />
     <None Include="Properties\DataSources\Model.Data.CollectionVat.datasource" />
+    <None Include="Properties\DataSources\Model.Data.Item.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,10 +125,19 @@
     <None Include="Service References\ResourceService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ResourceService\item3.xsd">
+    <None Include="Service References\ResourceService\item4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ResourceService\item4.xsd">
+    <None Include="Service References\ResourceService\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item8.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\ResourceService.wsdl" />
@@ -158,7 +169,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

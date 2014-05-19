@@ -10,7 +10,8 @@ namespace Service.Transaction
 {
     class RamItems
     {
-        internal Dictionary<int, CollectionVat> vats = new Dictionary<int, CollectionVat>();
-        internal Dictionary<int, CollectionPoint> points = new Dictionary<int, CollectionPoint>();
+        //TODO: fix me, decide wisely
+        internal Dictionary<int, object> vats = new Dictionary<int, object>();
+        internal Dictionary<int, object> points = new Dictionary<int, object>();
     }
 }

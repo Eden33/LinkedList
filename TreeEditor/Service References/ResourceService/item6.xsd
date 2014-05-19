@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Model.Lock" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Model.Lock" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd7" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/item" />
+  <xs:complexType name="LockBatch">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ItemsToLock" nillable="true" type="tns:ArrayOfLockItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LockBatch" nillable="true" type="tns:LockBatch" />
+  <xs:complexType name="ArrayOfLockItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LockItem" nillable="true" type="tns:LockItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLockItem" nillable="true" type="tns:ArrayOfLockItem" />
+  <xs:complexType name="LockItem">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="IDsToLock" nillable="true" type="q1:ArrayOfint" />
+      <xs:element xmlns:q2="http://itm4.gopp/resources/item" minOccurs="0" name="ItemTypeInfo" nillable="true" type="q2:Item" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LockItem" nillable="true" type="tns:LockItem" />
+</xs:schema>

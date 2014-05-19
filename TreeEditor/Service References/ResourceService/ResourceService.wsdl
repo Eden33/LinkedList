@@ -33,9 +33,12 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Model.Data" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://itm4.gopp/resources/itemType" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/item" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/collectionPoint" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd5" namespace="http://itm4.gopp/resources/client" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd7" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IResourceService_Login_InputMessage">
@@ -50,17 +53,29 @@
   <wsdl:message name="IResourceService_TryLock_OutputMessage">
     <wsdl:part name="parameters" element="tns:TryLockResponse" />
   </wsdl:message>
-  <wsdl:message name="IResourceService_GetCollectionPoint_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetCollectionPoint" />
+  <wsdl:message name="IResourceService_GetSingleItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSingleItem" />
   </wsdl:message>
-  <wsdl:message name="IResourceService_GetCollectionPoint_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetCollectionPointResponse" />
+  <wsdl:message name="IResourceService_GetSingleItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSingleItemResponse" />
   </wsdl:message>
-  <wsdl:message name="IResourceService_GetCollectionVat_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetCollectionVat" />
+  <wsdl:message name="IResourceService_GetAllItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllItems" />
   </wsdl:message>
-  <wsdl:message name="IResourceService_GetCollectionVat_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetCollectionVatResponse" />
+  <wsdl:message name="IResourceService_GetAllItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_UpdateItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateItem" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_UpdateItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_DeleteItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteItem" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_DeleteItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteItemResponse" />
   </wsdl:message>
   <wsdl:message name="IResourceService_LockedNotification_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:LockedNotification" />
@@ -74,13 +89,21 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/TryLock" message="tns:IResourceService_TryLock_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/TryLockResponse" message="tns:IResourceService_TryLock_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetCollectionPoint">
-      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetCollectionPoint" message="tns:IResourceService_GetCollectionPoint_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetCollectionPointResponse" message="tns:IResourceService_GetCollectionPoint_OutputMessage" />
+    <wsdl:operation name="GetSingleItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetSingleItem" message="tns:IResourceService_GetSingleItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetSingleItemResponse" message="tns:IResourceService_GetSingleItem_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetCollectionVat">
-      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVat" message="tns:IResourceService_GetCollectionVat_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetCollectionVatResponse" message="tns:IResourceService_GetCollectionVat_OutputMessage" />
+    <wsdl:operation name="GetAllItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetAllItems" message="tns:IResourceService_GetAllItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetAllItemsResponse" message="tns:IResourceService_GetAllItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/UpdateItem" message="tns:IResourceService_UpdateItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/UpdateItemResponse" message="tns:IResourceService_UpdateItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/DeleteItem" message="tns:IResourceService_DeleteItem_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/DeleteItemResponse" message="tns:IResourceService_DeleteItem_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="LockedNotification">
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/LockedNotification" message="tns:IResourceService_LockedNotification_OutputCallbackMessage" />
@@ -107,8 +130,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCollectionPoint">
-      <soap12:operation soapAction="http://tempuri.org/IResourceService/GetCollectionPoint" style="document" />
+    <wsdl:operation name="GetSingleItem">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/GetSingleItem" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -116,8 +139,26 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetCollectionVat">
-      <soap12:operation soapAction="http://tempuri.org/IResourceService/GetCollectionVat" style="document" />
+    <wsdl:operation name="GetAllItems">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/GetAllItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateItem">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/UpdateItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteItem">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/DeleteItem" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

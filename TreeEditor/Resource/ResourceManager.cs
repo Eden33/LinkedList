@@ -16,15 +16,15 @@ namespace TreeEditor.Resource
     // if we use IsOneWay option this is not needed
     public class ResourceManager : ResourceService.IResourceServiceCallback
     {
-        #region members
 
-        private static ResourceManager instance;
+        #region private members
 
-        private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
-        private Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
+        // TODO: fix me, decide wisely
+
+        //private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
+        //private Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
+
         private ResourceService.ResourceServiceClient client = null;
-        private string loginName = null;
-        private bool isConnected = false;
 
         #endregion
 
@@ -33,9 +33,38 @@ namespace TreeEditor.Resource
             InstanceContext context = new InstanceContext(this);
             client = new ResourceService.ResourceServiceClient(context);
             isConnected = true;
+
+            #region Test Client - Server Communication works as expected
+
+            //get single
+            Client aClient = (Client) client.GetSingleItem(1, ItemType.Client);
+            Console.WriteLine("Client with name {0} retrieved.", aClient.FirstName);
+
+            //get list
+            IList<Item> list = client.GetAllItems(ItemType.Client);
+            Client c = (Client)list.ElementAt(0);
+            Console.WriteLine("Another client with name {0} retrieved.", c.FirstName);
+
+            list = client.GetAllItems(ItemType.CollectionPoint);
+            CollectionPoint cp = (CollectionPoint) list.ElementAt(0);
+            Console.WriteLine("A CP with description: {0} retrieved.", cp.Description);
+
+            c.FirstName = "New name";
+            cp.Description = "New description";
+
+            //update
+            Console.WriteLine("Update a client value: {0}", client.UpdateItem(c, ItemType.Client));
+            Console.WriteLine("Update a CP value: {0}", client.UpdateItem(cp, ItemType.CollectionPoint));
+           
+            //delete
+            Console.WriteLine("Delete a CP: {0}", client.DeleteItem(3, ItemType.CollectionPoint));
+
+            #endregion
         }
 
         #region properties
+
+        private static ResourceManager instance;
 
         public static ResourceManager Instance
         {
@@ -49,10 +78,14 @@ namespace TreeEditor.Resource
             }
         }
 
+        private string loginName = null;
+
         public string LoginName 
         {
             set { loginName = value; }
         }
+
+        private bool isConnected = false;
 
         public bool IsConnected
         {
@@ -83,65 +116,19 @@ namespace TreeEditor.Resource
             }
             return loginSuccess;
         }
-        public UICollectionVat getCollectionVat(int id)
-        {
-            UICollectionVat flyweight = null;
-            if (!vats.TryGetValue(id, out flyweight))
-            {
-                try
-                {
-                    CollectionVat vat = client.GetCollectionVat(id);
-                    flyweight = new UICollectionVat(vat);
-                    flyweight.PropertyChanged += UIObject_PropertyChanged;
-                    vats.Add(id, flyweight);
-                }
-                catch(CommunicationException e)
-                {
-                    IsConnected = false;
-                    Console.WriteLine(e.Message);
 
-                }
-            }
-            return flyweight;
+        public T getSingleItem<T>(int id, T item) where T : UIItem
+        {
+            //TODO: implement me
+
+            return default(T);
         }
 
-        public UICollectionPoint getCollectionPoint(int id)
+        public bool RequestLock<T>(int id, T item) where T : UIItem 
         {
-            UICollectionPoint flyweight = null;
-            if (!points.TryGetValue(id, out flyweight))
-            {
-                try
-                {
-                    CollectionPoint cp = client.GetCollectionPoint(id);
-                    flyweight = new UICollectionPoint(cp);
-                    flyweight.PropertyChanged += UIObject_PropertyChanged;
-                    points.Add(id, flyweight);
-                }
-                catch(CommunicationException e)
-                {
-                    IsConnected = false;
-                    Console.WriteLine(e.Message);
-                }
-            }
-            return flyweight;
-        }
+            //TODO: implement me
 
-        public bool RequestLock(int id, ItemType itemType)
-        {
-            bool locked = client.TryLock(id, itemType);
-            if(locked)
-            {
-                if(itemType == ItemType.CollectionPoint)
-                {
-                    UICollectionPoint lockTarget = null;
-                    if(points.TryGetValue(id, out lockTarget))
-                    {
-                        UILockInfo lockInfo = new UILockInfo(loginName, true);
-                        lockTarget.LockInfo = lockInfo;
-                    }
-                }
-            }
-            return locked;
+            return true;        
         }
 
         #endregion
@@ -150,22 +137,24 @@ namespace TreeEditor.Resource
         {
             if (e.PropertyName.Equals("Deleted"))
             {
-                if(sender is UICollectionVat)
-                {
-                    UICollectionVat removed = sender as UICollectionVat;
-                    if (vats.Remove(removed.Id))
-                    {
-                        Console.WriteLine("Vat with id: " + removed.Id + " removed from ResourceManager.");
-                    }
-                }
-                else if(sender is UICollectionPoint)
-                {
-                    UICollectionPoint removed = sender as UICollectionPoint;
-                    if(points.Remove(removed.Id))
-                    {
-                        Console.WriteLine("CollectionPoint with id: " + removed.Id + " removed from ResourceManager.");
-                    }
-                }
+                // TODO: fix me, decide wisely
+
+                //if(sender is UICollectionPoint)
+                //{
+                //    UICollectionPoint removed = sender as UICollectionPoint;
+                //    if (vats.Remove(removed.Id))
+                //    {
+                //        Console.WriteLine("Vat with id: " + removed.Id + " removed from ResourceManager.");
+                //    }
+                //}
+                //else if(sender is UICollectionPoint)
+                //{
+                //    UICollectionPoint removed = sender as UICollectionPoint;
+                //    if(points.Remove(removed.Id))
+                //    {
+                //        Console.WriteLine("CollectionPoint with id: " + removed.Id + " removed from ResourceManager.");
+                //    }
+                //}
             }
         }
 
@@ -173,36 +162,38 @@ namespace TreeEditor.Resource
 
         public void LockedNotification(string owner, LockBatch batch)
         {
-            foreach(LockItem l in batch.ItemsToLock) 
-            {
-                UILockInfo lockInfo = new UILockInfo(owner, true);
-                if (l.ItemTypeInfo == ItemType.CollectionPoint)
-                {
-                    foreach (int id in l.IDsToLock)
-                    {
-                        UICollectionPoint p = null;
-                        if(points.TryGetValue(id, out p))
-                        {
-                            p.LockInfo = lockInfo;
-                        }
-                    }
-                }
-                if(l.ItemTypeInfo == ItemType.CollectionVat)
-                {
-                    foreach (int id in l.IDsToLock)
-                    {
-                        UICollectionVat v = null;
-                        if (vats.TryGetValue(id, out v))
-                        {
-                            v.LockInfo = lockInfo;
-                        }
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Received lock notification for unknown type: {0}", l.ItemTypeInfo);
-                }
-            }
+            Console.WriteLine("LockedNotification fix me");
+
+            //foreach(LockItem l in batch.ItemsToLock) 
+            //{
+            //    UILockInfo lockInfo = new UILockInfo(owner, true);
+            //    if (l.ItemTypeInfo == ItemType.CollectionPoint)
+            //    {
+            //        foreach (int id in l.IDsToLock)
+            //        {
+            //            UICollectionPoint p = null;
+            //            if(points.TryGetValue(id, out p))
+            //            {
+            //                p.LockInfo = lockInfo;
+            //            }
+            //        }
+            //    }
+            //    if(l.ItemTypeInfo == ItemType.CollectionVat)
+            //    {
+            //        foreach (int id in l.IDsToLock)
+            //        {
+            //            UICollectionVat v = null;
+            //            if (vats.TryGetValue(id, out v))
+            //            {
+            //                v.LockInfo = lockInfo;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Received lock notification for unknown type: {0}", l.ItemTypeInfo);
+            //    }
+            //}
         }
 
         #endregion
