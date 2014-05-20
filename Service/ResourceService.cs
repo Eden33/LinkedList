@@ -9,14 +9,15 @@ using System.Threading;
 
 using Model.Data;
 using Model.Lock;
-using Service.Message;
+using Model.Message.Request;
+using Model.Message.Response;
+using Model.Message.Push;
 using Service.Transaction;
 using Service.User;
 
 namespace Service
 {
 
-    //[ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class ResourceService : IResourceService
     {
         private static readonly TransactionManager tm = RamTM.Instance;
@@ -29,7 +30,7 @@ namespace Service
 
         #region authentication
 
-        public bool Login(string loginName)
+        public LoginResponse Login(string loginName)
         {
             bool added = false;
             lock (userContextProvider)
@@ -40,14 +41,14 @@ namespace Service
             {
                 Console.WriteLine("New user {0} logged in successfully. Session-Id: {1} ", loginName, OperationContext.Current.SessionId);
             }
-            return added;
+            return new LoginResponse(added, added ? "" : "Login failed");
         }
 
         #endregion
 
         #region locking
 
-        public bool TryLock(int id, ItemType itemType)
+        public LockResponse TryLock(int id, ItemType itemType)
         {
             #region retrive user information
 
@@ -58,12 +59,12 @@ namespace Service
             }
             if(userContext == null)
             {
-                return false;
+                return new LockResponse(false, "No valid session.");
             }
 
             #endregion
 
-            return true;
+            return new LockResponse(true);
 
             // this WCF method has not changed - do we really have to fix it?
 
@@ -89,7 +90,7 @@ namespace Service
 
         #region data retrieval and manipulation
 
-        public Item GetSingleItem(int id, ItemType itemType)
+        public SingleItemResponse GetSingleItem(int id, ItemType itemType)
         {
             // this method replaces the old WCF methods (GetCollectionPoint, GetCollectionVat)
 
@@ -99,14 +100,18 @@ namespace Service
             Client c = new Client(10);
             c.FirstName = "Foo";
             c.LastName = "Bar";
-            return c;
+
+            SingleItemResponse r = new SingleItemResponse(true);
+            r.Item = c;
+            return r;
         }
 
-        public List<Item> GetAllItems(ItemType itemType)
+        public AllItemsResponse GetAllItems(ItemType itemType)
         {
             //TODO: implement me
 
             Console.WriteLine("Incoming get all items for type: " + itemType);
+
             List<Item> list = new List<Item>();
             if(ItemType.Client.Equals(itemType))
             {
@@ -126,41 +131,21 @@ namespace Service
                 cp.Description = "Description about what is being collected.";
                 list.Add((Item)cp);
             }
-            return list;
+            return null;
         }
 
-        public bool UpdateItem(Item theItem, ItemType itemType)
+        public UpdateResponse UpdateItem(UpdateRequest req)
         {
             // TODO: implement me
 
-            if (ItemType.CollectionPoint.Equals(itemType))
-            {
-                CollectionPoint p = (CollectionPoint)theItem;
-                Console.WriteLine("Update CP Description: {0}", p.Description);
-            }
-            else if(ItemType.Client.Equals(itemType))
-            {
-                Client c = (Client)theItem;
-                Console.WriteLine("Update Client FirstName: {0}", c.FirstName);
-            }
-
-            return true;
+            return null;
         }
 
-        public bool DeleteItem(int id, ItemType itemType)
+        public DeleteResponse DeleteItem(DeleteRequest req)
         {
             // TODO: implement me
 
-            if(ItemType.Client.Equals(itemType))
-            {
-                Console.WriteLine("Delete Client with id: {0}", id);
-            }
-            else if(ItemType.CollectionPoint.Equals(itemType))
-            {
-                Console.WriteLine("Delete CP with id: {0}", id);
-            }
-
-            return true;
+            return null;
         }
 
         #endregion

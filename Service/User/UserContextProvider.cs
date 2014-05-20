@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Service.Message;
+using Model.Message.Push;
 
 namespace Service.User
 {

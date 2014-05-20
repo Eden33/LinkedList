@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Message
+namespace Model.Message.Push
 {
-    abstract class NotificationMessage
+    [Serializable]
+    public class NotificationMessage
     {
         protected MessageType msgType;
 
@@ -17,7 +18,9 @@ namespace Service.Message
 
         public enum MessageType
         {
-            LockMessage
+            LockMessage,
+            UpdateMessage,
+            DeleteMessage
         }
     }
 }

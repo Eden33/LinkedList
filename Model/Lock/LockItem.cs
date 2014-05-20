@@ -9,18 +9,18 @@ using Model.Data;
 
 namespace Model.Lock
 {
-    [DataContract]
+
     public class LockItem
     {
         private Item typeToLock;
-        [DataMember]
+
         public Item ItemTypeInfo
         {
             get { return typeToLock; }
             set { typeToLock = value; }
         }
         private List<int> idsToLock;
-        [DataMember]
+
         public List<int> IDsToLock
         {
             get { return idsToLock; }

@@ -33,12 +33,15 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://itm4.gopp/resources/itemType" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/item" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/collectionPoint" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd5" namespace="http://itm4.gopp/resources/client" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd7" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Response" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/itemType" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd5" namespace="http://itm4.gopp/resources/collectionPoint" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://itm4.gopp/resources/client" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Request" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Push" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd10" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IResourceService_Login_InputMessage">
@@ -80,6 +83,12 @@
   <wsdl:message name="IResourceService_LockedNotification_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:LockedNotification" />
   </wsdl:message>
+  <wsdl:message name="IResourceService_UpdateNotification_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:UpdateNotification" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_DeleteNotification_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:DeleteNotification" />
+  </wsdl:message>
   <wsdl:portType name="IResourceService">
     <wsdl:operation name="Login">
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/Login" message="tns:IResourceService_Login_InputMessage" />
@@ -107,6 +116,12 @@
     </wsdl:operation>
     <wsdl:operation name="LockedNotification">
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/LockedNotification" message="tns:IResourceService_LockedNotification_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNotification">
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/UpdateNotification" message="tns:IResourceService_UpdateNotification_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNotification">
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/DeleteNotification" message="tns:IResourceService_DeleteNotification_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IResourceService" type="tns:IResourceService">
@@ -168,6 +183,18 @@
     </wsdl:operation>
     <wsdl:operation name="LockedNotification">
       <soap12:operation soapAction="http://tempuri.org/IResourceService/LockedNotification" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNotification">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/UpdateNotification" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNotification">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/DeleteNotification" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

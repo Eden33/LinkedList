@@ -16,51 +16,58 @@ namespace TreeEditor.ResourceService {
     public interface IResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Login", ReplyAction="http://tempuri.org/IResourceService/LoginResponse")]
-        bool Login(string loginName);
+        Model.Message.Response.LoginResponse Login(string loginName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Login", ReplyAction="http://tempuri.org/IResourceService/LoginResponse")]
-        System.Threading.Tasks.Task<bool> LoginAsync(string loginName);
+        System.Threading.Tasks.Task<Model.Message.Response.LoginResponse> LoginAsync(string loginName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        bool TryLock(int id, Model.Data.ItemType itemType);
+        Model.Message.Response.LockResponse TryLock(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
-        System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType itemType);
+        System.Threading.Tasks.Task<Model.Message.Response.LockResponse> TryLockAsync(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Message.Response.UpdateResponse))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Client))]
-        Model.Data.Item GetSingleItem(int id, Model.Data.ItemType itemType);
+        Model.Message.Response.SingleItemResponse GetSingleItem(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
-        System.Threading.Tasks.Task<Model.Data.Item> GetSingleItemAsync(int id, Model.Data.ItemType itemType);
+        System.Threading.Tasks.Task<Model.Message.Response.SingleItemResponse> GetSingleItemAsync(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetAllItems", ReplyAction="http://tempuri.org/IResourceService/GetAllItemsResponse")]
-        System.Collections.Generic.List<Model.Data.Item> GetAllItems(Model.Data.ItemType itemType);
+        Model.Message.Response.AllItemsResponse GetAllItems(Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetAllItems", ReplyAction="http://tempuri.org/IResourceService/GetAllItemsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<Model.Data.Item>> GetAllItemsAsync(Model.Data.ItemType itemType);
+        System.Threading.Tasks.Task<Model.Message.Response.AllItemsResponse> GetAllItemsAsync(Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/UpdateItem", ReplyAction="http://tempuri.org/IResourceService/UpdateItemResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Client))]
-        bool UpdateItem(Model.Data.Item theItem, Model.Data.ItemType itemType);
+        Model.Message.Response.UpdateResponse UpdateItem(Model.Message.Request.UpdateRequest updateReq);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/UpdateItem", ReplyAction="http://tempuri.org/IResourceService/UpdateItemResponse")]
-        System.Threading.Tasks.Task<bool> UpdateItemAsync(Model.Data.Item theItem, Model.Data.ItemType itemType);
+        System.Threading.Tasks.Task<Model.Message.Response.UpdateResponse> UpdateItemAsync(Model.Message.Request.UpdateRequest updateReq);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/DeleteItem", ReplyAction="http://tempuri.org/IResourceService/DeleteItemResponse")]
-        bool DeleteItem(int id, Model.Data.ItemType itemType);
+        Model.Message.Response.DeleteResponse DeleteItem(Model.Message.Request.DeleteRequest deleteReq);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/DeleteItem", ReplyAction="http://tempuri.org/IResourceService/DeleteItemResponse")]
-        System.Threading.Tasks.Task<bool> DeleteItemAsync(int id, Model.Data.ItemType itemType);
+        System.Threading.Tasks.Task<Model.Message.Response.DeleteResponse> DeleteItemAsync(Model.Message.Request.DeleteRequest deleteReq);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IResourceServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/LockedNotification")]
-        void LockedNotification(string owner, Model.Lock.LockBatch batch);
+        void LockedNotification(Model.Message.Push.LockMessage lockMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/UpdateNotification")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Client))]
+        void UpdateNotification(Model.Message.Push.UpdateMessage updateMsg);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/DeleteNotification")]
+        void DeleteNotification(Model.Message.Push.DeleteMessage deleteMsg);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -91,52 +98,52 @@ namespace TreeEditor.ResourceService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public bool Login(string loginName) {
+        public Model.Message.Response.LoginResponse Login(string loginName) {
             return base.Channel.Login(loginName);
         }
         
-        public System.Threading.Tasks.Task<bool> LoginAsync(string loginName) {
+        public System.Threading.Tasks.Task<Model.Message.Response.LoginResponse> LoginAsync(string loginName) {
             return base.Channel.LoginAsync(loginName);
         }
         
-        public bool TryLock(int id, Model.Data.ItemType itemType) {
+        public Model.Message.Response.LockResponse TryLock(int id, Model.Data.ItemType itemType) {
             return base.Channel.TryLock(id, itemType);
         }
         
-        public System.Threading.Tasks.Task<bool> TryLockAsync(int id, Model.Data.ItemType itemType) {
+        public System.Threading.Tasks.Task<Model.Message.Response.LockResponse> TryLockAsync(int id, Model.Data.ItemType itemType) {
             return base.Channel.TryLockAsync(id, itemType);
         }
         
-        public Model.Data.Item GetSingleItem(int id, Model.Data.ItemType itemType) {
+        public Model.Message.Response.SingleItemResponse GetSingleItem(int id, Model.Data.ItemType itemType) {
             return base.Channel.GetSingleItem(id, itemType);
         }
         
-        public System.Threading.Tasks.Task<Model.Data.Item> GetSingleItemAsync(int id, Model.Data.ItemType itemType) {
+        public System.Threading.Tasks.Task<Model.Message.Response.SingleItemResponse> GetSingleItemAsync(int id, Model.Data.ItemType itemType) {
             return base.Channel.GetSingleItemAsync(id, itemType);
         }
         
-        public System.Collections.Generic.List<Model.Data.Item> GetAllItems(Model.Data.ItemType itemType) {
+        public Model.Message.Response.AllItemsResponse GetAllItems(Model.Data.ItemType itemType) {
             return base.Channel.GetAllItems(itemType);
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<Model.Data.Item>> GetAllItemsAsync(Model.Data.ItemType itemType) {
+        public System.Threading.Tasks.Task<Model.Message.Response.AllItemsResponse> GetAllItemsAsync(Model.Data.ItemType itemType) {
             return base.Channel.GetAllItemsAsync(itemType);
         }
         
-        public bool UpdateItem(Model.Data.Item theItem, Model.Data.ItemType itemType) {
-            return base.Channel.UpdateItem(theItem, itemType);
+        public Model.Message.Response.UpdateResponse UpdateItem(Model.Message.Request.UpdateRequest updateReq) {
+            return base.Channel.UpdateItem(updateReq);
         }
         
-        public System.Threading.Tasks.Task<bool> UpdateItemAsync(Model.Data.Item theItem, Model.Data.ItemType itemType) {
-            return base.Channel.UpdateItemAsync(theItem, itemType);
+        public System.Threading.Tasks.Task<Model.Message.Response.UpdateResponse> UpdateItemAsync(Model.Message.Request.UpdateRequest updateReq) {
+            return base.Channel.UpdateItemAsync(updateReq);
         }
         
-        public bool DeleteItem(int id, Model.Data.ItemType itemType) {
-            return base.Channel.DeleteItem(id, itemType);
+        public Model.Message.Response.DeleteResponse DeleteItem(Model.Message.Request.DeleteRequest deleteReq) {
+            return base.Channel.DeleteItem(deleteReq);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteItemAsync(int id, Model.Data.ItemType itemType) {
-            return base.Channel.DeleteItemAsync(id, itemType);
+        public System.Threading.Tasks.Task<Model.Message.Response.DeleteResponse> DeleteItemAsync(Model.Message.Request.DeleteRequest deleteReq) {
+            return base.Channel.DeleteItemAsync(deleteReq);
         }
     }
 }

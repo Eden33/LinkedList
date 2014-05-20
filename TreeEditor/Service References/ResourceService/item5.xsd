@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://itm4.gopp/resources/client" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/client" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/item" />
-  <xs:complexType name="ArrayOfClient">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Client" nillable="true" type="tns:Client" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfClient" nillable="true" type="tns:ArrayOfClient" />
-  <xs:complexType name="Client">
+<xs:schema xmlns:tns="http://itm4.gopp/resources/collectionPoint" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/collectionPoint" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://itm4.gopp/resources/client" />
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
+  <xs:complexType name="CollectionPoint">
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://itm4.gopp/resources/item" base="q1:Item">
         <xs:sequence>
-          <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+          <xs:element xmlns:q2="http://itm4.gopp/resources/client" minOccurs="0" name="Clients" nillable="true" type="q2:ArrayOfClient" />
+          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="Client" nillable="true" type="tns:Client" />
+  <xs:element name="CollectionPoint" nillable="true" type="tns:CollectionPoint" />
 </xs:schema>

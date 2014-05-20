@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://itm4.gopp/resources/itemType" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/itemType" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:simpleType name="ItemType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Client" />
-      <xs:enumeration value="CollectionPoint" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="ItemType" nillable="true" type="tns:ItemType" />
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Model.Message.Response" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Model.Message.Response" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
+  <xs:complexType name="LoginResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginResponse" nillable="true" type="tns:LoginResponse" />
+  <xs:complexType name="ResponseMessage">
+    <xs:sequence>
+      <xs:element name="errorDesc" nillable="true" type="xs:string" />
+      <xs:element name="success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResponseMessage" nillable="true" type="tns:ResponseMessage" />
+  <xs:complexType name="LockResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LockResponse" nillable="true" type="tns:LockResponse" />
+  <xs:complexType name="SingleItemResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence>
+          <xs:element xmlns:q1="http://itm4.gopp/resources/item" name="item" nillable="true" type="q1:Item" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SingleItemResponse" nillable="true" type="tns:SingleItemResponse" />
+  <xs:complexType name="AllItemsResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://itm4.gopp/resources/item" name="items" nillable="true" type="q2:ArrayOfItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AllItemsResponse" nillable="true" type="tns:AllItemsResponse" />
+  <xs:complexType name="UpdateResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:SingleItemResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UpdateResponse" nillable="true" type="tns:UpdateResponse" />
+  <xs:complexType name="DeleteResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DeleteResponse" nillable="true" type="tns:DeleteResponse" />
 </xs:schema>

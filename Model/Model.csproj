@@ -46,11 +46,25 @@
     <Compile Include="Data\ItemType.cs" />
     <Compile Include="Lock\LockBatch.cs" />
     <Compile Include="Lock\LockItem.cs" />
+    <Compile Include="Message\Request\DeleteRequest.cs" />
+    <Compile Include="Message\Request\UpdateRequest.cs" />
+    <Compile Include="Message\Response\AllItemsResponse.cs" />
+    <Compile Include="Message\Response\DeleteResponse.cs" />
+    <Compile Include="Message\Response\LockResponse.cs" />
+    <Compile Include="Message\Response\LoginResponse.cs" />
+    <Compile Include="Message\Response\ResponseMessage.cs" />
+    <Compile Include="Message\Response\SingleItemResponse.cs" />
+    <Compile Include="Message\Response\UpdateResponse.cs" />
+    <Compile Include="Message\Push\DeleteMessage.cs" />
+    <Compile Include="Message\Push\LockMessage.cs" />
+    <Compile Include="Message\Push\NotificationMessage.cs" />
+    <Compile Include="Message\Push\UpdateMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

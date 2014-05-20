@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using Model.Data;
 using Model.Lock;
 
-namespace Service.Message
+namespace Model.Message.Push
 {
-    class LockMessage : NotificationMessage
+    [Serializable]
+    public class LockMessage : NotificationMessage
     {
         #region members
 

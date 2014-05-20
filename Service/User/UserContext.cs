@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-using Service.Message;
+using Model.Message.Push;
 
 namespace Service.User
 {
@@ -52,7 +52,7 @@ namespace Service.User
                         if (state == CommunicationState.Opened)
                         {
                             Console.WriteLine("Send lock notification message to user: {0}", loginName);
-                            callback.LockedNotification(msg.LoginName, msg.LockBatch);
+                            callback.LockedNotification(msg);
                         }
                         else
                         {

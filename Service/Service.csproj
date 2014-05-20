@@ -46,8 +46,6 @@
     <Compile Include="Lock\LockManager.cs" />
     <Compile Include="Lock\LockMatrix.cs" />
     <Compile Include="Lock\LockMode.cs" />
-    <Compile Include="Message\LockMessage.cs" />
-    <Compile Include="Message\NotificationMessage.cs" />
     <Compile Include="Transaction\RamItems.cs" />
     <Compile Include="Transaction\RamTM.cs" />
     <Compile Include="Transaction\TransactionManager.cs" />

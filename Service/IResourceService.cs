@@ -7,7 +7,9 @@ using System.ServiceModel;
 using System.Text;
 
 using Model.Data;
-using Model.Lock;
+using Model.Message.Request;
+using Model.Message.Response;
+using Model.Message.Push;
 
 namespace Service
 {
@@ -21,32 +23,34 @@ namespace Service
         /// <param name="loginName">The user name of the client sending the message</param>
         /// <returns>True on login success, otherwise false</returns>
         [OperationContract]
-        bool Login(String loginName);
+        LoginResponse Login(String loginName);
 
         [OperationContract]
-        bool TryLock(int id, ItemType itemType);
+        LockResponse TryLock(int id, ItemType itemType);
         
         [OperationContract]
-        Item GetSingleItem(int id, ItemType itemType);
+        SingleItemResponse GetSingleItem(int id, ItemType itemType);
 
         [OperationContract]
-        List<Item> GetAllItems(ItemType itemType);
+        AllItemsResponse GetAllItems(ItemType itemType);
 
         [OperationContract]
-        bool UpdateItem(Item theItem, ItemType itemType);
+        UpdateResponse UpdateItem(UpdateRequest updateReq);
 
         [OperationContract]
-        bool DeleteItem(int id, ItemType itemType);
+        DeleteResponse DeleteItem(DeleteRequest deleteReq);
 
     }
 
     public interface IResourceServiceNotifications
     {
         [OperationContract(IsOneWay = true)]
-        void LockedNotification(String owner, LockBatch batch);
+        void LockedNotification(LockMessage lockMsg);
 
-        //TODO: we need a callback for updates
+        [OperationContract(IsOneWay = true)]
+        void UpdateNotification(UpdateMessage updateMsg);
 
-        //TODO: probably we need another callback for delete?
+        [OperationContract(IsOneWay = true)]
+        void DeleteNotification(DeleteMessage deleteMsg);
     }
 }

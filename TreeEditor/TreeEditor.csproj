@@ -111,6 +111,12 @@
     <None Include="Properties\DataSources\Model.Data.CollectionPoint.datasource" />
     <None Include="Properties\DataSources\Model.Data.CollectionVat.datasource" />
     <None Include="Properties\DataSources\Model.Data.Item.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.AllItemsResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.DeleteResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.LockResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.LoginResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.SingleItemResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.UpdateResponse.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,6 +129,15 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item32.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\item4.xsd">

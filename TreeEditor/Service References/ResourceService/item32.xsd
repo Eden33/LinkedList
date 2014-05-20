@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Model.Message.Push" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Model.Message.Push" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
+  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/itemType" />
+  <xs:complexType name="LockMessage">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:NotificationMessage">
+        <xs:sequence>
+          <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Model.Lock" name="lockBatch" nillable="true" type="q1:LockBatch" />
+          <xs:element name="loginName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LockMessage" nillable="true" type="tns:LockMessage" />
+  <xs:complexType name="NotificationMessage">
+    <xs:sequence>
+      <xs:element name="msgType" type="tns:NotificationMessage.MessageType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotificationMessage" nillable="true" type="tns:NotificationMessage" />
+  <xs:simpleType name="NotificationMessage.MessageType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LockMessage" />
+      <xs:enumeration value="UpdateMessage" />
+      <xs:enumeration value="DeleteMessage" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="NotificationMessage.MessageType" nillable="true" type="tns:NotificationMessage.MessageType" />
+  <xs:complexType name="UpdateMessage">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:NotificationMessage">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://itm4.gopp/resources/item" name="item" nillable="true" type="q2:Item" />
+          <xs:element xmlns:q3="http://itm4.gopp/resources/itemType" name="itemType" type="q3:ItemType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UpdateMessage" nillable="true" type="tns:UpdateMessage" />
+  <xs:complexType name="DeleteMessage">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:NotificationMessage">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DeleteMessage" nillable="true" type="tns:DeleteMessage" />
+</xs:schema>
