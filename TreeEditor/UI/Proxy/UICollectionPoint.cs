@@ -18,19 +18,19 @@ namespace TreeEditor.UI.Proxy
             this.collectionPoint = p;
         }
 
-        public IList<Client> Clients
+        public CollectionPoint CollectionPoint
+        {
+            get
+            {
+                return this.collectionPoint;
+            }
+        }
+
+        public override int Id
         {
             get 
             {
-                IList<Client> clients = null;
-                if (collectionPoint != null && collectionPoint.Clients != null)
-                {
-                    foreach (Client c in collectionPoint.Clients)
-                    {
-                        //TODO: get the clients from ResourceManager
-                    }
-                }
-                return clients;
+                return this.collectionPoint.Id;
             }
         }
     }

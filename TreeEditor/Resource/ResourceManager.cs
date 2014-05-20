@@ -22,12 +22,8 @@ namespace TreeEditor.Resource
 
         #region private members
 
-        // TODO: fix me, decide wisely
-
-        //private Dictionary<int, UICollectionVat> vats = new Dictionary<int, UICollectionVat>();
-        //private Dictionary<int, UICollectionPoint> points = new Dictionary<int, UICollectionPoint>();
-
         private ResourceService.ResourceServiceClient client = null;
+        private ResourceCache cache = new ResourceCache();
 
         #endregion
 
@@ -76,7 +72,7 @@ namespace TreeEditor.Resource
         }
         #endregion
 
-        #region public methods to access remote service methods or cached resources
+        #region public methods to access remote service methods and cached resources
 
         public bool Login()
         {
@@ -93,18 +89,71 @@ namespace TreeEditor.Resource
             return loginSuccess;
         }
 
-        public T getSingleItem<T>(int id, T item) where T : UIItem
+        public T GetSingleItem<T>(int id, T item) where T : UIItem
         {
-            //TODO: implement me
+            throw new NotImplementedException();
+        }
 
-            return default(T);
+        public List<T> GetAllItems<T>() where T : UIItem
+        {
+            ItemType itemType = ResourceMap.GetItemType<T>();
+            try
+            {
+                AllItemsResponse r = client.GetAllItems(itemType);
+                if (r.Success)
+                {
+                    Type modelType = ResourceMap.getModelType(itemType);
+                    foreach(Item item in r.Items) 
+                    {
+                        CacheItem(modelType, item);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("GetAllItems for Type: {0} wasn't successfull.", typeof(T));
+                }
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception caught in GetAllItems: {0}", e.Message);
+            }
+            return cache.GetAllUIItems<T>();
         }
 
         public bool RequestLock<T>(int id, T item) where T : UIItem 
         {
-            //TODO: implement me
+            throw new NotImplementedException();      
+        }
 
-            return true;        
+        #endregion
+
+        #region private methods used for caching
+        
+        private void CacheItem(Type modelType, Item item)
+        {
+            if (modelType == typeof(CollectionPoint))
+            {
+                CollectionPoint cp = (CollectionPoint)item;
+                cache.CacheItem(cp);
+
+                UICollectionPoint cpProxy = new UICollectionPoint(cp);
+                cache.CacheUIItem(cpProxy);
+
+                foreach (Client c in cp.Clients)
+                {
+                    cache.CacheItem(c);
+                    UIClient clientProxy = new UIClient(c);
+                    cache.CacheUIItem(clientProxy);
+                }
+            }
+            else if (modelType == typeof(Client))
+            {
+                Client c = (Client)item;
+                cache.CacheItem(c);
+
+                UIClient cProxy = new UIClient(c);
+                cache.CacheUIItem(cProxy);
+            }
         }
 
         #endregion

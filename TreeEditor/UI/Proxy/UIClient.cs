@@ -7,13 +7,28 @@ using System.Threading.Tasks;
 
 namespace TreeEditor.UI.Proxy
 {
-    class UIClient : UIItem
+    public class UIClient : UIItem
     {
         private Client client;
 
-        public UIClient(int id)
+        public UIClient(Client c)
         {
-            //TODO: get it from ResourceManager
+            this.client = c;
+        }
+
+        public Client Client
+        {
+            get
+            {
+                return this.client;
+            }
+        }
+        public override int Id
+        {
+            get
+            {
+                return this.client.Id;
+            }
         }
     }
 }

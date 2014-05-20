@@ -111,27 +111,37 @@ namespace Service
             //TODO: implement me
 
             Console.WriteLine("Incoming get all items for type: " + itemType);
+            AllItemsResponse response = new AllItemsResponse(true, "");
+            Random random = new Random();
 
             List<Item> list = new List<Item>();
             if(ItemType.Client.Equals(itemType))
             {
-                Client c1 = new Client(1);
-                c1.FirstName = "Fred";
-                c1.LastName = "Feuerstein";
-                list.Add((Item) c1);
-
-                Client c2 = new Client(2);
-                c2.FirstName = "Bam";
-                c2.LastName = "Bam";
-                list.Add((Item)c2);
+                for(int i = 1; i < 50; i++)
+                {
+                    Client c = new Client(i);
+                    c.FirstName = "First Name " + i;
+                    c.LastName = "Last Name " + i;
+                    c.Address = "Address " + i;
+                    list.Add((Item)c);
+                }
             }
             else if(ItemType.CollectionPoint.Equals(itemType))
             {
-                CollectionPoint cp = new CollectionPoint(1);
-                cp.Description = "Description about what is being collected.";
-                list.Add((Item)cp);
+                for(int i = 1; i < 50; i++)
+                {
+                    CollectionPoint cp = new CollectionPoint(i);
+                    cp.Description = "This is CP " + i;
+                    Client c = new Client(random.Next(1, 51));
+                    c.FirstName = "First Name " + c.Id;
+                    c.LastName = "Last Name " + c.Id;
+                    c.Address = "Address " + c.Id;
+                    cp.Clients.Add(c);
+                    list.Add((Item)cp);
+                }
             }
-            return null;
+            response.Items = list;
+            return response;
         }
 
         public UpdateResponse UpdateItem(UpdateRequest req)

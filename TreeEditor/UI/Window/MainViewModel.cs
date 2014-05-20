@@ -18,10 +18,15 @@ namespace TreeEditor
 
         public MainViewModel()
         {
-            for (int i = 1; i <= 4; i++)
+            List<UICollectionPoint> cps = resourceMgr.GetAllItems<UICollectionPoint>();
+            foreach (UICollectionPoint c in cps)
             {
-                // TODO: enable again
-                //collectionPoints.Add(resourceMgr.getCollectionPoint(i));
+                collectionPointList.Add(c);
+            }
+            List<UIClient> cs = resourceMgr.GetAllItems<UIClient>();
+            foreach(UIClient c in cs)
+            {
+                clientList.Add(c);
             }
         }
 
@@ -52,11 +57,19 @@ namespace TreeEditor
 
         #region Collections
 
-        private ObservableCollectionEx<UICollectionPoint> collectionPoints = new ObservableCollectionEx<UICollectionPoint>();
-        public ObservableCollectionEx<UICollectionPoint> CollectionPoints
+        private ObservableCollectionEx<UICollectionPoint> collectionPointList = new ObservableCollectionEx<UICollectionPoint>();
+        public ObservableCollectionEx<UICollectionPoint> CollectionPointList
         {
-            get { return collectionPoints; }
+            get { return collectionPointList; }
         }
+
+        private ObservableCollectionEx<UIClient> clientList = new ObservableCollectionEx<UIClient>();
+
+        public ObservableCollectionEx<UIClient> ClientList
+        {
+            get { return clientList; }
+        }
+
 
         #endregion
 

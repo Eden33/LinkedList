@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resource\ResourceCache.cs" />
     <Compile Include="Resource\ResourceMap.cs" />
     <Compile Include="Service References\ResourceService\Reference.cs">
       <AutoGen>True</AutoGen>

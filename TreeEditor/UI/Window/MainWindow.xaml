@@ -2,12 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TreeEditor"
-        Title="Vat Manager" Height="768" Width="1024" x:Name="mainWindow">
+        Title="Data Synchronization" Height="768" Width="1024" x:Name="mainWindow">
     <Grid>
         <Grid.Resources>
             <CompositeCollection x:Key="collectionPointCollection">
-                <CollectionContainer Collection="{Binding DataContext.CollectionPoints,Source={x:Reference mainWindow}}" />
+                <CollectionContainer Collection="{Binding DataContext.CollectionPointList,Source={x:Reference mainWindow}}" />
             </CompositeCollection>
+            <CompositeCollection x:Key="clientCollection">
+                <CollectionContainer Collection="{Binding DataContext.ClientList,Source={x:Reference mainWindow}}" />
+            </CompositeCollection>
+            
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,8 +22,6 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
-            <Button Content="Delete selected CollectionPoint from RAM" Command="{Binding DeleteCommand}" Margin="0,0,0,10"/>
-            <Button Content="Try lock selected CollectionPoint on Server" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
             <Label>Collection Points:</Label>
             <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged">
                 <ListView.ItemsSource>
@@ -28,7 +30,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding CollectionPoint.Description}" />
                         <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
                         <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>
@@ -37,13 +39,18 @@
             <!-- TODO: implement user in workspace info here -->
         </StackPanel>
         
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,73,10,0">
-            <Label>Collection Vats:</Label>
-            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Vats, ElementName=cpListView}">
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,0">
+            <Label>Clients:</Label>
+            <ListView>
+                <ListView.ItemsSource>
+                    <StaticResource ResourceKey="clientCollection"/>
+                </ListView.ItemsSource>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Client.FirstName}" />
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Client.FirstName}" />
+                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Client.Address}" />
                         <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
                         <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>
