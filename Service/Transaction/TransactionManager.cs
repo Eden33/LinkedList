@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Model.Data;
 using Model.Lock;
 using Service.Lock;
+using Service.Resource;
 
 namespace Service.Transaction
 {
 
     abstract class TransactionManager 
     {
-        protected RamItems currentItems = new RamItems();
+        protected ResourceCache cache = new ResourceCache();
         protected LockManager lm = new LockManager();
 
         protected TransactionManager()

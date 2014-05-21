@@ -46,9 +46,11 @@
     <Compile Include="Lock\LockManager.cs" />
     <Compile Include="Lock\LockMatrix.cs" />
     <Compile Include="Lock\LockMode.cs" />
+    <Compile Include="Resource\IIdCache.cs" />
+    <Compile Include="Resource\ResourceCache.cs" />
     <Compile Include="Resource\ResourceMap.cs" />
     <Compile Include="Transaction\RamItems.cs" />
-    <Compile Include="Transaction\RamTM.cs" />
+    <Compile Include="Transaction\TMImplementation.cs" />
     <Compile Include="Transaction\TransactionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceService.cs" />
