@@ -18,11 +18,24 @@ namespace TreeEditor.UI.Proxy
             this.collectionPoint = p;
         }
 
-        public CollectionPoint CollectionPoint
+        public String Description
         {
             get
             {
-                return this.collectionPoint;
+                return this.collectionPoint.Description;
+            }
+        }
+
+        public List<UIClient> Clients
+        {
+            get
+            {
+                List<UIClient> clients = new List<UIClient>();
+                foreach(Client c in collectionPoint.Clients)
+                {
+                    clients.Add(ResourceManager.Instance.GetSingleItem<UIClient>(c.Id));
+                }
+                return clients;
             }
         }
 

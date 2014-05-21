@@ -56,12 +56,12 @@ namespace TreeEditor.Resource
         /// <typeparam name="T"></typeparam>
         /// <param name="item"></param>
         /// <returns>The cached item or null if nothing in cache</returns>
-        public UIItem GetUIItem<T>(T item) where T : UIItem
+        public T GetUIItem<T>(int id) where T : UIItem
         {
             Dictionary<int, UIItem> theDict = GetProxyDict<T>();
             UIItem cached = null;
-            theDict.TryGetValue(item.Id, out cached);
-            return cached;
+            theDict.TryGetValue(id, out cached);
+            return (T) cached;
 
         }
 

@@ -30,7 +30,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding CollectionPoint.Description}" />
+                        <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
                         <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
                         <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>

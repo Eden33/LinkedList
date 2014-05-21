@@ -89,9 +89,27 @@ namespace TreeEditor.Resource
             return loginSuccess;
         }
 
-        public T GetSingleItem<T>(int id, T item) where T : UIItem
+        public T GetSingleItem<T>(int id) where T : UIItem
         {
-            throw new NotImplementedException();
+            ItemType itemType = ResourceMap.GetItemType<T>();
+            try
+            {
+                SingleItemResponse r = client.GetSingleItem(id, itemType);
+                if(r.Success)
+                {
+                    Type modelType = ResourceMap.getModelType(itemType);
+                    CacheItem(modelType, r.Item);
+                }
+                else
+                {
+                    Console.WriteLine("GetSingleItem for type: {0} wasn't successfull.", typeof(T));
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception cuaght in GetSingleItem: {0}", e.Message);
+            }
+            return cache.GetUIItem<T>(id);
         }
 
         public List<T> GetAllItems<T>() where T : UIItem

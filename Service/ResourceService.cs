@@ -97,12 +97,20 @@ namespace Service
             // TODO: fix me
             // return tm.GetCollectionPoint(id);
 
-            Client c = new Client(10);
-            c.FirstName = "Foo";
-            c.LastName = "Bar";
-
-            SingleItemResponse r = new SingleItemResponse(true);
-            r.Item = c;
+            SingleItemResponse r;
+            if (id > 1 && id < 50)
+            {
+                r = new SingleItemResponse(true);
+                Client c = new Client(id);
+                c.FirstName = "First Name " + id;
+                c.LastName = "Last Name " + id;
+                c.Address = "Address " + id;
+                r.Item = c;
+            }
+            else
+            {
+                r = new SingleItemResponse(false, "ID not found");
+            }
             return r;
         }
 

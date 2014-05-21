@@ -17,6 +17,8 @@ namespace TreeEditor.Resource
     {
         private static IDictionary<Type, ItemType> modelMap;
         private static IDictionary<ItemType, Type> clientMap;
+        
+        //TODO: supported model class list (needed for building proxy classes goes here)
 
         static ResourceMap() 
         {
