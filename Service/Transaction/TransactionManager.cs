@@ -12,10 +12,11 @@ using Service.Resource;
 namespace Service.Transaction
 {
 
-    abstract class TransactionManager 
+    abstract class TransactionManager : IData
     {
         protected ResourceCache cache = new ResourceCache();
         protected LockManager lm = new LockManager();
+        protected IData dataManager = new DBFacade();
 
         protected TransactionManager()
         {

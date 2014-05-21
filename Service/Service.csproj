@@ -46,10 +46,11 @@
     <Compile Include="Lock\LockManager.cs" />
     <Compile Include="Lock\LockMatrix.cs" />
     <Compile Include="Lock\LockMode.cs" />
+    <Compile Include="Resource\DBFacade.cs" />
+    <Compile Include="Resource\IData.cs" />
     <Compile Include="Resource\IIdCache.cs" />
     <Compile Include="Resource\ResourceCache.cs" />
     <Compile Include="Resource\ResourceMap.cs" />
-    <Compile Include="Transaction\RamItems.cs" />
     <Compile Include="Transaction\TMImplementation.cs" />
     <Compile Include="Transaction\TransactionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,7 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

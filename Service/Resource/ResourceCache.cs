@@ -13,7 +13,7 @@ namespace Service.Resource
 
     public class ResourceCache : IIdCache<Item>
     {
-        private Dictionary<Type, Dictionary<int, Item>> cache = new Dictionary<Type, Dictionary<int, Item>();
+        private Dictionary<Type, Dictionary<int, Item>> cache = new Dictionary<Type, Dictionary<int, Item>>();
 
         public T GetItem<T>(int id) where T : Item
         {

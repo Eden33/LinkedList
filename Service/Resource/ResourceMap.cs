@@ -12,7 +12,7 @@ namespace Service.Resource
 
     class ResourceMap
     {
-        private static IDictionary<ItemType, Type> map;
+        private static IDictionary<ItemType, Type> map = new Dictionary<ItemType, Type>();
 
         static ResourceMap()
         {
