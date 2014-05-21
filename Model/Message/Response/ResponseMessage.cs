@@ -9,6 +9,8 @@ namespace Model.Message.Response
     [Serializable]
     public class ResponseMessage
     {
+        public ResponseMessage() { }
+
         public ResponseMessage(bool success, string errorDesc = "")
         {
             this.success = success;

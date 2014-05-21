@@ -39,7 +39,9 @@ namespace Service.Transaction
         /// <returns>A LockBatch object containing all information needed for locking.</returns>
         protected abstract  LockBatch GetItemsToLock<T>(int id, T item) where T : Item;
 
-        public abstract T GetSingleItem<T>(int id, T item) where T : Item;
+        public abstract T GetSingleItem<T>(int id) where T : Item;
+
+        public abstract List<T> GetAllItems<T>() where T : Item;
 
         public abstract bool TryLock<T>(int id, T item, String login, out LockBatch batch) where T : Item;
     }

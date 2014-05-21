@@ -62,6 +62,11 @@ namespace Service.User
             return false;
         }
 
+        /// <summary>
+        /// Returns the UserContext of this sessionId or null if no valid session exists.
+        /// </summary>
+        /// <param name="sessionId">The session id</param>
+        /// <returns>The UserContext of this session</returns>
         public UserContext getUserContext(String sessionId)
         {
             UserContext context = null;

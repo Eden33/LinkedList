@@ -11,6 +11,8 @@ namespace Model.Message.Response
     [Serializable]
     public class AllItemsResponse : ResponseMessage
     {
+        public AllItemsResponse() : base() { }
+
         public AllItemsResponse(bool success, string errorDesc = "") : base(success, errorDesc) { }
 
         private List<Item> items;

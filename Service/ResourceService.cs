@@ -14,6 +14,7 @@ using Model.Message.Response;
 using Model.Message.Push;
 using Service.Transaction;
 using Service.User;
+using Service.Resource;
 
 namespace Service
 {
@@ -32,16 +33,19 @@ namespace Service
 
         public LoginResponse Login(string loginName)
         {
-            bool added = false;
-            lock (userContextProvider)
+            LoginResponse r = new LoginResponse();
+            userContextProvider.AddUser(OperationContext.Current.SessionId, loginName);
+            UserContext context = null;
+            if (ValidSession(out context))
             {
-                added = userContextProvider.AddUser(OperationContext.Current.SessionId, loginName);
-            }
-            if (added)
+                r.Success = true;
+            } 
+            else
             {
-                Console.WriteLine("New user {0} logged in successfully. Session-Id: {1} ", loginName, OperationContext.Current.SessionId);
+                r.Success = false;
+                r.ErrorDesc = "Login failed";
             }
-            return new LoginResponse(added, added ? "" : "Login failed");
+            return r;
         }
 
         #endregion
@@ -53,11 +57,7 @@ namespace Service
             #region retrive user information
 
             UserContext userContext = null;
-            lock(userContextProvider)
-            {
-                userContext = userContextProvider.getUserContext(OperationContext.Current.SessionId);
-            }
-            if(userContext == null)
+            if(!ValidSession(out userContext))
             {
                 return new LockResponse(false, "No valid session.");
             }
@@ -92,64 +92,84 @@ namespace Service
 
         public SingleItemResponse GetSingleItem(int id, ItemType itemType)
         {
-            // this method replaces the old WCF methods (GetCollectionPoint, GetCollectionVat)
-
-            // TODO: fix me
-            // return tm.GetCollectionPoint(id);
-
-            SingleItemResponse r;
-            if (id > 1 && id < 50)
+            UserContext userContext = null;
+            SingleItemResponse r = new SingleItemResponse();
+            if (!ValidSession(out userContext))
             {
-                r = new SingleItemResponse(true);
-                Customer c = new Customer(id);
-                c.FirstName = "First Name " + id;
-                c.LastName = "Last Name " + id;
-                c.Address = "Address " + id;
-                r.Item = c;
+                r.Success = false;
+                r.ErrorDesc = "No valid session.";
             }
             else
             {
-                r = new SingleItemResponse(false, "ID not found");
+                Type returnType = ResourceMap.getModelType(itemType);
+
+                // this method replaces the old WCF methods (GetCollectionPoint, GetCollectionVat)
+
+                // TODO: fix me
+                // return tm.GetCollectionPoint(id);
+
+                if (id > 1 && id < 50)
+                {
+                    r = new SingleItemResponse(true);
+                    Customer c = new Customer(id);
+                    c.FirstName = "First Name " + id;
+                    c.LastName = "Last Name " + id;
+                    c.Address = "Address " + id;
+                    r.Item = c;
+                }
+                else
+                {
+                    r = new SingleItemResponse(false, "ID not found");
+                }
             }
             return r;
         }
 
         public AllItemsResponse GetAllItems(ItemType itemType)
         {
-            //TODO: implement me
-
             Console.WriteLine("Incoming get all items for type: " + itemType);
-            AllItemsResponse response = new AllItemsResponse(true, "");
-            Random random = new Random();
 
-            List<Item> list = new List<Item>();
-            if(ItemType.Customer.Equals(itemType))
+            UserContext userContext = null;
+            AllItemsResponse r = new AllItemsResponse();
+            if(!ValidSession(out userContext))
             {
-                for(int i = 1; i < 50; i++)
-                {
-                    Customer c = new Customer(i);
-                    c.FirstName = "First Name " + i;
-                    c.LastName = "Last Name " + i;
-                    c.Address = "Address " + i;
-                    list.Add((Item)c);
-                }
+                r.Success = false;
+                r.ErrorDesc = "No valid session.";
             }
-            else if(ItemType.CollectionPoint.Equals(itemType))
+            else
             {
-                for(int i = 1; i < 50; i++)
+                r.Success = true;
+                Random random = new Random();
+
+                List<Item> list = new List<Item>();
+                if (ItemType.Customer.Equals(itemType))
                 {
-                    CollectionPoint cp = new CollectionPoint(i);
-                    cp.Description = "This is CP " + i;
-                    Customer c = new Customer(random.Next(1, 51));
-                    c.FirstName = "First Name " + c.Id;
-                    c.LastName = "Last Name " + c.Id;
-                    c.Address = "Address " + c.Id;
-                    cp.Customers.Add(c);
-                    list.Add((Item)cp);
+                    for (int i = 1; i < 50; i++)
+                    {
+                        Customer c = new Customer(i);
+                        c.FirstName = "First Name " + i;
+                        c.LastName = "Last Name " + i;
+                        c.Address = "Address " + i;
+                        list.Add((Item)c);
+                    }
                 }
+                else if (ItemType.CollectionPoint.Equals(itemType))
+                {
+                    for (int i = 1; i < 50; i++)
+                    {
+                        CollectionPoint cp = new CollectionPoint(i);
+                        cp.Description = "This is CP " + i;
+                        Customer c = new Customer(random.Next(1, 51));
+                        c.FirstName = "First Name " + c.Id;
+                        c.LastName = "Last Name " + c.Id;
+                        c.Address = "Address " + c.Id;
+                        cp.Customers.Add(c);
+                        list.Add((Item)cp);
+                    }
+                }
+                r.Items = list;
             }
-            response.Items = list;
-            return response;
+            return r;
         }
 
         public UpdateResponse UpdateItem(UpdateRequest req)
@@ -164,6 +184,25 @@ namespace Service
             // TODO: implement me
 
             return null;
+        }
+
+        #endregion
+
+        #region private helper methods
+ 
+        /// <summary>
+        /// Helper method to check if client done the request have a valid user session.
+        /// </summary>
+        /// <param name="userContext">Handle in an UserContext to get the data back on success</param>
+        /// <returns>The UserContext of this user or null if no valid session.</returns>
+        private bool ValidSession(out UserContext userContext)
+        {
+            userContext = userContextProvider.getUserContext(OperationContext.Current.SessionId);
+            if(userContext == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

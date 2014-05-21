@@ -14,34 +14,7 @@ namespace Service.Transaction
     {
         private static RamTM instance;
 
-        private RamTM() : base()
-        {
-            // TODO: fix me
-            //for (int i = 1; i <= 6; i++)
-            //{
-            //    currentItems.vats.Add(i, new CollectionVat(i));
-            //}
-
-            //CollectionPoint p1 = new CollectionPoint(1);
-            //p1.Vats.Add(currentItems.vats.ElementAt(0).Value);
-            //p1.Vats.Add(currentItems.vats.ElementAt(1).Value);
-            //p1.Vats.Add(currentItems.vats.ElementAt(2).Value);
-
-            //CollectionPoint p2 = new CollectionPoint(2);
-            //p2.Vats.Add(currentItems.vats.ElementAt(2).Value);
-            //p2.Vats.Add(currentItems.vats.ElementAt(3).Value);
-            //p2.Vats.Add(currentItems.vats.ElementAt(4).Value);
-            //currentItems.points.Add(1, p1);
-            //currentItems.points.Add(2, p2);
-
-            //CollectionPoint p3 = new CollectionPoint(3);
-            //p3.Vats.Add(currentItems.vats.ElementAt(4).Value);
-            //currentItems.points.Add(3, p3);
-
-            //CollectionPoint p4 = new CollectionPoint(4);
-            //p4.Vats.Add(currentItems.vats.ElementAt(5).Value);
-            //currentItems.points.Add(4, p4);
-        }
+        private RamTM() : base() {}
 
         public static TransactionManager Instance
         {
@@ -60,14 +33,12 @@ namespace Service.Transaction
             Console.WriteLine("Initialize RamTransactionManager.");
         }
 
-        #region abstract base class get item overrides
+        #region public and protected methods for locking
 
-
-
-        #endregion
-
-        #region base class lock overrides
-
+        public override bool TryLock<T>(int id, T item, string login, out LockBatch batch)
+        {
+            throw new NotImplementedException();
+        }
 
         ///// <summary>
         ///// For each lock request a item-set the lock should be applied to has to be determined by the TransactionManger. 
@@ -177,17 +148,21 @@ namespace Service.Transaction
             //return batch;
         }
 
+
         #endregion
 
+        #region public methods to access cached and non cached ressources
 
-        public override T GetSingleItem<T>(int id, T item)
+        public override T GetSingleItem<T>(int id)
         {
             throw new NotImplementedException();
         }
 
-        public override bool TryLock<T>(int id, T item, string login, out LockBatch batch)
+        public override List<T> GetAllItems<T>()
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
