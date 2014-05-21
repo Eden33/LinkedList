@@ -10,11 +10,11 @@ using Service.Lock;
 
 namespace Service.Transaction
 {
-    class RamTM : TransactionManager
+    class TMImplementation : TransactionManager
     {
-        private static RamTM instance;
+        private static TMImplementation instance;
 
-        private RamTM() : base() {}
+        private TMImplementation() : base() {}
 
         public static TransactionManager Instance
         {
@@ -22,7 +22,7 @@ namespace Service.Transaction
             {
                 if (instance == null)
                 {
-                    instance = new RamTM();
+                    instance = new TMImplementation();
                 }
                 return instance;
             }

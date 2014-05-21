@@ -21,7 +21,7 @@ namespace Service
 
     public class ResourceService : IResourceService
     {
-        private static readonly TransactionManager tm = RamTM.Instance;
+        private static readonly TransactionManager tm = TMImplementation.Instance;
         private static readonly UserContextProvider userContextProvider = UserContextProvider.Instance;
        
         public ResourceService() 
