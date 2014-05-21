@@ -10,10 +10,12 @@ namespace Model.Data
     //TODO: probably we can make it abstract, but we should be very careful
 
     [KnownType(typeof(CollectionPoint))]
-    [KnownType(typeof(Client))]
+    [KnownType(typeof(Customer))]
     [DataContract(Namespace="http://itm4.gopp/resources/item")]
     public class Item
     {
+        public Item() { }
+
         public Item(int id)
         {
             Id = id;

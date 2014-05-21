@@ -23,10 +23,10 @@ namespace TreeEditor
             {
                 collectionPointList.Add(c);
             }
-            List<UIClient> cs = resourceMgr.GetAllItems<UIClient>();
-            foreach(UIClient c in cs)
+            List<UICustomer> cs = resourceMgr.GetAllItems<UICustomer>();
+            foreach(UICustomer c in cs)
             {
-                clientList.Add(c);
+                customerList.Add(c);
             }
         }
 
@@ -63,11 +63,11 @@ namespace TreeEditor
             get { return collectionPointList; }
         }
 
-        private ObservableCollectionEx<UIClient> clientList = new ObservableCollectionEx<UIClient>();
+        private ObservableCollectionEx<UICustomer> customerList = new ObservableCollectionEx<UICustomer>();
 
-        public ObservableCollectionEx<UIClient> ClientList
+        public ObservableCollectionEx<UICustomer> CustomerList
         {
-            get { return clientList; }
+            get { return customerList; }
         }
 
 

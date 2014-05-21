@@ -8,8 +8,8 @@
             <CompositeCollection x:Key="collectionPointCollection">
                 <CollectionContainer Collection="{Binding DataContext.CollectionPointList,Source={x:Reference mainWindow}}" />
             </CompositeCollection>
-            <CompositeCollection x:Key="clientCollection">
-                <CollectionContainer Collection="{Binding DataContext.ClientList,Source={x:Reference mainWindow}}" />
+            <CompositeCollection x:Key="customerCollection">
+                <CollectionContainer Collection="{Binding DataContext.CustomerList,Source={x:Reference mainWindow}}" />
             </CompositeCollection>
             
         </Grid.Resources>
@@ -43,14 +43,14 @@
             <Label>Clients:</Label>
             <ListView>
                 <ListView.ItemsSource>
-                    <StaticResource ResourceKey="clientCollection"/>
+                    <StaticResource ResourceKey="customerCollection"/>
                 </ListView.ItemsSource>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Client.FirstName}" />
-                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Client.FirstName}" />
-                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Client.Address}" />
+                        <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}" />
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" />
+                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                         <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
                         <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>

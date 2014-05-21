@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Model.Data
 {
-    [DataContract(Namespace = "http://itm4.gopp/resources/client")]
-    public class Client : Item
+    [DataContract(Namespace = "http://itm4.gopp/resources/customer")]
+    public class Customer : Item
     {
-        public Client(int id) : base(id) { }
+        public Customer() : base() { }
+
+        public Customer(int id) : base(id) { }
 
         private string firstName;
 

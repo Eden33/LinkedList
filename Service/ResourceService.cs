@@ -101,7 +101,7 @@ namespace Service
             if (id > 1 && id < 50)
             {
                 r = new SingleItemResponse(true);
-                Client c = new Client(id);
+                Customer c = new Customer(id);
                 c.FirstName = "First Name " + id;
                 c.LastName = "Last Name " + id;
                 c.Address = "Address " + id;
@@ -123,11 +123,11 @@ namespace Service
             Random random = new Random();
 
             List<Item> list = new List<Item>();
-            if(ItemType.Client.Equals(itemType))
+            if(ItemType.Customer.Equals(itemType))
             {
                 for(int i = 1; i < 50; i++)
                 {
-                    Client c = new Client(i);
+                    Customer c = new Customer(i);
                     c.FirstName = "First Name " + i;
                     c.LastName = "Last Name " + i;
                     c.Address = "Address " + i;
@@ -140,11 +140,11 @@ namespace Service
                 {
                     CollectionPoint cp = new CollectionPoint(i);
                     cp.Description = "This is CP " + i;
-                    Client c = new Client(random.Next(1, 51));
+                    Customer c = new Customer(random.Next(1, 51));
                     c.FirstName = "First Name " + c.Id;
                     c.LastName = "Last Name " + c.Id;
                     c.Address = "Address " + c.Id;
-                    cp.Clients.Add(c);
+                    cp.Customers.Add(c);
                     list.Add((Item)cp);
                 }
             }

@@ -10,6 +10,8 @@ namespace Model.Data
     [DataContract(Namespace = "http://itm4.gopp/resources/collectionPoint")]
     public class CollectionPoint : Item
     {
+        public CollectionPoint() : base() { }
+
         public CollectionPoint(int id) : base(id) { }
 
         private string description;
@@ -21,18 +23,26 @@ namespace Model.Data
             set { description = value; }
         }
 
-        private List<Client> clients = new List<Client>();
+        private string address;
+
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
+
+        private List<Customer> customers = new List<Customer>();
 
         [DataMember]
-        public List<Client> Clients
+        public List<Customer> Customers
         {
             get
             {
-                return clients;
+                return customers;
             }
             set
             {
-                clients = value;
+                customers = value;
             }
         }
     }

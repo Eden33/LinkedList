@@ -27,7 +27,7 @@ namespace TreeEditor.Resource
 
         #endregion
 
-        private ResourceManager() 
+        private ResourceManager()
         {
             InstanceContext context = new InstanceContext(this);
             client = new ResourceService.ResourceServiceClient(context);
@@ -157,19 +157,19 @@ namespace TreeEditor.Resource
                 UICollectionPoint cpProxy = new UICollectionPoint(cp);
                 cache.CacheUIItem(cpProxy);
 
-                foreach (Client c in cp.Clients)
+                foreach (Customer c in cp.Customers)
                 {
                     cache.CacheItem(c);
-                    UIClient clientProxy = new UIClient(c);
+                    UICustomer clientProxy = new UICustomer(c);
                     cache.CacheUIItem(clientProxy);
                 }
             }
-            else if (modelType == typeof(Client))
+            else if (modelType == typeof(Customer))
             {
-                Client c = (Client)item;
+                Customer c = (Customer)item;
                 cache.CacheItem(c);
 
-                UIClient cProxy = new UIClient(c);
+                UICustomer cProxy = new UICustomer(c);
                 cache.CacheUIItem(cProxy);
             }
         }

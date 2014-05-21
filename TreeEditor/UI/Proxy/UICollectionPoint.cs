@@ -26,16 +26,24 @@ namespace TreeEditor.UI.Proxy
             }
         }
 
-        public List<UIClient> Clients
+        public String Address
         {
             get
             {
-                List<UIClient> clients = new List<UIClient>();
-                foreach(Client c in collectionPoint.Clients)
+                return this.collectionPoint.Address;
+            }
+        }
+
+        public List<UICustomer> Customers
+        {
+            get
+            {
+                List<UICustomer> customers = new List<UICustomer>();
+                foreach(Customer c in collectionPoint.Customers)
                 {
-                    clients.Add(ResourceManager.Instance.GetSingleItem<UIClient>(c.Id));
+                    customers.Add(ResourceManager.Instance.GetSingleItem<UICustomer>(c.Id));
                 }
-                return clients;
+                return customers;
             }
         }
 

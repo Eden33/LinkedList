@@ -19,7 +19,7 @@ namespace Model.Data
     public enum ItemType
     {
         [EnumMember]
-        Client,
+        Customer,
         [EnumMember]
         CollectionPoint
     }

@@ -28,8 +28,8 @@ namespace TreeEditor.Resource
             modelMap.Add(typeof(UICollectionPoint), ItemType.CollectionPoint);
             clientMap.Add(ItemType.CollectionPoint, typeof(CollectionPoint));
 
-            modelMap.Add(typeof(UIClient), ItemType.Client);
-            clientMap.Add(ItemType.Client, typeof(Client));
+            modelMap.Add(typeof(UICustomer), ItemType.Customer);
+            clientMap.Add(ItemType.Customer, typeof(Customer));
         }
 
         /// <summary>

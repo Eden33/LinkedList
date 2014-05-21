@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://itm4.gopp/resources/client" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/client" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:tns="http://itm4.gopp/resources/customer" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/customer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
-  <xs:complexType name="ArrayOfClient">
+  <xs:complexType name="ArrayOfCustomer">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Client" nillable="true" type="tns:Client" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Customer" nillable="true" type="tns:Customer" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfClient" nillable="true" type="tns:ArrayOfClient" />
-  <xs:complexType name="Client">
+  <xs:element name="ArrayOfCustomer" nillable="true" type="tns:ArrayOfCustomer" />
+  <xs:complexType name="Customer">
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://itm4.gopp/resources/item" base="q1:Item">
         <xs:sequence>
@@ -18,5 +18,5 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="Client" nillable="true" type="tns:Client" />
+  <xs:element name="Customer" nillable="true" type="tns:Customer" />
 </xs:schema>

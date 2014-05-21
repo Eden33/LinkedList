@@ -64,7 +64,7 @@
     </Compile>
     <Compile Include="UI\Collection\ObservableCollectionEx.cs" />
     <Compile Include="UI\Input\Command.cs" />
-    <Compile Include="UI\Proxy\UIClient.cs" />
+    <Compile Include="UI\Proxy\UICustomer.cs" />
     <Compile Include="UI\Window\LoginDialog.xaml.cs">
       <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
@@ -129,16 +129,13 @@
     <None Include="Service References\ResourceService\item1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\ResourceService\item10.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ResourceService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\item3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ResourceService\item31.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ResourceService\item32.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\item4.xsd">
@@ -154,6 +151,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\item8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ResourceService\item9.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ResourceService\ResourceService.wsdl" />

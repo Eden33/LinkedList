@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Model.Message.Request" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Model.Message.Request" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="UpdateRequest">
-    <xs:sequence />
+<xs:schema xmlns:tns="http://itm4.gopp/resources/item" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/item" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Item">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:int" />
+    </xs:sequence>
   </xs:complexType>
-  <xs:element name="UpdateRequest" nillable="true" type="tns:UpdateRequest" />
-  <xs:complexType name="DeleteRequest">
-    <xs:sequence />
+  <xs:element name="Item" nillable="true" type="tns:Item" />
+  <xs:complexType name="ArrayOfItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Item" nillable="true" type="tns:Item" />
+    </xs:sequence>
   </xs:complexType>
-  <xs:element name="DeleteRequest" nillable="true" type="tns:DeleteRequest" />
+  <xs:element name="ArrayOfItem" nillable="true" type="tns:ArrayOfItem" />
 </xs:schema>
