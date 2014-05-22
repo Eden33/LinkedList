@@ -19,7 +19,7 @@ namespace Service.User
         {
             this.loginName = loginName;
             this.operationContext = context;
-
+            Console.WriteLine("New user: {0} session: {1}", loginName, context.SessionId);
         }
 
         public string LoginName

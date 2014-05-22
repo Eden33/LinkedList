@@ -18,7 +18,7 @@ namespace Service
     {
         /// <summary>
         /// Pseudo Authentication. We don't use WCF authentication with intend.
-        /// You can not login with the same user twice.
+        /// The passed loginName is mapped to the WCF session id.
         /// </summary>
         /// <param name="loginName">The user name of the client sending the message</param>
         /// <returns>True on login success, otherwise false</returns>

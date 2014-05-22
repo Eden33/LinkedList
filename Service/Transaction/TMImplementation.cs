@@ -153,14 +153,27 @@ namespace Service.Transaction
 
         #region public methods to access cached and non cached ressources
 
+        /// <summary>
+        /// Get a single item of Type T.
+        /// </summary>
+        /// <typeparam name="T">The item type of the requested class which has to be a subclass of Model.Item</typeparam>
+        /// <param name="id">The item id</param>
+        /// <returns>The item or null if no such item exists.</returns>
         public override T GetSingleItem<T>(int id)
         {
-            throw new NotImplementedException();
+            T item = dataSource.GetSingleItem<T>(id);
+            return item;
         }
 
+        /// <summary>
+        /// Get all items available of Type T.
+        /// </summary>
+        /// <typeparam name="T">The item type of the requested class which has to be a subclass of Model.Item</typeparam>
+        /// <returns>The list of items requested. Of no items available a empty list is returned.</returns>
         public override List<T> GetAllItems<T>()
         {
-            throw new NotImplementedException();
+            List<T> items = dataSource.GetAllItems<T>();
+            return items;
         }
 
         #endregion

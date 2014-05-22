@@ -14,9 +14,8 @@ namespace Service.Transaction
 
     abstract class TransactionManager : IData
     {
-        protected ResourceCache cache = new ResourceCache();
         protected LockManager lm = new LockManager();
-        protected IData dataManager = new DBFacade();
+        protected IData dataSource = new DBFacade();
 
         protected TransactionManager()
         {

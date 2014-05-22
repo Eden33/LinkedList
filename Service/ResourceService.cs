@@ -92,6 +92,8 @@ namespace Service
 
         public SingleItemResponse GetSingleItem(int id, ItemType itemType)
         {
+            Console.WriteLine("Incoming get single item for type : " + itemType);
+
             UserContext userContext = null;
             SingleItemResponse r = new SingleItemResponse();
             if (!ValidSession(out userContext))
@@ -102,25 +104,7 @@ namespace Service
             else
             {
                 Type returnType = ResourceMap.getModelType(itemType);
-
-                // this method replaces the old WCF methods (GetCollectionPoint, GetCollectionVat)
-
-                // TODO: fix me
-                // return tm.GetCollectionPoint(id);
-
-                if (id > 1 && id < 50)
-                {
-                    r = new SingleItemResponse(true);
-                    Customer c = new Customer(id);
-                    c.FirstName = "First Name " + id;
-                    c.LastName = "Last Name " + id;
-                    c.Address = "Address " + id;
-                    r.Item = c;
-                }
-                else
-                {
-                    r = new SingleItemResponse(false, "ID not found");
-                }
+                Item item = GetSingleItemFromType(id, returnType);
             }
             return r;
         }
@@ -139,35 +123,8 @@ namespace Service
             else
             {
                 r.Success = true;
-                Random random = new Random();
-
-                List<Item> list = new List<Item>();
-                if (ItemType.Customer.Equals(itemType))
-                {
-                    for (int i = 1; i < 50; i++)
-                    {
-                        Customer c = new Customer(i);
-                        c.FirstName = "First Name " + i;
-                        c.LastName = "Last Name " + i;
-                        c.Address = "Address " + i;
-                        list.Add((Item)c);
-                    }
-                }
-                else if (ItemType.CollectionPoint.Equals(itemType))
-                {
-                    for (int i = 1; i < 50; i++)
-                    {
-                        CollectionPoint cp = new CollectionPoint(i);
-                        cp.Description = "This is CP " + i;
-                        Customer c = new Customer(random.Next(1, 51));
-                        c.FirstName = "First Name " + c.Id;
-                        c.LastName = "Last Name " + c.Id;
-                        c.Address = "Address " + c.Id;
-                        cp.Customers.Add(c);
-                        list.Add((Item)cp);
-                    }
-                }
-                r.Items = list;
+                Type type = ResourceMap.getModelType(itemType);
+                r.Items = GetAllItemsFromType(type);
             }
             return r;
         }
@@ -203,6 +160,34 @@ namespace Service
                 return false;
             }
             return true;
+        }
+
+        private Item GetSingleItemFromType(int id, Type theType)
+        {
+            Item theItem = null;
+            if(theType == typeof(CollectionPoint))
+            {
+                theItem = tm.GetSingleItem<CollectionPoint>(id);
+            }
+            else if(theType == typeof(Customer))
+            {
+                theItem = tm.GetSingleItem<Customer>(id);
+            }
+            return theItem;
+        }
+        
+        private List<Item> GetAllItemsFromType(Type theType)
+        {
+            List<Item> items = null;
+            if(theType == typeof(CollectionPoint))
+            {
+                items = tm.GetAllItems<CollectionPoint>().Cast<Item>().ToList();
+            }
+            else if(theType == typeof(Customer))
+            {
+                items = tm.GetAllItems<Customer>().Cast<Item>().ToList();
+            }
+            return items;
         }
 
         #endregion

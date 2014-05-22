@@ -18,6 +18,8 @@ namespace Service.Resource
 
         void CacheItem<T>(T item) where T : BaseItem;
 
-        IList<T> GetAllItems<T>() where T : BaseItem;
+        void CacheAllItems<T>(IEnumerable<T> items) where T : BaseItem;
+
+        List<T> GetAllItems<T>() where T : BaseItem;
     }
 }
