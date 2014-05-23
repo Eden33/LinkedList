@@ -15,11 +15,6 @@ namespace Service.Resource
         /// </summary>
         private ResourceCache dataSource = new ResourceCache();
 
-        /// <summary>
-        /// Contains all data elements that have been requested allready
-        /// </summary>
-        private ResourceCache cache = new ResourceCache();
-
         public DBFacade()
         {
             GenerateRecordData(10, 50, 3);
@@ -66,7 +61,7 @@ namespace Service.Resource
                 c.Address = "Address " + i;
                 customers.Add(c);
             }
-            dataSource.CacheAllItems<Customer>(customers);
+
             #endregion
 
             #region generate CPs and set up dependencies
@@ -85,7 +80,14 @@ namespace Service.Resource
                 {
                     for(int id = 1; id <= tmpRand; id++)
                     {
-                        c = dataSource.GetItem<Customer>(id);
+                        try
+                        {
+                            c = customers.ElementAt(random.Next(1, countCustomers));
+                        }
+                        catch (IndexOutOfRangeException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         if(c != null)
                         {
                             cp.Customers.Add(c);
