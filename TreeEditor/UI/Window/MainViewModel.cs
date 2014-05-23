@@ -83,9 +83,7 @@ namespace TreeEditor
 
         private void TryLockOnServer()
         {
-            Console.WriteLine("TryLockOnServer - implement me.");
-            // TODO: fix me
-            //resourceMgr.RequestLock(selectedCollectionPoint.Id, ItemType.CollectionPoint);
+            resourceMgr.RequestLock<UICollectionPoint>(selectedCollectionPoint.Id);
         }
         #endregion
     }

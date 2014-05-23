@@ -35,9 +35,10 @@ namespace Service.Transaction
 
         #region public and protected methods for locking
 
-        public override bool TryLock<T>(int id, T item, string login, out LockBatch batch)
+        public override bool TryLock<T>(int id, string login, out LockBatch batch)
         {
-            throw new NotImplementedException();
+            batch = new LockBatch();
+            return true;
         }
 
         ///// <summary>

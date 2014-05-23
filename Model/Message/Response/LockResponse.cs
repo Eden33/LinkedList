@@ -9,6 +9,8 @@ namespace Model.Message.Response
     [Serializable]
     public class LockResponse : ResponseMessage 
     {
+        public LockResponse() : base() { }
+
         public LockResponse(bool success, string errorDesc = "") : base(success, errorDesc) { }
     }
 

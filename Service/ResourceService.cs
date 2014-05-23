@@ -54,36 +54,47 @@ namespace Service
 
         public LockResponse TryLock(int id, ItemType itemType)
         {
-            #region retrive user information
+            Console.WriteLine("Lock request for item {0} with id: {1}", itemType, id);
+
+            LockResponse r = new LockResponse();
 
             UserContext userContext = null;
             if(!ValidSession(out userContext))
             {
-                return new LockResponse(false, "No valid session.");
+                r.Success = false;
+                r.ErrorDesc = "No valid session";
+                return r;
             }
+            else
+            {
+                LockBatch batch = null;
+                Type type = ResourceMap.getModelType(itemType);
+                if (type == typeof(CollectionPoint))
+                {
+                    r.Success = tm.TryLock<CollectionPoint>(id, userContext.LoginName, out batch);
 
-            #endregion
+                }
+                else if (type == typeof(Customer))
+                {
+                    r.Success = tm.TryLock<Customer>(id, userContext.LoginName, out batch);
+                }
+                else
+                {
+                    r.Success = false;
+                    r.ErrorDesc = "You cann't lock this item.";
+                }
 
-            return new LockResponse(true);
-
-            // this WCF method has not changed - do we really have to fix it?
-
-            //TODO: fix me
-
-            ////try lock
-            //LockBatch batch = null;
-            //bool lockSuccess = tm.TryLock(id, type, userContext.LoginName, out batch);
-
-            ////push lock information to all clients on lock success
-            //if(lockSuccess)
-            //{
-            //    LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);  
-            //    lock(userContextProvider)
-            //    {
-            //        userContextProvider.NotifyAll(lockMsg);
-            //    }
-            //}
-            //return lockSuccess;
+                //notify all clients on lock success
+                if (r.Success)
+                {
+                    LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);
+                    lock (userContextProvider)
+                    {
+                        userContextProvider.NotifyAll(lockMsg);
+                    }
+                }
+            }
+            return r;
         }
 
         #endregion

@@ -44,7 +44,7 @@ namespace Service.Transaction
 
         public abstract List<T> GetAllItems<T>() where T : Item;
 
-        public abstract bool TryLock<T>(int id, T item, String login, out LockBatch batch) where T : Item;
+        public abstract bool TryLock<T>(int id, String login, out LockBatch batch) where T : Item;
     }
 
 }

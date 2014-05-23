@@ -144,9 +144,23 @@ namespace TreeEditor.Resource
             return cache.GetAllUIItems<T>();
         }
 
-        public bool RequestLock<T>(int id, T item) where T : UIItem 
+        public bool RequestLock<T>(int id) where T : UIItem 
         {
-            throw new NotImplementedException();      
+            ItemType itemType = ResourceMap.GetItemType<T>();
+            try
+            {
+                LockResponse r = client.TryLock(id, itemType);
+                if(r.Success)
+                {
+                    cache.GetUIItem<T>(id).LockInfo = new UILockInfo(this.loginName, true);
+                    return true;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Excpetion caught in RequestLock: {0}", e.Message);
+            }
+            return false;
         }
 
         #endregion
