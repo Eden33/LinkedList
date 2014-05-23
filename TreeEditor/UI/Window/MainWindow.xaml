@@ -8,10 +8,6 @@
             <CompositeCollection x:Key="collectionPointCollection">
                 <CollectionContainer Collection="{Binding DataContext.CollectionPointList,Source={x:Reference mainWindow}}" />
             </CompositeCollection>
-            <CompositeCollection x:Key="customerCollection">
-                <CollectionContainer Collection="{Binding DataContext.CustomerList,Source={x:Reference mainWindow}}" />
-            </CompositeCollection>
-            
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,8 +16,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
+            <Button Content="Try lock selected CollectionPoint on Server" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
             <Label>Collection Points:</Label>
             <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged">
                 <ListView.ItemsSource>
@@ -31,6 +28,7 @@
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
+                        <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                         <GridViewColumn Header="Locked" DisplayMemberBinding="{Binding LockInfo.Locked}" />
                         <GridViewColumn Header="Lock-Owner" DisplayMemberBinding="{Binding LockInfo.LockOwner}" />
                     </GridView>
@@ -38,13 +36,10 @@
             </ListView>
             <!-- TODO: implement user in workspace info here -->
         </StackPanel>
-        
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,10,10,0">
-            <Label>Clients:</Label>
-            <ListView>
-                <ListView.ItemsSource>
-                    <StaticResource ResourceKey="customerCollection"/>
-                </ListView.ItemsSource>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,40,10,0">
+            <Label>Customers:</Label>
+            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
@@ -57,6 +52,6 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-        
+
     </Grid>
 </Window>

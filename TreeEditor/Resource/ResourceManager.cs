@@ -92,24 +92,30 @@ namespace TreeEditor.Resource
         public T GetSingleItem<T>(int id) where T : UIItem
         {
             ItemType itemType = ResourceMap.GetItemType<T>();
-            try
+            T item = cache.GetUIItem<T>(id);
+            if(item == null)
             {
-                SingleItemResponse r = client.GetSingleItem(id, itemType);
-                if(r.Success)
+                try
                 {
-                    Type modelType = ResourceMap.getModelType(itemType);
-                    CacheItem(modelType, r.Item);
+                    SingleItemResponse r = client.GetSingleItem(id, itemType);
+                    if (r.Success)
+                    {
+                        Type modelType = ResourceMap.getModelType(itemType);
+                        CacheItem(modelType, r.Item);
+                        item = cache.GetUIItem<T>(id);
+                    }
+                    else
+                    {
+                        Console.WriteLine("GetSingleItem for type: {0} wasn't successfull.", typeof(T));
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Console.WriteLine("GetSingleItem for type: {0} wasn't successfull.", typeof(T));
+                    Console.WriteLine("Exception cuaght in GetSingleItem: {0}", e.Message);
                 }
+            
             }
-            catch(Exception e)
-            {
-                Console.WriteLine("Exception cuaght in GetSingleItem: {0}", e.Message);
-            }
-            return cache.GetUIItem<T>(id);
+            return item;
         }
 
         public List<T> GetAllItems<T>() where T : UIItem

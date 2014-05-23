@@ -23,11 +23,6 @@ namespace TreeEditor
             {
                 collectionPointList.Add(c);
             }
-            List<UICustomer> cs = resourceMgr.GetAllItems<UICustomer>();
-            foreach(UICustomer c in cs)
-            {
-                customerList.Add(c);
-            }
         }
 
         #region members
@@ -62,14 +57,6 @@ namespace TreeEditor
         {
             get { return collectionPointList; }
         }
-
-        private ObservableCollectionEx<UICustomer> customerList = new ObservableCollectionEx<UICustomer>();
-
-        public ObservableCollectionEx<UICustomer> CustomerList
-        {
-            get { return customerList; }
-        }
-
 
         #endregion
 
