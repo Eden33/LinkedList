@@ -91,7 +91,7 @@ namespace TreeEditor.Resource
 
         public T GetSingleItem<T>(int id) where T : UIItem
         {
-            ItemType itemType = ResourceMap.GetItemType<T>();
+            ItemType itemType = ResourceMap.UITypeToItemType<T>();
             T item = cache.GetUIItem<T>(id);
             if(item == null)
             {
@@ -100,7 +100,7 @@ namespace TreeEditor.Resource
                     SingleItemResponse r = client.GetSingleItem(id, itemType);
                     if (r.Success)
                     {
-                        Type modelType = ResourceMap.getModelType(itemType);
+                        Type modelType = ResourceMap.ItemTypeToModelType(itemType);
                         CacheItem(modelType, r.Item);
                         item = cache.GetUIItem<T>(id);
                     }
@@ -120,13 +120,13 @@ namespace TreeEditor.Resource
 
         public List<T> GetAllItems<T>() where T : UIItem
         {
-            ItemType itemType = ResourceMap.GetItemType<T>();
+            ItemType itemType = ResourceMap.UITypeToItemType<T>();
             try
             {
                 AllItemsResponse r = client.GetAllItems(itemType);
                 if (r.Success)
                 {
-                    Type modelType = ResourceMap.getModelType(itemType);
+                    Type modelType = ResourceMap.ItemTypeToModelType(itemType);
                     foreach(Item item in r.Items) 
                     {
                         CacheItem(modelType, item);
@@ -146,7 +146,7 @@ namespace TreeEditor.Resource
 
         public bool RequestLock<T>(int id) where T : UIItem 
         {
-            ItemType itemType = ResourceMap.GetItemType<T>();
+            ItemType itemType = ResourceMap.UITypeToItemType<T>();
             try
             {
                 LockResponse r = client.TryLock(id, itemType);
@@ -200,7 +200,38 @@ namespace TreeEditor.Resource
 
         public void LockedNotification(LockMessage lockMsg)
         {
-            throw new NotImplementedException();
+            String loginName = lockMsg.LoginName;
+            bool isLocked = lockMsg.IsLocked;
+            UILockInfo lockInfo = new UILockInfo(loginName, isLocked);
+            foreach(LockItem l in lockMsg.LockBatch.ItemsToLock)
+            {
+                Type type = ResourceMap.ItemTypeToUIType(l.ItemType);
+                if(type == typeof(UICollectionPoint))
+                {
+                    foreach(int id in l.IDsToLock)
+                    {
+                        cache.GetUIItem<UICollectionPoint>(id).LockInfo = lockInfo;
+                    }
+                }
+                else if(type == typeof(UICustomer))
+                {
+                    foreach(int id in l.IDsToLock)
+                    {
+                        try
+                        {
+                            cache.GetUIItem<UICustomer>(id).LockInfo = lockInfo;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("UICustomer: {0} not available.", id);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("This item cann't be marked as locked: {0}", l.ItemType);
+                }
+            }
         }
 
         public void UpdateNotification(UpdateMessage updateMsg)

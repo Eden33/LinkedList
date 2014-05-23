@@ -12,13 +12,14 @@ namespace Model.Lock
 
     public class LockItem
     {
-        private Item typeToLock;
+        private ItemType itemType;
 
-        public Item ItemTypeInfo
+        public ItemType ItemType
         {
-            get { return typeToLock; }
-            set { typeToLock = value; }
+            get { return itemType; }
+            set { itemType = value; }
         }
+
         private List<int> idsToLock;
 
         public List<int> IDsToLock

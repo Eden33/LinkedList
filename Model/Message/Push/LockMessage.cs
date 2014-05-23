@@ -16,14 +16,16 @@ namespace Model.Message.Push
 
         private LockBatch lockBatch;
         private string loginName;
+        private bool isLocked;
 
         #endregion
 
-        public LockMessage(String loginName, LockBatch batch)
+        public LockMessage(String loginName, bool isLocked, LockBatch batch)
         {
             msgType = NotificationMessage.MessageType.LockMessage;
             lockBatch = batch;
             this.loginName = loginName;
+            this.isLocked = isLocked;
         }
 
         #region properties
@@ -36,6 +38,11 @@ namespace Model.Message.Push
         public string LoginName
         {
             get { return loginName; }
+        }
+
+        public bool IsLocked
+        {
+            get { return isLocked;  }
         }
 
         #endregion

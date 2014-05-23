@@ -87,7 +87,7 @@ namespace Service
                 //notify all clients on lock success
                 if (r.Success)
                 {
-                    LockMessage lockMsg = new LockMessage(userContext.LoginName, batch);
+                    LockMessage lockMsg = new LockMessage(userContext.LoginName, true, batch);
                     lock (userContextProvider)
                     {
                         userContextProvider.NotifyAll(lockMsg);

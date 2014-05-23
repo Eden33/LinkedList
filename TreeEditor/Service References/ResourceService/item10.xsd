@@ -7,6 +7,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:NotificationMessage">
         <xs:sequence>
+          <xs:element name="isLocked" type="xs:boolean" />
           <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Model.Lock" name="lockBatch" nillable="true" type="q1:LockBatch" />
           <xs:element name="loginName" nillable="true" type="xs:string" />
         </xs:sequence>

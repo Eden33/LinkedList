@@ -15,44 +15,58 @@ namespace TreeEditor.Resource
     /// </summary>
     static class ResourceMap
     {
-        private static IDictionary<Type, ItemType> modelMap;
-        private static IDictionary<ItemType, Type> clientMap;
+        private static IDictionary<Type, ItemType> uiTypeToModelTypeMap;
+        private static IDictionary<ItemType, Type> itemTypeToModelTypeMap;
+        private static IDictionary<ItemType, Type> itemTypeToUITypeMap;
+
         
         //TODO: supported model class list (needed for building proxy classes goes here)
 
         static ResourceMap() 
         {
-            modelMap = new Dictionary<Type, ItemType>();
-            clientMap = new Dictionary<ItemType, Type>();
+            uiTypeToModelTypeMap = new Dictionary<Type, ItemType>();
+            itemTypeToModelTypeMap = new Dictionary<ItemType, Type>();
+            itemTypeToUITypeMap = new Dictionary<ItemType, Type>();
 
-            modelMap.Add(typeof(UICollectionPoint), ItemType.CollectionPoint);
-            clientMap.Add(ItemType.CollectionPoint, typeof(CollectionPoint));
+            uiTypeToModelTypeMap.Add(typeof(UICollectionPoint), ItemType.CollectionPoint);
+            itemTypeToModelTypeMap.Add(ItemType.CollectionPoint, typeof(CollectionPoint));
+            itemTypeToUITypeMap.Add(ItemType.CollectionPoint, typeof(UICollectionPoint));
 
-            modelMap.Add(typeof(UICustomer), ItemType.Customer);
-            clientMap.Add(ItemType.Customer, typeof(Customer));
+            uiTypeToModelTypeMap.Add(typeof(UICustomer), ItemType.Customer);
+            itemTypeToModelTypeMap.Add(ItemType.Customer, typeof(Customer));
+            itemTypeToUITypeMap.Add(ItemType.Customer, typeof(UICustomer));
         }
 
         /// <summary>
-        /// Returns the enum needed needed for client - server communication
         /// </summary>
         /// <param name="uiType">The Type of the proxy class used in the User-Interface</param>
         /// <returns>The enum needed for client - server communication</returns>
-        public static ItemType GetItemType<T>() where T : UIItem 
+        public static ItemType UITypeToItemType<T>() where T : UIItem 
         {
             ItemType t;
-            modelMap.TryGetValue(typeof(T), out t);
+            uiTypeToModelTypeMap.TryGetValue(typeof(T), out t);
             return t;
         }
 
         /// <summary>
-        /// Returns the Type of the model class.
         /// </summary>
         /// <param name="itemType">The enum constant used for client - server communication</param>
         /// <returns>The Type of the model class returned from server</returns>
-        public static Type getModelType(ItemType itemType)
+        public static Type ItemTypeToModelType(ItemType itemType)
         {
             Type t;
-            clientMap.TryGetValue(itemType, out t);
+            itemTypeToModelTypeMap.TryGetValue(itemType, out t);
+            return t;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="itemType">The enum constant used for client - server communication</param>
+        /// <returns>The Type of the proxy model class used in User-Interface</returns>
+        public static Type ItemTypeToUIType(ItemType itemType)
+        {
+            Type t;
+            itemTypeToUITypeMap.TryGetValue(itemType, out t);
             return t;
         }
     }

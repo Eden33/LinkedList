@@ -38,6 +38,18 @@ namespace Service.Transaction
         public override bool TryLock<T>(int id, string login, out LockBatch batch)
         {
             batch = new LockBatch();
+            LockItem lockItem = new LockItem();
+            lockItem.ItemType = ItemType.CollectionPoint;
+            lockItem.IDsToLock = new List<int>(new int[] {1, 2, 3});
+            LockItem lockItem2 = new LockItem();
+            lockItem2.ItemType = ItemType.Customer;
+            List<int> aLotOfIds = new List<int>();
+            for (int i = 1; i < 30; i++ )
+            {
+                aLotOfIds.Add(i);
+            }
+            lockItem2.IDsToLock = aLotOfIds;
+            batch.ItemsToLock = new List<LockItem>(new LockItem[] { lockItem, lockItem2 });                        
             return true;
         }
 
