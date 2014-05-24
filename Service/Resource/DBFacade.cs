@@ -8,7 +8,7 @@ using Model.Data;
 
 namespace Service.Resource
 {
-    class DBFacade : IData
+    public class DBFacade : IData
     {
         /// <summary>
         /// Contains all data elements available in this facade data source

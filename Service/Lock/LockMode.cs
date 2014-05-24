@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Service.Lock
 {
-    enum LockMode
+    public enum LockMode
     {
         Locked,
         WriteLock,

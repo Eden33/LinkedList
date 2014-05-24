@@ -46,6 +46,10 @@
     <Compile Include="Lock\LockManager.cs" />
     <Compile Include="Lock\LockMatrix.cs" />
     <Compile Include="Lock\LockMode.cs" />
+    <Compile Include="Lock\LockStrategy\ILockStrategy.cs" />
+    <Compile Include="Lock\LockStrategy\LockCollectionPointStrategy.cs" />
+    <Compile Include="Lock\LockStrategy\LockCustomerStrategy.cs" />
+    <Compile Include="Lock\LockStrategy\LockStrategy.cs" />
     <Compile Include="Resource\DBFacade.cs" />
     <Compile Include="Resource\IData.cs" />
     <Compile Include="Resource\IIdCache.cs" />

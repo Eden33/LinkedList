@@ -9,7 +9,7 @@ using Model.Lock;
 
 namespace Service.Lock
 {
-    class LockManager
+    public class LockManager
     {
 
         //TODO: fix me, decide wisely

@@ -12,7 +12,7 @@ using Service.Resource;
 namespace Service.Transaction
 {
 
-    abstract class TransactionManager : IData
+    public abstract class TransactionManager : IData
     {
         protected LockManager lm = new LockManager();
         protected IData dataSource = new DBFacade();
@@ -38,7 +38,9 @@ namespace Service.Transaction
         /// <param name="id">The item id of the item to be locked.</param>
         /// <param name="item">The item type of the item to be locked.</param>
         /// <returns>A LockBatch object containing all information needed for locking.</returns>
-        protected abstract  LockBatch GetItemsToLock<T>(int id, T item) where T : Item;
+        protected abstract  LockBatch GetItemsToLock<T>(int id) where T : Item;
+
+        public abstract object GetCurrentItemsMonitorObject();
 
         public abstract T GetSingleItem<T>(int id) where T : Item;
 
