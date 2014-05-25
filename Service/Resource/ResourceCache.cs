@@ -8,9 +8,6 @@ using Model.Data;
 
 namespace Service.Resource
 {
-    // TODO: check back with client ResourceCache implementation
-    // if not both caches needed on client side create ResourceCache<BaseItem> in separate library
-
     public class ResourceCache : IIdCache<Item>
     {
         private Dictionary<Type, Dictionary<int, Item>> cache = new Dictionary<Type, Dictionary<int, Item>>();

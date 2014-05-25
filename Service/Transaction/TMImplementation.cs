@@ -8,6 +8,7 @@ using Model.Data;
 using Model.Lock;
 using Service.Lock;
 using Service.Lock.LockStrategy;
+using Service.Resource;
 
 namespace Service.Transaction
 {
@@ -38,22 +39,29 @@ namespace Service.Transaction
 
         #endregion
 
-        #region synchronization
+        #region IDate get and block cached resources
 
-        private object currentItemsMonitor = new object();
-        public override object GetCurrentItemsMonitorObject()
+        public override ResourceCache Cache
         {
-            // TODO: move it to data source?
+            get { return this.dataSource.Cache; }
+        }
 
-            return currentItemsMonitor;
+        public override object CacheBlockUpdatesMonitor
+        {
+            get
+            {
+                return this.dataSource.CacheBlockUpdatesMonitor;
+            }
         }
 
         #endregion
 
         #region public and protected methods for locking
 
+
         public override bool TryLock<T>(int id, string login, out LockBatch batch)
         {
+            //TODO: if ItemsToLock is empty the lock request failed!! handle this here and return false;
             batch = GetItemsToLock<T>(id);                       
             return true;
         }
@@ -67,7 +75,7 @@ namespace Service.Transaction
 
         #endregion
 
-        #region public methods to access cached and non cached ressources
+        #region IDate  get available resources
 
         /// <summary>
         /// Get a single item of Type T.
@@ -93,5 +101,6 @@ namespace Service.Transaction
         }
 
         #endregion
+
     }
 }

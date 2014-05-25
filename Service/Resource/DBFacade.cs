@@ -11,16 +11,36 @@ namespace Service.Resource
     public class DBFacade : IData
     {
         /// <summary>
-        /// Contains all data elements available in this facade data source
+        /// Contains all data items available in this facade data source
         /// </summary>
         private ResourceCache dataSource = new ResourceCache();
+
+        /// <summary>
+        /// Monitor object to block concurrent access during update the item cache
+        /// </summary>
+        private object cacheBlockUpdatesMonitor = new object();
 
         public DBFacade()
         {
             GenerateRecordData(10, 50, 3);
+            //GenerateStaticRecordData();
         }
 
-        #region IData
+        #region IDate get and block cached resources
+
+        public ResourceCache Cache 
+        {
+            get { return this.dataSource;  }
+        }
+
+        public object CacheBlockUpdatesMonitor
+        {
+            get { return cacheBlockUpdatesMonitor; }
+        }
+
+        #endregion
+
+        #region IData get available resources
 
         public T GetSingleItem<T>(int id) where T : Item
         {
@@ -35,6 +55,8 @@ namespace Service.Resource
         }
 
         #endregion
+
+        #region helper methods to generate data items
 
         /// <summary>
         /// Helper to generate a predefined amount of data objects for the data source facade 
@@ -100,11 +122,56 @@ namespace Service.Resource
                 }
             }
             dataSource.CacheAllItems<CollectionPoint>(cps);
+            dataSource.CacheAllItems<Customer>(customers);
           
             #endregion
 
             Console.WriteLine("Data with random dependencies created .... CP count: {0} Customer count: {1}", countCP, countCustomers);
 
         }
+    
+        private void GenerateStaticRecordData()
+        {
+            for(int i = 1; i <= 6; i++)
+            {
+                Customer c = new Customer(i);
+                c.FirstName = "First Name " + i;
+                c.LastName = "Last Name " + i;
+                c.Address = "Adress " + i;
+                dataSource.CacheItem<Customer>(c);
+
+            }
+            CollectionPoint cp1 = new CollectionPoint(1);
+            cp1.Description = "This is CP 1";
+            cp1.Address = "Adress of CP 1";
+            cp1.Customers.Add(dataSource.GetItem<Customer>(1));
+            cp1.Customers.Add(dataSource.GetItem<Customer>(2));
+            cp1.Customers.Add(dataSource.GetItem<Customer>(3));
+
+            CollectionPoint cp2 = new CollectionPoint(2);
+            cp2.Description = "This is CP 2";
+            cp2.Address = "Adress of CP 2";
+            cp2.Customers.Add(dataSource.GetItem<Customer>(2));
+            cp2.Customers.Add(dataSource.GetItem<Customer>(3));
+            cp2.Customers.Add(dataSource.GetItem<Customer>(4));
+
+            CollectionPoint cp3 = new CollectionPoint(3);
+            cp3.Description = "This is CP 3";
+            cp3.Address = "Adress of CP 3";
+            cp3.Customers.Add(dataSource.GetItem<Customer>(2));
+
+            CollectionPoint cp4 = new CollectionPoint(4);
+            cp4.Description = "This is CP 4";
+            cp4.Address = "Adress of CP 4";
+            cp4.Customers.Add(dataSource.GetItem<Customer>(5));
+            cp4.Customers.Add(dataSource.GetItem<Customer>(6));
+
+            dataSource.CacheItem<CollectionPoint>(cp1);
+            dataSource.CacheItem<CollectionPoint>(cp2);
+            dataSource.CacheItem<CollectionPoint>(cp3);
+            dataSource.CacheItem<CollectionPoint>(cp4);
+        }
+
+        #endregion
     }
 }

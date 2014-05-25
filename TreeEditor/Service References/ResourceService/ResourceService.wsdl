@@ -36,8 +36,8 @@
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Response" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd3" namespace="http://itm4.gopp/resources/itemType" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd5" namespace="http://itm4.gopp/resources/collectionPoint" />
-      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://itm4.gopp/resources/customer" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd5" namespace="http://itm4.gopp/resources/customer" />
+      <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://itm4.gopp/resources/collectionPoint" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Request" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/Model.Message.Push" />
       <xsd:import schemaLocation="http://localhost:8081/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/Model.Lock" />

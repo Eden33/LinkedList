@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://itm4.gopp/resources/collectionPoint" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/collectionPoint" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8081/?xsd=xsd6" namespace="http://itm4.gopp/resources/customer" />
+<xs:schema xmlns:tns="http://itm4.gopp/resources/customer" elementFormDefault="qualified" targetNamespace="http://itm4.gopp/resources/customer" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8081/?xsd=xsd4" namespace="http://itm4.gopp/resources/item" />
-  <xs:complexType name="CollectionPoint">
+  <xs:complexType name="Customer">
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q1="http://itm4.gopp/resources/item" base="q1:Item">
         <xs:sequence>
-          <xs:element xmlns:q2="http://itm4.gopp/resources/customer" minOccurs="0" name="Customers" nillable="true" type="q2:ArrayOfCustomer" />
-          <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="CollectionPoint" nillable="true" type="tns:CollectionPoint" />
+  <xs:element name="Customer" nillable="true" type="tns:Customer" />
+  <xs:complexType name="ArrayOfCustomer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Customer" nillable="true" type="tns:Customer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCustomer" nillable="true" type="tns:ArrayOfCustomer" />
 </xs:schema>

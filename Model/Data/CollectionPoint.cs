@@ -25,6 +25,7 @@ namespace Model.Data
 
         private string address;
 
+        [DataMember]
         public string Address
         {
             get { return address; }

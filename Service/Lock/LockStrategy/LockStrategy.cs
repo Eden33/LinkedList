@@ -28,7 +28,8 @@ namespace Service.Lock.LockStrategy
             ILockStrategy s = null;
             if(strategies.TryGetValue(typeof(T), out s))
             {
-                object monitor = tm.GetCurrentItemsMonitorObject();
+                //block data source cache updates during determine the locking set
+                object monitor = tm.CacheBlockUpdatesMonitor;
                 lock(monitor)
                 {
                     batch = s.GetItemsToLock(id);

@@ -35,18 +35,34 @@ namespace Service.Transaction
         /// This method determines and returns needed information in a 
         /// LockBatch object.
         /// </summary>
-        /// <param name="id">The item id of the item to be locked.</param>
-        /// <param name="item">The item type of the item to be locked.</param>
-        /// <returns>A LockBatch object containing all information needed for locking.</returns>
+        /// <typeparam name="T">The item Type to be locked which is a subclass of Model.Item</typeparam>
+        /// <param name="id">The id of the item</param>
+        /// <returns>A LockBatch object containing all information needed for locking</returns>
         protected abstract  LockBatch GetItemsToLock<T>(int id) where T : Item;
 
-        public abstract object GetCurrentItemsMonitorObject();
+        public abstract bool TryLock<T>(int id, String login, out LockBatch batch) where T : Item;
+
+        #region IData get available resources
 
         public abstract T GetSingleItem<T>(int id) where T : Item;
 
         public abstract List<T> GetAllItems<T>() where T : Item;
 
-        public abstract bool TryLock<T>(int id, String login, out LockBatch batch) where T : Item;
+        #endregion
+
+        #region IDate get and block cached resources
+
+        public abstract object CacheBlockUpdatesMonitor
+        {
+            get;
+        }
+
+        public abstract ResourceCache Cache
+        {
+            get;
+        }
+
+        #endregion
     }
 
 }

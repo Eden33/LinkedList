@@ -29,8 +29,8 @@ namespace TreeEditor.ResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Message.Response.UpdateResponse))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Customer))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
         Model.Message.Response.SingleItemResponse GetSingleItem(int id, Model.Data.ItemType itemType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
@@ -62,8 +62,8 @@ namespace TreeEditor.ResourceService {
         void LockedNotification(Model.Message.Push.LockMessage lockMsg);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/UpdateNotification")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Customer))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.CollectionPoint))]
         void UpdateNotification(Model.Message.Push.UpdateMessage updateMsg);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IResourceService/DeleteNotification")]
