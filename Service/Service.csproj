@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IResourceService.cs" />
+    <Compile Include="Lock\LockCache.cs" />
+    <Compile Include="Lock\LockData.cs" />
     <Compile Include="Lock\LockManager.cs" />
     <Compile Include="Lock\LockMatrix.cs" />
     <Compile Include="Lock\LockMode.cs" />
@@ -52,7 +54,6 @@
     <Compile Include="Lock\LockStrategy\LockStrategy.cs" />
     <Compile Include="Resource\DBFacade.cs" />
     <Compile Include="Resource\IData.cs" />
-    <Compile Include="Resource\IIdCache.cs" />
     <Compile Include="Resource\ResourceCache.cs" />
     <Compile Include="Resource\ResourceMap.cs" />
     <Compile Include="Transaction\TMImplementation.cs" />

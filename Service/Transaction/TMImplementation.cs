@@ -61,9 +61,13 @@ namespace Service.Transaction
 
         public override bool TryLock<T>(int id, string login, out LockBatch batch)
         {
-            //TODO: if ItemsToLock is empty the lock request failed!! handle this here and return false;
-            batch = GetItemsToLock<T>(id);                       
-            return true;
+            bool lockSuccess = false;
+            batch = GetItemsToLock<T>(id);
+            if(batch.ItemsToLock != null)
+            {
+                lockSuccess = lm.Lock(login, batch, LockMode.Locked);
+            }
+            return lockSuccess;
         }
 
         protected override LockBatch GetItemsToLock<T>(int id)

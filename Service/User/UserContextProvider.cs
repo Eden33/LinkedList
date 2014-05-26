@@ -49,15 +49,22 @@ namespace Service.User
         /// <returns></returns>
         public bool AddUser(String sessionId, String loginName)
         {
-            UserContext context = null;
             lock(currentUsers)
             {
-                if (!currentUsers.TryGetValue(sessionId, out context))
-                {
+               foreach(KeyValuePair<string, UserContext> entry in currentUsers)
+               {
+                   if(entry.Value.LoginName.Equals(loginName))
+                   {
+                       return false; //users must be named different
+                   }
+               }
+
+               if (!currentUsers.ContainsKey(sessionId))
+               {
                     UserContext c = new UserContext(loginName, OperationContext.Current);
                     currentUsers.Add(sessionId, c);
                     return true;
-                }
+               }
             }
             return false;
         }

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 using Model.Data;
 using Model.Lock;
+using Service.Resource;
 
 namespace Service.Lock
 {
     public class LockManager
     {
+        private LockCache locks = new LockCache();
 
-        //TODO: fix me, decide wisely
-        private Dictionary<int, List<LockData>> collectionPoints = new Dictionary<int, List<LockData>>();
-        private Dictionary<int, List<LockData>> collectionVats = new Dictionary<int, List<LockData>>();
+        #region public methods to set/release locks on resources
 
         /// <summary>
         /// Tries to lock the items passed in LockBatch.
@@ -25,33 +25,14 @@ namespace Service.Lock
         /// <returns>True on lock success, false on rollback</returns>
         public bool Lock(String login, LockBatch batch, LockMode mode)
         {
-            Console.WriteLine("LM - Lock -> Fix me.");
-
-            return false;
-
-            //foreach(LockItem item in batch.ItemsToLock)
-            //{
-            //    if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
-            //    {
-            //        if(SetLocks(login, batch, mode, item, collectionPoints) == false)
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //    else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
-            //    {
-            //        if(SetLocks(login, batch, mode, item, collectionVats) == false)
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Type not handled in Lock: " + item.ItemTypeInfo);
-            //        return false;
-            //    }
-            //}
-            //return true;
+            foreach (LockItem item in batch.ItemsToLock)
+            {
+                if(SetLocks(login, batch, mode, item) == false)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -62,122 +43,57 @@ namespace Service.Lock
         /// <param name="mode">The mode to be unlocked</param>
         public void Unlock(String login, LockBatch batch, LockMode mode)
         {
-            Console.WriteLine("LM - Unlock -> Fix me.");
-
-            //foreach(LockItem item in batch.ItemsToLock)
-            //{
-            //    if(item.ItemTypeInfo.Equals(ItemType.CollectionPoint))
-            //    {
-            //        ReleaseLocks(login, mode, item, collectionPoints);
-            //    }
-            //    else if(item.ItemTypeInfo.Equals(ItemType.CollectionVat))
-            //    {
-            //        ReleaseLocks(login, mode, item, collectionVats);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Type no handled in Unlock: " + item.ItemTypeInfo);
-            //    }
-            //}
-        }
-
-        class LockData
-        {
-            public string login;
-            public LockMode mode;
-
-            public LockData(string login, LockMode mode)
+            foreach (LockItem item in batch.ItemsToLock)
             {
-                this.login = login;
-                this.mode = mode;
-            }
-
-            public override bool Equals(System.Object obj)
-            {
-                if (obj == null)
-                {
-                    return false;
-                }
-
-                LockData d = obj as LockData;
-                if ((System.Object)d == null)
-                {
-                    return false;
-                }
-
-                return (login.Equals(d.login)) && (mode.Equals(d.mode));
-            }
-            public bool Equals(LockData d)
-            {
-                if ((object)d == null)
-                {
-                    return false;
-                }
-                return (login.Equals(d.login)) && (mode.Equals(d.mode));
+                ReleaseLocks(login, mode, item);
             }
         }
 
-        /// <summary>
-        /// Tries to set the locks for given target collection and performs rollback on lock can not be applied.
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="batch"></param>
-        /// <param name="mode"></param>
-        /// <param name="item"></param>
-        /// <param name="targetCollection"></param>
-        /// <returns></returns>
-        private bool SetLocks(String login, LockBatch batch, LockMode mode, LockItem item, Dictionary<int, List<LockData>> targetCollection)
+        #endregion
+
+        #region private helper methods
+
+        private bool SetLocks(String login, LockBatch batch, LockMode mode, LockItem item)
         {
+            foreach (int id in item.IDsToLock)
+            {
+                List<LockData> currentLocks = locks.GetLocksForItem(id, item.ItemType);
+                LockData newLock = new LockData(login, mode);
 
-            //TODO: fix me
-
-            //foreach (int id in item.IDsToLock)
-            //{
-            //    List<LockData> currentLocks = null;
-            //    if (!targetCollection.TryGetValue(id, out currentLocks))
-            //    {
-            //        currentLocks = new List<LockData>();
-            //        currentLocks.Add(new LockData(login, mode));
-            //        targetCollection.Add(id, currentLocks);
-            //    }
-            //    else
-            //    {
-            //        foreach (LockData lockData in currentLocks)
-            //        {
-            //            if (!LockMatrix.IsModeCompatible(lockData.mode, mode))
-            //            {
-            //                Unlock(login, batch, mode);
-            //                return false;
-            //            }
-            //            else
-            //            {
-            //                currentLocks.Add(new LockData(login, mode));
-            //            }
-            //        }
-            //    }
-            //}
+                foreach(LockData lockData in currentLocks)
+                {
+                    if(newLock.Equals(lockData) == false                          
+                        && !LockMatrix.IsModeCompatible(lockData.mode, mode))
+                    {
+                        Console.WriteLine("Lock conflict, rollback locks for user: {0}", login);
+                        Unlock(login, batch, mode);
+                        return false;
+                    }
+                }
+                if(currentLocks.Contains(newLock) == false)
+                {
+                    currentLocks.Add(newLock);
+                    locks.UpdateLocksForItem(id, item.ItemType, currentLocks);
+                }
+            }
             return true;
         }
 
-        /// <summary>
-        /// Releases all locks for given target collection
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="batch"></param>
-        /// <param name="mode"></param>
-        /// <param name="item"></param>
-        /// <param name="targetCollection"></param>
-        private void ReleaseLocks(String login, LockMode mode, LockItem item, Dictionary<int, List<LockData>> targetCollection)
+        private void ReleaseLocks(String login, LockMode mode, LockItem item)
         {
             foreach(int id in item.IDsToLock)
             {
-                List<LockData> currentLocks = null;
-                if(targetCollection.TryGetValue(id, out currentLocks))
+                List<LockData> currentLocks = locks.GetLocksForItem(id, item.ItemType);
+                LockData release = new LockData(login, mode);
+                if(currentLocks.Contains(release))
                 {
-                    currentLocks.Remove(new LockData(login, mode));
+                    currentLocks.Remove(release);
+                    locks.UpdateLocksForItem(id, item.ItemType, currentLocks);
                 }
             }
         }
+
+        #endregion
     }
 
 }

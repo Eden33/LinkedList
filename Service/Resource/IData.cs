@@ -10,9 +10,15 @@ namespace Service.Resource
 {
     public interface IData
     {
+        #region IData get available resources
+
         T GetSingleItem<T>(int id) where T : Item;
 
         List<T> GetAllItems<T>() where T : Item;
+
+        #endregion
+
+        #region get and block cached resources
 
         /// <summary>
         /// Get the monitor object and lock it if you want 
@@ -30,5 +36,7 @@ namespace Service.Resource
         {
             get;
         }
+
+        #endregion
     }
 }

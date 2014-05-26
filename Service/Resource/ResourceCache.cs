@@ -8,7 +8,7 @@ using Model.Data;
 
 namespace Service.Resource
 {
-    public class ResourceCache : IIdCache<Item>
+    public class ResourceCache
     {
         private Dictionary<Type, Dictionary<int, Item>> cache = new Dictionary<Type, Dictionary<int, Item>>();
 

@@ -22,11 +22,17 @@ namespace Service.Transaction
             Initialize();
         }
 
+        #region initialization
+
         /// <summary>
         /// Concrete implementation hast to:
         /// - retrieve current locking information during initialization
         /// </summary>
         protected abstract  void Initialize();
+
+        #endregion
+
+        #region public and protected methods for locking
 
         /// <summary>
         /// Depending on the "root" item to lock the lock granularity is determined.
@@ -41,6 +47,8 @@ namespace Service.Transaction
         protected abstract  LockBatch GetItemsToLock<T>(int id) where T : Item;
 
         public abstract bool TryLock<T>(int id, String login, out LockBatch batch) where T : Item;
+
+        #endregion
 
         #region IData get available resources
 
