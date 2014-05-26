@@ -22,7 +22,7 @@ namespace Service.Lock.LockStrategy
 
         public LockBatch GetItemsToLock(int id)
         {
-            Console.WriteLine("Client sent lock request for CollectionPoint with id: {0}", id);
+            Console.WriteLine("CollectionPoint lock strategy for id: {0} called.", id);
 
             ResourceCache currentItems = tm.Cache;
             List<CollectionPoint> allCollectionPoints = currentItems.GetAllItems<CollectionPoint>();

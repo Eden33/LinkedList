@@ -87,6 +87,11 @@ namespace Service.Transaction
             return strategy.GetItemsToLock(id);
         }
 
+        public override LockBatch GetCurrentLocks(string loginName)
+        {
+            return lm.GetCurrentLocks(loginName);
+        }
+
         #endregion
 
         #region IDate  get available resources

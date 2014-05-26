@@ -40,6 +40,8 @@ namespace Service.User
             }
         }
 
+        #region pseudo user authentication
+
         /// <summary>
         /// Pseudo authentication.
         /// Tries to add the given user.
@@ -69,6 +71,10 @@ namespace Service.User
             return false;
         }
 
+        #endregion
+
+        #region access user data
+
         /// <summary>
         /// Returns the UserContext of this sessionId or null if no valid session exists.
         /// </summary>
@@ -87,6 +93,27 @@ namespace Service.User
             return context;
         }
 
+        /// <summary>
+        /// Returns a list of the currently logged in users
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetCurrentUsers()
+        {
+            List<string> users = new List<string>();
+            lock(currentUsers)
+            {
+                foreach(KeyValuePair<string, UserContext> entry in currentUsers)
+                {
+                    users.Add(entry.Value.LoginName);
+                }
+            }
+            return users;
+        }
+
+        #endregion
+
+        #region messaging
+
         public void NotifyAll(NotificationMessage msg)
         {
             lock(currentUsers)
@@ -94,6 +121,18 @@ namespace Service.User
                 foreach(KeyValuePair<string, UserContext> e in currentUsers)
                 {
                     e.Value.AddMessage(msg);
+                }
+            }
+        }
+
+        public void NotifyUser(String sessionId, NotificationMessage msg)
+        {
+            lock(currentUsers)
+            {
+                UserContext userContext = null;
+                if(currentUsers.TryGetValue(sessionId, out userContext))
+                {
+                    userContext.AddMessage(msg);
                 }
             }
         }
@@ -115,6 +154,8 @@ namespace Service.User
                 Thread.Sleep(pushInterval);
             }
         }
+
+        #endregion
     }
 
 }

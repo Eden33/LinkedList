@@ -12,6 +12,8 @@ namespace Service.Lock
     {
         private Dictionary<ItemType, Dictionary<int, List<LockData>>> locks = new Dictionary<ItemType, Dictionary<int, List<LockData>>>();
 
+        #region get cached lock data
+
         /// <summary>
         /// Returns the current locks for the item of the corresponding item type.
         /// </summary>
@@ -39,6 +41,43 @@ namespace Service.Lock
         }
 
         /// <summary>
+        /// You want an insight in the currently cached locking information?
+        /// This method serves this purpose only.
+        /// It generates and returns a list of ids for the passed item type, lock mode, and user.
+        /// </summary>
+        /// <param name="itemType"></param>
+        /// <param name="loginName"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public List<int> GetLockedIdsForItemType(ItemType itemType, string loginName, LockMode mode)
+        {
+            List<int> ids = new List<int>();
+            Dictionary<int, List<LockData>> locksOfItemType = null;
+            if (locks.TryGetValue(itemType, out locksOfItemType))
+            {
+                foreach(KeyValuePair<int, List<LockData>> entry in locksOfItemType)
+                {
+                    foreach(LockData lockData in entry.Value)
+                    {
+                        if(lockData.mode.Equals(mode) && lockData.login.Equals(loginName))
+                        {
+                            if(!ids.Contains(entry.Key))
+                            {
+                                ids.Add(entry.Key);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return ids;
+        }
+
+        #endregion
+
+        #region update lock data 
+
+        /// <summary>
         /// Updates the current locks for the item of the corresponding item type.
         /// Retrieve the locks first before calling this method.
         /// </summary>
@@ -54,5 +93,7 @@ namespace Service.Lock
                 itemLocks.Add(id, currentLocks);
             }
         }
+
+        #endregion
     }
 }

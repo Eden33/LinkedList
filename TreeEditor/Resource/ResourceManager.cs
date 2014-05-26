@@ -219,6 +219,8 @@ namespace TreeEditor.Resource
 
         public void LockedNotification(LockMessage lockMsg)
         {
+            Console.WriteLine("Lock notification incoming.");
+
             String loginName = lockMsg.LoginName;
             bool isLocked = lockMsg.IsLocked;
             UILockInfo lockInfo = new UILockInfo(loginName, isLocked);
@@ -236,20 +238,29 @@ namespace TreeEditor.Resource
                 {
                     foreach(int id in l.IDsToLock)
                     {
-                        cache.GetUIItem<UICollectionPoint>(id).LockInfo = lockInfo;
+                        Console.WriteLine("Set lock notification for CollectionPoint with id: {0}", id);
+                        try
+                        {
+                            cache.GetUIItem<UICollectionPoint>(id).LockInfo = lockInfo;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("Exception caught: {0}", e.Message);
+                        }
                     }
                 }
                 else if(type == typeof(UICustomer))
                 {
                     foreach(int id in l.IDsToLock)
                     {
+                        Console.WriteLine("Set lock notification for Customer with id: {0}", id);
                         try
                         {
                             cache.GetUIItem<UICustomer>(id).LockInfo = lockInfo;
                         }
                         catch(Exception e)
                         {
-                            Console.WriteLine("UICustomer: {0} not available.", id);
+                            Console.WriteLine("Exception caught: {0}", e.Message);
                         }
                     }
                 }

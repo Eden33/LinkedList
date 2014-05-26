@@ -60,6 +60,12 @@ namespace Service.Transaction
         /// otherwise false is returned to indicate that something went wrong.</returns>
         public abstract bool Unlock<T>(int id, String login, out LockBatch batch) where T : Item;
 
+        /// <summary>
+        /// Returns a the snapshot of all items currently locked by this user
+        /// </summary>
+        /// <returns></returns>
+        public abstract LockBatch GetCurrentLocks(string loginName);
+
         #endregion
 
         #region IData get available resources

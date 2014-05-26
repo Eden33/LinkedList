@@ -25,14 +25,17 @@ namespace Service.Lock
         /// <returns>True on lock success, false on rollback</returns>
         public bool Lock(String login, LockBatch batch, LockMode mode)
         {
-            foreach (LockItem item in batch.ItemsToLock)
+            lock(locks)
             {
-                if(SetLocks(login, batch, mode, item) == false)
+                foreach (LockItem item in batch.ItemsToLock)
                 {
-                    return false;
+                    if (SetLocks(login, batch, mode, item) == false)
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
         }
 
         /// <summary>
@@ -44,15 +47,18 @@ namespace Service.Lock
         /// <returns>True on all items could be unlocked. False if unlocking of at least one item has failed.</returns>
         public bool Unlock(String login, LockBatch batch, LockMode mode)
         {
-            bool allLocksReleased = true;
-            foreach (LockItem item in batch.ItemsToLock)
+            lock(locks)
             {
-                if(ReleaseLocks(login, mode, item) == false)
+                bool allLocksReleased = true;
+                foreach (LockItem item in batch.ItemsToLock)
                 {
-                    allLocksReleased = false;
+                    if (ReleaseLocks(login, mode, item) == false)
+                    {
+                        allLocksReleased = false;
+                    }
                 }
+                return allLocksReleased;
             }
-            return allLocksReleased;
         }
 
         #endregion
@@ -107,6 +113,31 @@ namespace Service.Lock
         }
 
         #endregion
+
+        #region public methods to retrieve current locking information
+
+        public LockBatch GetCurrentLocks(string loginName)
+        {
+            LockBatch batch = new LockBatch();
+
+            lock(locks)
+            {
+                LockItem cpLockItem = new LockItem();
+                cpLockItem.ItemType = ResourceMap.ModelTypeToItemType<CollectionPoint>();
+                cpLockItem.IDsToLock = locks.GetLockedIdsForItemType(cpLockItem.ItemType, loginName, LockMode.Locked);
+
+                LockItem cLocks = new LockItem();
+                cLocks.ItemType = ResourceMap.ModelTypeToItemType<Customer>();
+                cLocks.IDsToLock = locks.GetLockedIdsForItemType(cLocks.ItemType, loginName, LockMode.Locked);
+
+                batch.ItemsToLock = new List<LockItem>(new LockItem[] { cpLockItem, cLocks });
+            }
+
+            return batch;
+        }
+
+        #endregion
+    
     }
 
 }

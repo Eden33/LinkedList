@@ -39,6 +39,13 @@ namespace Service
             if (ValidSession(out context))
             {
                 r.Success = true;
+                List<string> currentUser = userContextProvider.GetCurrentUsers();
+                foreach(string userLogin in currentUser)
+                {
+                    LockBatch currentLocks = tm.GetCurrentLocks(userLogin);
+                    LockMessage msg = new LockMessage(userLogin, true, currentLocks);
+                    userContextProvider.NotifyUser(OperationContext.Current.SessionId, msg);
+                }
             } 
             else
             {
@@ -68,7 +75,7 @@ namespace Service
             else
             {
                 LockBatch batch = null;
-                Type type = ResourceMap.getModelType(itemType);
+                Type type = ResourceMap.ItemTypeToModelType(itemType);
                 if (type == typeof(CollectionPoint))
                 {
                     r.Success = tm.TryLock<CollectionPoint>(id, userContext.LoginName, out batch);
@@ -88,10 +95,7 @@ namespace Service
                 if (r.Success)
                 {
                     LockMessage lockMsg = new LockMessage(userContext.LoginName, true, batch);
-                    lock (userContextProvider)
-                    {
-                        userContextProvider.NotifyAll(lockMsg);
-                    }
+                    userContextProvider.NotifyAll(lockMsg);
                 }
             }
             return r;
@@ -110,7 +114,7 @@ namespace Service
             else
             {
                 LockBatch batch = null;
-                Type type = ResourceMap.getModelType(itemType);
+                Type type = ResourceMap.ItemTypeToModelType(itemType);
 
                 if(type == typeof(CollectionPoint))
                 {
@@ -130,10 +134,7 @@ namespace Service
                 if(r.Success)
                 {
                     LockMessage lockMsg = new LockMessage(userContext.LoginName, false, batch);
-                    lock(userContextProvider)
-                    {
-                        userContextProvider.NotifyAll(lockMsg);
-                    }
+                    userContextProvider.NotifyAll(lockMsg);
                 }
             }
             return r;
@@ -156,7 +157,7 @@ namespace Service
             }
             else
             {
-                Type returnType = ResourceMap.getModelType(itemType);
+                Type returnType = ResourceMap.ItemTypeToModelType(itemType);
                 Item item = GetSingleItemFromType(id, returnType);
             }
             return r;
@@ -176,7 +177,7 @@ namespace Service
             else
             {
                 r.Success = true;
-                Type type = ResourceMap.getModelType(itemType);
+                Type type = ResourceMap.ItemTypeToModelType(itemType);
                 r.Items = GetAllItemsFromType(type);
             }
             return r;
