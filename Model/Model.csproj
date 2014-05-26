@@ -59,6 +59,7 @@
     <Compile Include="Message\Push\LockMessage.cs" />
     <Compile Include="Message\Push\NotificationMessage.cs" />
     <Compile Include="Message\Push\UpdateMessage.cs" />
+    <Compile Include="Message\Response\UnlockResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

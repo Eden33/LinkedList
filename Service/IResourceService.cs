@@ -27,6 +27,9 @@ namespace Service
 
         [OperationContract]
         LockResponse TryLock(int id, ItemType itemType);
+
+        [OperationContract]
+        UnlockResponse Unlock(int id, ItemType itemType);
         
         [OperationContract]
         SingleItemResponse GetSingleItem(int id, ItemType itemType);

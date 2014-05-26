@@ -70,12 +70,22 @@ namespace Service.Transaction
             return lockSuccess;
         }
 
+        public override bool Unlock<T>(int id, String login, out LockBatch batch)
+        {
+            bool unlockSuccess = false;
+            batch = GetItemsToLock<T>(id);
+            if(batch.ItemsToLock != null)
+            {
+                unlockSuccess = lm.Unlock(login, batch, LockMode.Locked);
+            }
+            return unlockSuccess;
+        }
+
         protected override LockBatch GetItemsToLock<T>(int id)
         {
             LockStrategy<T> strategy = new LockStrategy<T>(this);
             return strategy.GetItemsToLock(id);
         }
-
 
         #endregion
 

@@ -24,6 +24,14 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="LockResponse" nillable="true" type="tns:LockResponse" />
+  <xs:complexType name="UnlockResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ResponseMessage">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UnlockResponse" nillable="true" type="tns:UnlockResponse" />
   <xs:complexType name="SingleItemResponse">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:ResponseMessage">

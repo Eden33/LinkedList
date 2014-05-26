@@ -42,6 +42,7 @@ namespace TreeEditor
             {
                 MainWindow mainWin = new MainWindow();
                 mainWin.Show();
+                mainWin.loginNameLbl.Content = "Logged in as: "+ResourceManager.Instance.LoginName;
                 Close();
             }
         }

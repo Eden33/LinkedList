@@ -56,6 +56,12 @@
   <wsdl:message name="IResourceService_TryLock_OutputMessage">
     <wsdl:part name="parameters" element="tns:TryLockResponse" />
   </wsdl:message>
+  <wsdl:message name="IResourceService_Unlock_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unlock" />
+  </wsdl:message>
+  <wsdl:message name="IResourceService_Unlock_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnlockResponse" />
+  </wsdl:message>
   <wsdl:message name="IResourceService_GetSingleItem_InputMessage">
     <wsdl:part name="parameters" element="tns:GetSingleItem" />
   </wsdl:message>
@@ -98,6 +104,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/TryLock" message="tns:IResourceService_TryLock_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/TryLockResponse" message="tns:IResourceService_TryLock_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="Unlock">
+      <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/Unlock" message="tns:IResourceService_Unlock_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/UnlockResponse" message="tns:IResourceService_Unlock_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetSingleItem">
       <wsdl:input wsaw:Action="http://tempuri.org/IResourceService/GetSingleItem" message="tns:IResourceService_GetSingleItem_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IResourceService/GetSingleItemResponse" message="tns:IResourceService_GetSingleItem_OutputMessage" />
@@ -138,6 +148,15 @@
     </wsdl:operation>
     <wsdl:operation name="TryLock">
       <soap12:operation soapAction="http://tempuri.org/IResourceService/TryLock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Unlock">
+      <soap12:operation soapAction="http://tempuri.org/IResourceService/Unlock" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

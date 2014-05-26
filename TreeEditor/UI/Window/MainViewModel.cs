@@ -45,6 +45,7 @@ namespace TreeEditor
                 selectedCollectionPoint = value;
                 DeleteCommand.SetCanExecute(value != null);
                 LockCommand.SetCanExecute(value != null);
+                UnlockCommand.SetCanExecute(value != null);
             }
         }
 
@@ -85,6 +86,19 @@ namespace TreeEditor
         {
             resourceMgr.RequestLock<UICollectionPoint>(selectedCollectionPoint.Id);
         }
+
+        private Command unlockCommand;
+
+        public Command UnlockCommand
+        {
+            get { return unlockCommand ?? (unlockCommand = new Command(UnlockOnServer)); }
+        }
+
+        private void UnlockOnServer()
+        {
+            resourceMgr.Unlock<UICollectionPoint>(selectedCollectionPoint.Id);
+        }
+
         #endregion
     }
 }

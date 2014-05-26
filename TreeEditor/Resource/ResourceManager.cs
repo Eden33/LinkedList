@@ -55,6 +55,7 @@ namespace TreeEditor.Resource
         public string LoginName 
         {
             set { loginName = value; }
+            get { return this.loginName; }
         }
 
         private bool isConnected = false;
@@ -163,6 +164,24 @@ namespace TreeEditor.Resource
             return false;
         }
 
+        public bool Unlock<T>(int id) where T : UIItem
+        {
+            ItemType itemType = ResourceMap.UITypeToItemType<T>();
+            try
+            {
+                UnlockResponse r = client.Unlock(id, itemType);
+                if(r.Success)
+                {
+                    cache.GetUIItem<T>(id).LockInfo = null;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception caught in Unlock: {0}", e.Message);
+            }
+            return false;
+        }
+
         #endregion
 
         #region private methods used for caching
@@ -203,6 +222,13 @@ namespace TreeEditor.Resource
             String loginName = lockMsg.LoginName;
             bool isLocked = lockMsg.IsLocked;
             UILockInfo lockInfo = new UILockInfo(loginName, isLocked);
+            
+            //set it to null results in better overview in the GUI
+            if(lockInfo.Locked == false)
+            {
+                lockInfo = null; 
+            }
+
             foreach(LockItem l in lockMsg.LockBatch.ItemsToLock)
             {
                 Type type = ResourceMap.ItemTypeToUIType(l.ItemType);

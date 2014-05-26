@@ -48,6 +48,18 @@ namespace Service.Transaction
 
         public abstract bool TryLock<T>(int id, String login, out LockBatch batch) where T : Item;
 
+        /// <summary>
+        /// Unlocks the item and the corresponding sub-item-set that has been locked during
+        /// the lock request.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">The id of the root item to be unlocked</param>
+        /// <param name="login">The login name of the user the unlock should be processed for</param>
+        /// <param name="batch">The items that have been unlocked</param>
+        /// <returns>True if all items of the item-set (batch) has been unlocked successfully 
+        /// otherwise false is returned to indicate that something went wrong.</returns>
+        public abstract bool Unlock<T>(int id, String login, out LockBatch batch) where T : Item;
+
         #endregion
 
         #region IData get available resources

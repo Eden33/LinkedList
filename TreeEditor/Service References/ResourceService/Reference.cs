@@ -27,6 +27,12 @@ namespace TreeEditor.ResourceService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/TryLock", ReplyAction="http://tempuri.org/IResourceService/TryLockResponse")]
         System.Threading.Tasks.Task<Model.Message.Response.LockResponse> TryLockAsync(int id, Model.Data.ItemType itemType);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Unlock", ReplyAction="http://tempuri.org/IResourceService/UnlockResponse")]
+        Model.Message.Response.UnlockResponse Unlock(int id, Model.Data.ItemType itemType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Unlock", ReplyAction="http://tempuri.org/IResourceService/UnlockResponse")]
+        System.Threading.Tasks.Task<Model.Message.Response.UnlockResponse> UnlockAsync(int id, Model.Data.ItemType itemType);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/GetSingleItem", ReplyAction="http://tempuri.org/IResourceService/GetSingleItemResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Message.Response.UpdateResponse))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Model.Data.Customer))]
@@ -112,6 +118,14 @@ namespace TreeEditor.ResourceService {
         
         public System.Threading.Tasks.Task<Model.Message.Response.LockResponse> TryLockAsync(int id, Model.Data.ItemType itemType) {
             return base.Channel.TryLockAsync(id, itemType);
+        }
+        
+        public Model.Message.Response.UnlockResponse Unlock(int id, Model.Data.ItemType itemType) {
+            return base.Channel.Unlock(id, itemType);
+        }
+        
+        public System.Threading.Tasks.Task<Model.Message.Response.UnlockResponse> UnlockAsync(int id, Model.Data.ItemType itemType) {
+            return base.Channel.UnlockAsync(id, itemType);
         }
         
         public Model.Message.Response.SingleItemResponse GetSingleItem(int id, Model.Data.ItemType itemType) {

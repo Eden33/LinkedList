@@ -117,6 +117,7 @@
     <None Include="Properties\DataSources\Model.Message.Response.LockResponse.datasource" />
     <None Include="Properties\DataSources\Model.Message.Response.LoginResponse.datasource" />
     <None Include="Properties\DataSources\Model.Message.Response.SingleItemResponse.datasource" />
+    <None Include="Properties\DataSources\Model.Message.Response.UnlockResponse.datasource" />
     <None Include="Properties\DataSources\Model.Message.Response.UpdateResponse.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

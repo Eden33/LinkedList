@@ -33,7 +33,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="GetSingleItem">
+  <xs:element name="Unlock">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="id" type="xs:int" />
@@ -41,73 +41,88 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="UnlockResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="UnlockResult" nillable="true" type="q5:UnlockResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetSingleItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+        <xs:element xmlns:q6="http://itm4.gopp/resources/itemType" minOccurs="0" name="itemType" type="q6:ItemType" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetSingleItemResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="GetSingleItemResult" nillable="true" type="q5:SingleItemResponse" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="GetSingleItemResult" nillable="true" type="q7:SingleItemResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllItems">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://itm4.gopp/resources/itemType" minOccurs="0" name="itemType" type="q6:ItemType" />
+        <xs:element xmlns:q8="http://itm4.gopp/resources/itemType" minOccurs="0" name="itemType" type="q8:ItemType" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetAllItemsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="GetAllItemsResult" nillable="true" type="q7:AllItemsResponse" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="GetAllItemsResult" nillable="true" type="q9:AllItemsResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateItem">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Model.Message.Request" minOccurs="0" name="updateReq" nillable="true" type="q8:UpdateRequest" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Model.Message.Request" minOccurs="0" name="updateReq" nillable="true" type="q10:UpdateRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateItemResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="UpdateItemResult" nillable="true" type="q9:UpdateResponse" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="UpdateItemResult" nillable="true" type="q11:UpdateResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteItem">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Model.Message.Request" minOccurs="0" name="deleteReq" nillable="true" type="q10:DeleteRequest" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Model.Message.Request" minOccurs="0" name="deleteReq" nillable="true" type="q12:DeleteRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteItemResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="DeleteItemResult" nillable="true" type="q11:DeleteResponse" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Model.Message.Response" minOccurs="0" name="DeleteItemResult" nillable="true" type="q13:DeleteResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="LockedNotification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="lockMsg" nillable="true" type="q12:LockMessage" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="lockMsg" nillable="true" type="q14:LockMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UpdateNotification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="updateMsg" nillable="true" type="q13:UpdateMessage" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="updateMsg" nillable="true" type="q15:UpdateMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteNotification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="deleteMsg" nillable="true" type="q14:DeleteMessage" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Model.Message.Push" minOccurs="0" name="deleteMsg" nillable="true" type="q16:DeleteMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

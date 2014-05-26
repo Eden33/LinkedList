@@ -81,7 +81,7 @@ namespace Service
                 else
                 {
                     r.Success = false;
-                    r.ErrorDesc = "You cann't lock this item.";
+                    r.ErrorDesc = "You can't lock this item.";
                 }
 
                 //notify all clients on lock success
@@ -89,6 +89,48 @@ namespace Service
                 {
                     LockMessage lockMsg = new LockMessage(userContext.LoginName, true, batch);
                     lock (userContextProvider)
+                    {
+                        userContextProvider.NotifyAll(lockMsg);
+                    }
+                }
+            }
+            return r;
+        }
+
+        public UnlockResponse Unlock(int id, ItemType itemType)
+        {
+            UnlockResponse r = new UnlockResponse();
+
+            UserContext userContext = null;
+            if(!ValidSession(out userContext))
+            {
+                r.Success = false;
+                r.ErrorDesc = "No valid session";
+            }
+            else
+            {
+                LockBatch batch = null;
+                Type type = ResourceMap.getModelType(itemType);
+
+                if(type == typeof(CollectionPoint))
+                {
+                    r.Success = tm.Unlock<CollectionPoint>(id, userContext.LoginName, out batch);
+                }
+                else if (type == typeof(Customer))
+                {
+                    r.Success = tm.Unlock<Customer>(id, userContext.LoginName, out batch);
+                }
+                else
+                {
+                    r.Success = false;
+                    r.ErrorDesc = "You can't unlock this item.";
+                }
+
+                //notify all clients on unlock success
+                if(r.Success)
+                {
+                    LockMessage lockMsg = new LockMessage(userContext.LoginName, false, batch);
+                    lock(userContextProvider)
                     {
                         userContextProvider.NotifyAll(lockMsg);
                     }

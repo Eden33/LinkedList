@@ -36,17 +36,23 @@ namespace Service.Lock
         }
 
         /// <summary>
-        /// Unlock locks of this mode on given items.
+        /// Unlock the locks for given user and mode.
         /// </summary>
-        /// <param name="login">The login of the user is our transaction id</param>
+        /// <param name="login">The login name of the user the unlock should be processed for</param>
         /// <param name="batch">The items to unlock</param>
-        /// <param name="mode">The mode to be unlocked</param>
-        public void Unlock(String login, LockBatch batch, LockMode mode)
+        /// <param name="mode">The lock mode to unlock</param>
+        /// <returns>True on all items could be unlocked. False if unlocking of at least one item has failed.</returns>
+        public bool Unlock(String login, LockBatch batch, LockMode mode)
         {
+            bool allLocksReleased = true;
             foreach (LockItem item in batch.ItemsToLock)
             {
-                ReleaseLocks(login, mode, item);
+                if(ReleaseLocks(login, mode, item) == false)
+                {
+                    allLocksReleased = false;
+                }
             }
+            return allLocksReleased;
         }
 
         #endregion
@@ -79,8 +85,9 @@ namespace Service.Lock
             return true;
         }
 
-        private void ReleaseLocks(String login, LockMode mode, LockItem item)
+        private bool ReleaseLocks(String login, LockMode mode, LockItem item)
         {
+            bool allLocksReleased = true;
             foreach(int id in item.IDsToLock)
             {
                 List<LockData> currentLocks = locks.GetLocksForItem(id, item.ItemType);
@@ -90,7 +97,13 @@ namespace Service.Lock
                     currentLocks.Remove(release);
                     locks.UpdateLocksForItem(id, item.ItemType, currentLocks);
                 }
+                else
+                {
+                    //this should never be the case!
+                    allLocksReleased = false; 
+                }
             }
+            return allLocksReleased;
         }
 
         #endregion

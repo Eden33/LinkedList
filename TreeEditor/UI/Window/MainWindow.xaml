@@ -18,8 +18,10 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
-            <Button Content="Try lock selected CollectionPoint on Server" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
-            <Label>Collection Points:</Label>
+            <Label Name="loginNameLbl" Height="25"></Label>
+            <Button Content="Try lock selected CollectionPoint" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
+            <Button Content="Unlock selected CollectionPoint" Command="{Binding UnlockCommand}" Margin="0,0,0,10"/>
+            <Label>Sammelstelle:</Label>
             <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged">
                 <ListView.ItemsSource>
                     <StaticResource ResourceKey="collectionPointCollection"/>
@@ -37,8 +39,8 @@
             <!-- TODO: implement user in workspace info here -->
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,40,10,0">
-            <Label>Customers:</Label>
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,99,10,0">
+            <Label >Kunde:</Label>
             <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}">
                 <ListView.View>
                     <GridView>
