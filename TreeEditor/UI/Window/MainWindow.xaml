@@ -17,12 +17,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
-            <Label Name="loginNameLbl" Height="25"></Label>
-            <Button Content="Try lock selected CollectionPoint" Command="{Binding LockCommand}" Margin="0,0,0,10"/>
-            <Button Content="Unlock selected CollectionPoint" Command="{Binding UnlockCommand}" Margin="0,0,0,10"/>
-            <Label>Sammelstelle:</Label>
-            <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged">
+        <DockPanel Grid.Row="0" Grid.Column="0" Margin="10,10,10,0">
+            <Label Name="loginNameLbl" Height="25" DockPanel.Dock="Top"/>
+            <Button Content="Try lock selected CollectionPoint" Command="{Binding LockCommand}" Margin="0,0,0,10" DockPanel.Dock="Top"/>
+            <Button Content="Unlock selected CollectionPoint" Command="{Binding UnlockCommand}" Margin="0,0,0,10" DockPanel.Dock="Top"/>
+            <Label DockPanel.Dock="Top">Sammelstelle:</Label>
+            <ListView x:Name="cpListView" SelectionChanged="cpListView_SelectionChanged" Height="Auto" Width="Auto">
                 <ListView.ItemsSource>
                     <StaticResource ResourceKey="collectionPointCollection"/>
                 </ListView.ItemsSource>
@@ -37,11 +37,11 @@
                 </ListView.View>
             </ListView>
             <!-- TODO: implement user in workspace info here -->
-        </StackPanel>
+        </DockPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10,99,10,0">
-            <Label >Kunde:</Label>
-            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}">
+        <DockPanel Grid.Row="0" Grid.Column="1" Margin="10,99,10,10">
+            <Label DockPanel.Dock="Top">Kunde:</Label>
+            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}" Height="Auto" Width="Auto">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
@@ -53,7 +53,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-        </StackPanel>
+        </DockPanel>
 
     </Grid>
 </Window>

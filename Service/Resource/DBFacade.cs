@@ -22,7 +22,7 @@ namespace Service.Resource
 
         public DBFacade()
         {
-            GenerateRecordData(10, 50, 3);
+            GenerateRecordData(100, 300, 5);
             //GenerateStaticRecordData();
         }
 
