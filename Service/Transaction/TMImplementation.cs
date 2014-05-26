@@ -58,7 +58,6 @@ namespace Service.Transaction
 
         #region public and protected methods for locking
 
-
         public override bool TryLock<T>(int id, string login, out LockBatch batch)
         {
             bool lockSuccess = false;
@@ -90,6 +89,12 @@ namespace Service.Transaction
         public override LockBatch GetCurrentLocks(string loginName)
         {
             return lm.GetCurrentLocks(loginName);
+        }
+
+        public override bool Unlock(string loginName, LockBatch batch)
+        {
+            bool unlockSuccess = lm.Unlock(loginName, batch, LockMode.Locked);
+            return unlockSuccess;
         }
 
         #endregion

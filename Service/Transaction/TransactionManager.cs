@@ -61,10 +61,21 @@ namespace Service.Transaction
         public abstract bool Unlock<T>(int id, String login, out LockBatch batch) where T : Item;
 
         /// <summary>
-        /// Returns a the snapshot of all items currently locked by this user
+        /// Returns a the snapshot of all items currently locked by this user.
+        /// Locks included are from type LockMode.Locked.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A LockBatch containing the information
+        /// about all items the user has currently locked.</returns>
         public abstract LockBatch GetCurrentLocks(string loginName);
+
+        /// <summary>
+        /// Use this to release all item-locks the LockBatch carries.
+        /// Locks released are from type LockMode.Locked.
+        /// </summary>
+        /// <param name="loginName">The lock owner of the items to be released</param>
+        /// <param name="batch">The items to be released</param>
+        /// <returns>True if all locks released with success</returns>
+        public abstract bool Unlock(string loginName, LockBatch batch);
 
         #endregion
 

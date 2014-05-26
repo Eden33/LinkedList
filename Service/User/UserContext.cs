@@ -15,6 +15,18 @@ namespace Service.User
         private OperationContext operationContext;
         private Queue<NotificationMessage> notificationQueue = new Queue<NotificationMessage>(20);
 
+        #region public properties
+
+        /// <summary>
+        /// The communication state of the users tcp connection
+        /// </summary>
+        public CommunicationState ConnectionState
+        {
+            get { return this.operationContext.Channel.State; }
+        }
+  
+        #endregion
+
         public UserContext(string loginName, OperationContext context)
         {
             this.loginName = loginName;

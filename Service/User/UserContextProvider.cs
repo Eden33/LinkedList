@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Model.Message.Push;
+using Model.Lock;
+using Service.Transaction;
 
 namespace Service.User
 {
@@ -139,6 +141,7 @@ namespace Service.User
 
         /// <summary>
         /// Push NotificationMessages to clients on an interval basis
+        /// Same interval is used to release locks of timed out users
         /// </summary>
         private void PushNotifications()
         {
@@ -146,9 +149,37 @@ namespace Service.User
             {
                 lock (currentUsers)
                 {
+                    List<string> goneUserSessions = new List<string>();
+
                     foreach (KeyValuePair<string, UserContext> e in currentUsers)
                     {
-                        e.Value.PushNextMessage();
+                        if(e.Value.ConnectionState == CommunicationState.Closed)
+                        {
+                            string goneUserLogin = e.Value.LoginName;
+                            Console.WriteLine("User {0} gone, release locks ..................", goneUserLogin);
+
+                            LockBatch batch = TMImplementation.Instance.GetCurrentLocks(goneUserLogin);
+                            if(!TMImplementation.Instance.Unlock(goneUserLogin, batch))
+                            {
+                                // This will not happen, anyway : )
+                                Console.WriteLine("It seems like not all locks have been released for user: {0}.", goneUserLogin);
+                            }
+                            LockMessage msg = new LockMessage(goneUserLogin, false, batch);
+
+                            // this is be perfectly valid because same thread can acquire same mutex multiple times
+                            NotifyAll(msg); 
+
+                            goneUserSessions.Add(e.Key);
+                        }
+                        else
+                        {
+                            e.Value.PushNextMessage();
+                        }
+                    }
+                    
+                    foreach(string sessionId in goneUserSessions)
+                    {
+                        currentUsers.Remove(sessionId);
                     }
                 }
                 Thread.Sleep(pushInterval);
