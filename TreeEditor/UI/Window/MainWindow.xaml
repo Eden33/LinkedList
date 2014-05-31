@@ -41,7 +41,7 @@
 
         <DockPanel Grid.Row="0" Grid.Column="1" Margin="10,99,10,10">
             <Label DockPanel.Dock="Top">Kunde:</Label>
-            <ListView x:Name="vatListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}" Height="Auto" Width="Auto">
+            <ListView x:Name="customersListView" ItemsSource="{Binding SelectedItem.Customers, ElementName=cpListView}" Height="Auto" Width="Auto">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" />
