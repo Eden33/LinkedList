@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace TreeEditor.UI.Input
+namespace Client.UI.Input
 {
     public class Command : ICommand
     {

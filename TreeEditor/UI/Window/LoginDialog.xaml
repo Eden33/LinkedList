@@ -1,4 +1,4 @@
-﻿<Window x:Class="TreeEditor.LoginDialog"
+﻿<Window x:Class="Client.LoginDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Please provide a username" Height="121" Width="263">

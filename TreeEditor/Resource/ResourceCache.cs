@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Model.Data;
-using TreeEditor.UI.Proxy;
+using Client.UI.Proxy;
 
-namespace TreeEditor.Resource
+namespace Client.Resource
 {
     class ResourceCache
     {

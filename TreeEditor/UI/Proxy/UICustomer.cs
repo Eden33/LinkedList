@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreeEditor.UI.Proxy
+namespace Client.UI.Proxy
 {
     public class UICustomer : UIItem
     {

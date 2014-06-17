@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TreeEditor.UI.Collection
+namespace Client.UI.Collection
 {
     // source: http://stackoverflow.com/questions/269073/observablecollection-that-also-monitors-changes-on-the-elements-in-collection
     // thx man

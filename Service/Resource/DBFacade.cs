@@ -22,8 +22,8 @@ namespace Service.Resource
 
         public DBFacade()
         {
-            GenerateRecordData(100, 300, 5);
-            //GenerateStaticRecordData();
+            //GenerateRecordData(100, 300, 5);
+            GenerateStaticRecordData();
         }
 
         #region IDate get and block cached resources

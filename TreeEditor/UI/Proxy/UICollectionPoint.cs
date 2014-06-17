@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Model.Data;
-using TreeEditor.Resource;
+using Client.Resource;
 
-namespace TreeEditor.UI.Proxy
+namespace Client.UI.Proxy
 {
     public class UICollectionPoint : UIItem
     {

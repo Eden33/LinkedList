@@ -72,9 +72,14 @@ namespace Service.Lock
                 List<LockData> currentLocks = locks.GetLocksForItem(id, item.ItemType);
                 LockData newLock = new LockData(login, mode);
 
+                // for future write-lock development 
+                // we have to pass currentLocks as a whole to assure that ll
+                // for this user are present in currentLocks
+                // write locks can only be set if the ll for this user are set
+
                 foreach(LockData lockData in currentLocks)
                 {
-                    if(newLock.Equals(lockData) == false                          
+                    if(newLock.Equals(lockData) == false                    
                         && !LockMatrix.IsModeCompatible(lockData.mode, mode))
                     {
                         Console.WriteLine("Lock conflict, rollback locks for user: {0}", login);

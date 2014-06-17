@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using TreeEditor.Resource;
+using Client.Resource;
 
-using TreeEditor.UI.Collection;
-using TreeEditor.UI.Input;
-using TreeEditor.UI.Proxy;
+using Client.UI.Collection;
+using Client.UI.Input;
+using Client.UI.Proxy;
 
-namespace TreeEditor
+namespace Client
 {
     public class MainViewModel
     {

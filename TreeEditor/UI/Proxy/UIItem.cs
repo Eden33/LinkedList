@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Model.Data;
-using TreeEditor.Resource;
+using Client.Resource;
 
-namespace TreeEditor.UI.Proxy
+namespace Client.UI.Proxy
 {
     public abstract class UIItem : INotifyPropertyChanged
     {

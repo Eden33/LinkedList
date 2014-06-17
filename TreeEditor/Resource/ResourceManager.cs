@@ -11,9 +11,9 @@ using Model.Lock;
 using Model.Message.Request;
 using Model.Message.Response;
 using Model.Message.Push;
-using TreeEditor.UI.Proxy;
+using Client.UI.Proxy;
 
-namespace TreeEditor.Resource
+namespace Client.Resource
 {
     // [CallbackBehavior(UseSynchronizationContext = false)]
     // if we use IsOneWay option this is not needed

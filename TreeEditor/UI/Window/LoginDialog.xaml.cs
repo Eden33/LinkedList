@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using TreeEditor.Resource;
+using Client.Resource;
 
-namespace TreeEditor
+namespace Client
 {
     /// <summary>
     /// Interaction logic for LoginDialog.xaml

@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TreeEditor.ResourceService {
+namespace Client.ResourceService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ResourceService.IResourceService", CallbackContract=typeof(TreeEditor.ResourceService.IResourceServiceCallback))]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ResourceService.IResourceService", CallbackContract=typeof(Client.ResourceService.IResourceServiceCallback))]
     public interface IResourceService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IResourceService/Login", ReplyAction="http://tempuri.org/IResourceService/LoginResponse")]
@@ -77,12 +77,12 @@ namespace TreeEditor.ResourceService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IResourceServiceChannel : TreeEditor.ResourceService.IResourceService, System.ServiceModel.IClientChannel {
+    public interface IResourceServiceChannel : Client.ResourceService.IResourceService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ResourceServiceClient : System.ServiceModel.DuplexClientBase<TreeEditor.ResourceService.IResourceService>, TreeEditor.ResourceService.IResourceService {
+    public partial class ResourceServiceClient : System.ServiceModel.DuplexClientBase<Client.ResourceService.IResourceService>, Client.ResourceService.IResourceService {
         
         public ResourceServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
                 base(callbackInstance) {

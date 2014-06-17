@@ -13,9 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TreeEditor.UI.Proxy;
+using Client.UI.Proxy;
 
-namespace TreeEditor
+namespace Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
